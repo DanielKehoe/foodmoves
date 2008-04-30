@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Foodmoves: <%= if @title then h @title else h controller.controller_name.titlecase end -%></title>
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.0/build/reset-fonts-grids/reset-fonts-grids.css" />
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.3.0/build/base/base-min.css" />
+<%= stylesheet_link_tag 'common', 'yui_grids_override', 'about' %>
+<%= javascript_include_tag :defaults %>
+<%= javascript_include_tag 'http://www.google-analytics.com/urchin.js' %>
+</head>
+<body>
+<div class="yui-t4" id="doc2">
+<!--Header-->
+<%= render :partial => '/layouts/header' -%>
+<!--Header END-->
+<!--Body-->
+<div id="bd">
+	<div id="yui-main">
+		<div class="yui-b" id="main">
+			<% if flash[:notice] or flash[:error] %>
+				<div class="bubble" id="bubble_alert">
+					<div class="bubble_content">
+						<div class="bubble_close"><a href="#" onclick="Element.toggle('bubble_alert'); return false;">close</a></div>
+						<br />
+						<b><%= flash[:notice] %></b>
+						<b><%= flash[:error] %></b>
+					</div><!-- bubble_content -->
+				</div><!-- bubble -->
+			<% end -%>
+			<%= yield %>
+		</div><!-- class="yui-b" id="main" -->
+	</div><!-- id="yui-main" -->
+	<div class="yui-b" id="sidebar">
+		<%= yield :secondary %>
+	</div><!-- class="yui-b" id="sidebar" -->
+</div><!-- id="bd" -->
+<!--Body END-->
+<!--Footer-->
+<%= render :partial => '/layouts/footer' -%>
+<!--Footer END-->
+</div><!-- id="doc2" -->
+</body>
+</html>

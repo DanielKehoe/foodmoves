@@ -1,0 +1,112 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), foods_path %>&nbsp;Foods</h1>
+
+<% content_for(:secondary) do %>
+	<h4><%= link_to("New Item", new_food_path, :class=>"rnew new-link") %></h4>
+	<br />
+	<br />
+	<h4><%= link_to 'Download CSV File', formatted_foods_path(:csv), :class=>"cvs-link" %></h4>
+	<br />
+	<br />
+	<h2>Search By Name</h2>
+	<% form_tag foods_path, :method => 'get' do %>
+		<%= text_field_with_auto_complete :food,
+	        :name,
+	         { :size => 10 }, :skip_style => true -%>
+		&nbsp;<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+	<br />
+	<h2>Search By PLU</h2>
+	<% form_tag foods_path, :method => 'get' do %>
+		<%= text_field :food,
+	        :plu,
+	         { :size => 10 } -%>
+		&nbsp;<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+	<br />
+	<h2>Search By Spanish Name</h2>
+	<% form_tag foods_path, :method => 'get' do %>
+		<%= text_field :food,
+	        :en_espanol,
+	         { :size => 10 } -%>
+		&nbsp;<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+	<br />
+	<br />
+	<h2>Sort By</h2>
+	<% form_tag foods_path, :method => 'get' do %>
+		<%= select_tag 'sort', options_for_select([['name', 'name'], ['ID', 'ID'], ['Reverse ID', 'Reverse ID'], ['Parent ID', 'Parent ID'], ['PLU', 'PLU'], ['Missing PLU', 'Missing PLU'],  ['Spanish Name', 'Spanish Name'], ['No Spanish Name', 'No Spanish Name']], [params[:sort]]) %>
+		&nbsp;<%= submit_tag 'Sort', :name => nil %>
+	<% end -%>
+<% end %>
+
+<table class="admin">
+<thead>
+  <tr>
+	<th colspan="3">&nbsp;</th>
+	<th>ID</th>
+    <th>PLU</th>
+    <th>Name</th>
+	<th>En Espa&ntilde;ol</th>
+	<th>Parent</th>
+	<th>Sort</th>
+	<th>Updated</th>
+	<th>By</th>
+  </tr>
+</thead>
+<% unless @foods.nil? %>
+<% for food in @foods %>
+	<% unless food.nil? %>
+	  <tr>
+		<td>
+			<%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), food_path(food) -%>
+		</td>
+		<td>
+			<%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_food_path(food) -%>
+		</td>
+		<td>
+			<% restrict_to 'admin' do -%>
+				<%= link_to image_tag('table_delete.png', :alt=>'Delete', :title=>'Delete Item'), food_path(food), :confirm => "Really delete #{food.name}?", :method => :delete -%>
+			<% end %>
+		</td>
+	    <td><%=h food.id %></td>
+		<td>
+			<% unless food.plu == 0 %>
+				<%=h food.plu %>
+			<% end %>
+		</td>
+		<td><%= link_to food.name, edit_food_path(food) %></td>
+		<td><%=h food.en_espanol %></td>
+		<td>
+			<% if food.parent %>
+				<%= link_to food.parent.name, food_path(food.parent) %>
+			<% else %>
+				<span style="color: red;">NO PARENT</span>
+			<% end %>
+		</td>
+		<td>
+			<% unless food.sort_order == 0 %>
+				<%=h food.sort_order %>
+			<% end %>
+		</td>
+		<td>
+			<% unless food.updated_at.nil? %>
+				<%= local_time food.updated_at -%>
+			<% end %>
+		</td>
+		<td>
+			<%=h truncate(food.updated_by, 8, '...') %>
+		</td>
+	  </tr>
+	<% else %>
+	  <tr>
+		<td colspan="8">
+			&quot;<%=h @query %>&quot; not found.
+		</td>
+	  </tr>
+	<% end %>
+<% end %>
+<% end %>
+</table>
+<% content_for(:footer) do %>
+	<%= will_paginate @foods %>
+<% end %>

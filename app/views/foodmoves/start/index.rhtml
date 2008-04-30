@@ -1,0 +1,65 @@
+<div class="container">
+	<div class="content">
+	<div class="container_header">How To Get Started</div>
+		<b>Foodmoves.com is an online auction web site for buying and selling produce.</b><br /><br />
+	<div id="recent" class="modo">
+	    <h1 class="mh"><%= 'How To Get Started'.t %></h1>
+	    <ul id="recent_list">
+			<li>
+				<div class="title">
+					<% if logged_in? -%>
+						1. You've already signed up. You can <%= link_to 'send an invitation to a friend.'.t, new_guest_path -%>
+					<% else %>
+						1. You need to sign up to see all auctions in detail. Send yourself an <%= link_to 'invitation'.t, new_guest_path -%> to sign up. It's FREE!
+						<% form_tag(new_guest_path) do -%>
+							<div class="right"><%= button_submit_tag 'Sign Up'.t, :class => 'foodmoves'  -%></div>
+						<% end -%>
+					<% end %>
+					
+				</div>
+			</li>
+			<li>
+				<div class="title">
+					<% unless logged_in? -%>
+						2. You will receive an invitation by email. It contains a temporary password. <%= link_to 'Log in'.t, new_session_path -%> to complete the sign up process. You can start browsing auctions as soon as you complete the sign up process. It's FREE to browse!
+					<% else %>
+						2. <%= 'You are logged in as'.t %> <%= @current_user.name %>. Not you? You can <%= link_to 'log out.'.t, session_path, {:method => :delete} -%>
+					<% end %>
+				</div>
+			</li>
+			<li>
+				<div class="title">
+					<% unless logged_in? -%>
+						3. If you want to buy or sell, you have to get <%= link_to 'set up for trading.'.t, new_member_path -%> Fill in the form to tell us about your company and we will call to verify that you are authorized to buy or sell. All companies that trade must have a credit profile on file with Redbook Credit Services or D&amp;B. It's FREE to get set up for trading!
+					<% else %>
+						<% if @current_user.of_type == 'Member' -%>
+							3. You are set up for trading. We've verified that you are authorized to buy or sell. We've verified your company's credit profile with Redbook Credit Services or D&amp;B so everyone can trade in confidence.
+						<% elsif @current_user.of_type == 'Administrator' %>
+							3. You are logged in as an administrator. If you were not set up for trading, you'd see some details here.
+						<% else %>
+							3. If you want to buy or sell, you have to get <%= link_to 'set up for trading.'.t, new_member_path -%> Fill in the form to tell us about your company and we will call to verify that you are authorized to buy or sell. All companies that trade must have a credit profile on file with Redbook Credit Services or D&amp;B.
+						<% end %>
+					<% end %>
+				</div>
+			</li>
+			<li>
+				<div class="title">
+					4. <% unless logged_in? -%>After you are signed up and logged in, i<% else %>I<% end %>t is easy for sellers to <%= link_to 'create a new auction', new_auction_path -%> (it's FREE!). For buyers, visit the <%= link_to 'buy page', buy_path -%> to browse auctions and search for products by name or location (FREE!).
+				</div>
+			</li>
+			<li>
+				<div class="title">
+					5. When you see something you want, you can buy it immediately (It's Yours!) or bid to get the best price. Sellers and buyers are notified by email and contact each other to arrange payment and delivery. There's never a charge for buyers. Sellers owe a 5% fee to Foodmoves when a buyer wins the auction.
+				</div>
+			</li>
+			<li>
+				<div class="title">
+					<% if logged_in? -%>
+						6. Visit your <%= link_to 'account page', member_path(@current_user) -%> to see your recent sales or purchases.<% else %>
+						6. After you've made some trades, you can track your recent sales or purchases on your personal account page.<% end %>
+				</div>
+			</li>	    
+		</ul>
+	</div><!-- id="recent" -->
+	</div><!-- class="content" -->
+</div><!-- class="container" -->

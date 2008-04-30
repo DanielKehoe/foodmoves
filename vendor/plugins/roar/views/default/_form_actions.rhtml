@@ -1,0 +1,20 @@
+<div class="buttonrow">
+  <% if form.actions.has_delete? && !record.new_record? %>
+	  <div style="float: right;">
+	  <%= link_to("x", member_path(record, "delete"), {:class=>"rdelete delete-link", :id=>rdom_id(record, 'delete_link')}) %>
+	  </div>
+  <% end %>
+  <% if form.actions.has_destroy? && !record.new_record? %>
+	  <div style="float: right;">
+			<%= link_to("x", model_path(record), :class=>"rdestroy delete-link", :id=>rdom_id(record, 'destroy_link'), :confirmation=>h("Really delete this #{model_name}: #{record.to_roar_s}?")) %>
+	  </div>
+	<% end %>
+
+  <% form.actions.each do |action| %>
+		<% next if action.symbol == :save_and_add_another and !record.new_record? %>
+		<% next if action.symbol == :save_and_continue_editing and record.new_record? %>
+  	<% cssclass = (form.has_file_field?) ? "" : "rsubmit" %>
+  	<input class='<%= cssclass %>' type="submit" value='<%= action.name %>' name='<%= action.symbol %>' />
+  <% end %>
+  or <%= link_to("Cancel", collection_path, {:class=>"#{request.xhr? ? 'rcancel' : ''}", :id=>rdom_id(record, "cancel-edit")}) %>
+</div>

@@ -1,0 +1,95 @@
+/* about.css */
+
+/* About_Index */
+
+div#content_width
+{width:330px;
+}
+
+p.about
+{color:#999999;
+ font-family:arial;
+ text-align:left;
+ margin-bottom:10px;
+}
+
+div.apple_text
+{margin-top:-24px;
+ text-align:right;
+ padding-right:5px;
+ font-size:16px;
+ color:#ff6600;
+ font-weight:bold;
+}
+
+div.bio_width
+{color:#999999;
+ float:left;
+ width:600px;
+ padding-right:20px;
+}
+
+div.container_header
+{color:#999999;
+ font-family:arial narrow;
+ font-size:200%;
+}
+
+div.container_header2
+{color:#ff9900;
+ font-weight:bold;
+ font-size:100%;
+ width:500px;
+}
+
+div.content
+{margin:10px;
+ width:720px;
+ color:#666666;
+}
+
+div.container
+{margin:10px;
+ width:740px;
+ float:left;
+ border:solid #FF8331 2px;
+}
+
+div.header_titles
+{font-size:100%;
+ font-weight:bold;
+ color:#000000;
+ font-family:verdana;
+}
+
+div.image
+{width:75px;
+ height:75px;
+ float:right;
+ margin-top:-75px;
+ background-color:#666666;
+}
+
+div.image2
+{width:75px;
+ height:75px;
+ float:right;
+ margin-top:10px;
+ margin-bottom:10px;
+ background-color:#666666;
+}
+
+div.image_container
+{width:75px;
+ float:right;
+}
+
+div.right
+{float:right;
+}
+
+div.left
+{float:left;
+}
+
+/* About_Index END*/

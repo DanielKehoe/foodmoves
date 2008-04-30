@@ -1,0 +1,91 @@
+<div class="baseform">
+	<label for="food_name">Sort Order</label>
+	<span><%= form.text_field :sort_order  %></span>
+
+	<br />
+	
+	<label for="food_name">Name</label>
+	<span><%= form.text_field :name  %></span>
+
+	<br />
+	
+	<label for="food_en_espanol">En Espa&ntilde;ol</label>
+	<span><%= form.text_field :en_espanol  %></span>
+
+	<br />
+	
+	<label for="food_plu">PLU</label>
+	<span><%= form.text_field :plu  %></span>
+</div>
+
+<table border="0" cellspacing="20" cellpadding="5">
+	<tr>
+		<th>
+		</th>
+	<th>
+		<%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), colors_path %>&nbsp;<%= link_to "Color Options", colors_path %>
+	</th>
+	<th>
+		<%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), growns_path %>&nbsp;<%= link_to "Grown Options", growns_path %>
+	</th>
+	<th>
+	</th>
+	</tr>
+	<tr>
+	<td>
+	</td>
+	<td valign="top">			
+		<% for color in @colors %>
+			<%= check_box_tag "food[color_ids][]", color.id, @food.colors.include?(color) %>
+			<%=h color.name %><br />
+		<% end %> 
+	</td>
+	<td valign="top">			
+		<% for grown in @growns %>
+			<%= check_box_tag "food[grown_ids][]", grown.id, @food.growns.include?(grown) %>
+			<%=h grown.name %><br />
+		<% end %> 
+	</td>
+	<td>
+	</td>
+	<tr>
+	<th>
+		<%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), packs_path %>&nbsp;<%= link_to "Pack Options", packs_path %>
+	</th>
+	<th>
+		<%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), per_cases_path %>&nbsp;<%= link_to "Per Case Options", per_cases_path %>
+	</th>
+	<th>
+		<%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), sizes_path %>&nbsp;<%= link_to "Size Options", sizes_path %>
+	</th>
+	<th>
+		<%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), weights_path %>&nbsp;<%= link_to "Weight Options", weights_path %>
+	</th>
+	</tr>
+	<tr>
+	<td valign="top">
+	   <% for pack in @packs %>
+	     <%= check_box_tag 'food[pack_ids][]', pack.id, @food.packs.include?(pack) %>
+	     <%=h pack.name %><br />
+	   <% end %>
+	</td>
+	<td valign="top">
+	   <% for per_case in @per_cases %>
+	     <%= check_box_tag 'food[per_case_ids][]', per_case.id, @food.per_cases.include?(per_case) %>
+	     <%=h per_case.name %><br />
+	   <% end %>
+	</td>
+	<td valign="top">
+	   <% for size in @sizes %>
+	     <%= check_box_tag 'food[size_ids][]', size.id, @food.sizes.include?(size) %>
+	     <%=h size.name %><br />
+	   <% end %> 
+	</td>
+	<td valign="top">
+	   <% for weight in @weights %>
+	     <%= check_box_tag 'food[weight_ids][]', weight.id, @food.weights.include?(weight) %>
+	     <%=h weight.name %><br />
+	   <% end %>
+	</td>
+	</tr>
+</table>

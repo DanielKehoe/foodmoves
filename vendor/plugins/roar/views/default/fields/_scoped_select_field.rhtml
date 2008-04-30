@@ -1,0 +1,17 @@
+<% 
+  source = field.options.delete(:source) || field.method.to_s.match(/^(.*?)(_id)*$/)[1];
+  to_id = "#{model_symbol}_#{field.options[:to]}"
+  active_id = "#{model_symbol}_#{field.method}"
+  destination_path = collection_path_for(source, field.options[:to] => "scope_to", :format => "json")
+	callback = field.options[:callback]
+  choices = record.new_record? ? [] : callback.call(record.send(field.options[:to]))
+%>
+
+<script type="text/javascript">
+ Event.addBehavior({
+  '#<%= to_id %>': ScopedSelect('<%= destination_path %>', '<%= active_id %>', 'id', 'name') 
+}) 
+</script>
+<% form_field(field, record) do %>
+  <%= form.select(field.method, choices, field.options) %>
+<% end %>

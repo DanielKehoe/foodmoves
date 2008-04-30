@@ -1,0 +1,2 @@
+page.replace_html rdom_id(@record, "edit"), :roar_partial => "delete"
+page << "Progress.removeAll()"

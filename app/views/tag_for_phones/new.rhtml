@@ -1,0 +1,13 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), tag_for_phones_path %>&nbsp;Phone Locations</h1>
+
+<h2>New phone location</h2>
+
+<% form_for :tag_for_phone, :url => tag_for_phones_path, :html => { :class => 'baseform' } do |form| -%>
+
+  <%= render :partial => 'form', :object => form -%>
+
+	<p>
+		<%= submit_tag 'Create' -%>
+	</p>
+	
+<% end -%>

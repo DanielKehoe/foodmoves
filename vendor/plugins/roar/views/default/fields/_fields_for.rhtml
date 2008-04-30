@@ -1,0 +1,10 @@
+<% 
+ 	model = (field.options[:class_name] || field.method.to_s.camelize).constantize
+	related_record = field.field_data(record) || model.new
+	field.add_path_segment(field.method)
+%>
+<% fields_for(field.path, related_record) do |fields| %>
+	<% field.fields.each do |f| %>
+		<%= roar_field(f, fields, related_record) %>
+	<% end %>
+<% end %>	

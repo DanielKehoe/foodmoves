@@ -1,0 +1,26 @@
+
+You've placed a bid for an auction at Foodmoves.com.
+
+You are the current top bidder with a bid of <%= number_to_currency @auction.current_bid %>.
+<% if @auction.test_only? -%>
+
+Unfortunately, you're bidding on an auction that's just TEST DATA.
+
+Too bad. We'd love to have you bidding on real products at Foodmoves.com!
+
+<% end -%>
+AUCTION DETAILS
+============================================================
+<%=h @auction.description %>
+shipping from <%=h @auction.shipping_from %>
+============================================================
+
+CURRENT BIDDING
+============================================================
+Your Bid: <%= number_to_currency @auction.current_bid %>
+Your Bid Placed: <%= @auction.date_last_bid %>
+============================================================
+
+Thanks for using our service!
+
+-- Foodmoves.com

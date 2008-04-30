@@ -1,0 +1,2 @@
+module Foodmoves::ContactUsHelper
+end

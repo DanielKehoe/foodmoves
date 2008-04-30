@@ -1,0 +1,7 @@
+<ul>
+  <% for record in @records do -%>
+  <li id='<%= rdom_id(record) %>'>
+  <div class="name"><%=h record.to_roar_s %></div>
+  </li>
+  <% end %>
+</ul>

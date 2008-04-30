@@ -1,0 +1,13 @@
+<div class="yui-g">
+	<div class="middle_content">
+		<div class="bubble_minipage">
+			<div class="bubble_content">
+				<b><%= flash[:notice] %></b>
+				<b><%= flash[:error] %></b>
+			</div><!-- bubble_content -->
+		</div><!-- bubble -->
+		<% if flash[:error] %>
+			<div class="big_red">ERROR</div>
+		<% end %>
+	</div><!-- middle_content -->
+</div><!-- yui-g -->

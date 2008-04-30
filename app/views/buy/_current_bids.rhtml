@@ -1,0 +1,63 @@
+<!-- CURRENT BIDS -->
+<div class="rows_heading">
+	<div class="hd_cell_1 red bold"><%= 'NOW BIDDING ON'.t %></div>
+	<div class="baker_hd_cell_3"><%= 'TIME LEFT'.t %></div>
+	<div class="baker_hd_cell_4"><%= 'ENDING'.t %></div>
+	<div class="baker_hd_cell_5"><%= 'BIDS'.t %></div>
+	<div class="baker_hd_cell_7"><%= 'TOP BID'.t %></div>
+	<div class="baker_hd_cell_8"><%= 'MY BID'.t %></div>
+</div><!-- rows_heading -->
+<div class="clear"></div>
+<div class="rows_container">
+	<% unless @current_bids.size == 0 %> 
+		<% @current_bids.each do |bid,auction| %>
+			<div class="row_listing">
+				<div class="row_description">
+				<% if auction.test_only -%><%= link_to image_tag('products/test.gif', :alt=>"\"#{auction.description}\"", :title=>"See details for \"#{auction.description}\"", :class => 'thumb'), auction_path(auction) -%><% else -%><%= link_to image_tag('products/generic.gif', :alt=>"\"#{auction.description}\"", :title=>"See details for \"#{auction.description}\"", :class => 'thumb'), auction_path(auction) -%><% end -%>
+					<% if auction.allow_partial -%>
+						<%= link_to "#{auction.description}", auction_path(auction) -%> 
+						<span class="gray"><%= auction.shipping_from -%>,</span>
+						<span class="gray"><%= auction.min_quantity -%> to <%= auction.quantity -%> units</span>				
+					<% else -%>
+					<%= link_to "#{auction.description}", auction_path(auction) -%>, 
+					<span class="gray"><%= auction.shipping_from -%>,</span>
+					<span class="gray"><%= auction.quantity -%> units</span>
+					<% end -%>
+				</div><!-- id="row_description" -->
+				<div class="baker_cell_3"><%= distance_of_time_in_words(Time.now, auction.date_to_end) -%></div>
+				<div class="baker_cell_4"><%= local_time auction.date_to_end -%></div>
+				<div class="baker_cell_5"><%= auction.how_many_bids -%></div>
+				<div class="baker_cell_7"><%= number_to_currency auction.current_bid -%></div>
+				<div class="baker_cell_8"><%= number_to_currency bid.amount -%>&nbsp;<a href="#" onclick="Element.toggle('bid_form_<%= auction.id.to_s %>'); return false;"><%= image_tag('ico_10.gif', :alt=>'increase Bid', :title=>"increase Bid") -%></a><div id="bid_form_<%= auction.id.to_s %>" class="popup_for_up_bid" style="display:none;">
+				<div class="popup_header">
+					increase bid <div class="bubble_close"><a href="#" onclick="Element.toggle('bid_form_<%= auction.id.to_s %>'); return false;">close</a></div>
+				 </div><!-- class="popup_header" -->
+				 <div class="popup_content">		
+					To increase your bid for <%= link_to auction.description, auction_path(auction) -%>, you must offer <%= number_to_currency (auction.bid_increment + auction.current_bid) -%> or more.
+					<br />
+					<br />
+				 </div><!-- class="popup_content" -->
+				 <div class="popup_footer">
+					<% form_for :bid, 
+							:url => bid_path(auction), 
+							:html => { :method => :put } do |form| -%>
+						<b>$</b>&nbsp;<%= form.text_field :amount, :size => 6 %>
+						<br />
+						<%= submit_tag 'Increase Bid'.t -%>
+					<% end -%>
+				</div><!-- class="popup_footer" -->
+				</div><!-- id="bid_form" -->
+				</div><!-- id="row_description" -->
+			</div><!-- id="row_listing" -->
+			<div class="line_style_1"></div>
+		<% end -%>
+	<% else -%>
+		<div class="row_listing">
+			<div class="row_description">
+				<%= 'You have not bid on any current auctions.'.t %>
+			</div><!-- id="row_description" -->
+		</div><!-- id="row_listing" -->
+		<div class="line_style_1"></div>
+	<% end -%>
+</div><!-- rows_container -->
+<!-- CURRENT BIDS (END) -->

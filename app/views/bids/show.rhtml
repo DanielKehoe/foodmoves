@@ -1,0 +1,64 @@
+
+
+<% content_for(:secondary) do -%>
+	<div class="show-secondary">
+		
+		<label>Created at</label>
+			<span>
+				<%= local_time @bid.created_at -%>
+			</span>
+		<br />
+
+		<label>Updated at</label>
+			<span>
+				<%= local_time @bid.updated_at -%>
+			</span>
+		<br />
+		
+	</div>	
+<% end -%>
+
+<div class="show">
+
+	<label>Closed</label>
+		<span>
+			<%= @bid.closed %>
+		</span>
+	<br />
+
+	<label>Winner</label>
+		<span>
+			<%= @bid.winner %>
+		</span>
+	<br />
+
+	<label>Created at</label>
+		<span>
+			<%= @bid.created_at %>
+		</span>
+	<br />
+
+	<label>Updated at</label>
+		<span>
+			<%= @bid.updated_at %>
+		</span>
+	<br />
+
+	<label>Closed at</label>
+		<span>
+			<%= @bid.closed_at %>
+		</span>
+	<br />
+
+	<label>Amount</label>
+		<span>
+			<%= @bid.amount %>
+		</span>
+	<br />
+
+	<label>Quantity</label>
+		<span>
+			<%= @bid.quantity %>
+		</span>
+	<br />
+</div>

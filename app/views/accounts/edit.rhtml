@@ -1,0 +1,15 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), accounts_path %>&nbsp;Accounts</h1>
+
+<h2><%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), account_path(@account) -%>&nbsp;<%=h @account.name -%></h2>
+
+<%= error_messages_for :account -%>
+
+<% form_for :account, :url => account_path(@account), :html => { :method => :put, :class => 'baseform' } do |form| -%>
+
+	<%= render :partial => 'form', :object => form -%>
+	
+	<p>
+		<%= submit_tag "Update" -%>
+	</p>
+	
+<% end -%>

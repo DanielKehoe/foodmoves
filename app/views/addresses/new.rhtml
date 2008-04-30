@@ -1,0 +1,25 @@
+<h1><% restrict_to 'support' do -%><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), addresses_path %>&nbsp;<% end -%>Addresses</h1>
+
+<h2>New Address</h2>
+
+<div class="show">
+	<label>For</label>
+		<span>
+			<%=h @name -%>
+		</span>
+	<br />
+</div>
+
+<% form_for :address, :url => addresses_path, :html => { :class => 'baseform' } do |form| -%>
+
+	<%= form.hidden_field :addressable_type -%>
+
+	<%= form.hidden_field :addressable_id -%>
+
+	<%= render :partial => 'form', :object => form -%>
+
+	<p>
+		<%= submit_tag 'Create' -%>
+	</p>
+	
+<% end -%>

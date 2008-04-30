@@ -1,0 +1,103 @@
+<!--[form:member]-->
+<% if @on_step_three == false %>
+		<br />
+		<br />
+		<div class="errorExplanation">
+			<% if flash.any? %>
+				<p>
+					<b><%= flash[:notice] %></b>
+					<div class="red"><b><%= flash[:error] %></b></div>
+				</p>
+			<% else %>
+				<h2><b>We don't have enough information.</b></h2>
+		    	<p>It seems you did not click the &quot;Go To Step 3&quot; button.</p>
+			<% end %>
+				<p>Please select the &quot;Step 2&quot; tab (above), enter the required information, and click the button at the bottom of the form. You always can ask for help from the support team in <a href="http://foodmoves.campfirenow.com/e08e3" onclick="window.open(this.href,'Chat','width=650,height=1000');return false;">online chat</a>.</p>
+	  </div>
+<% else %>
+	<br />
+	<% fields_for :organization do |form| %>
+		<% if flash.any? %>
+			<div class="errorExplanation">
+				<p>
+					<b><%= flash[:notice] %></b>
+					<div class="red"><b><%= flash[:error] %></b></div>
+				</p>
+			</div>
+		<% end %>
+		<% if @organization.of_type == 'Account' %>
+			<ul class="details">
+				<li class="line">
+					<% unless @organization.paca_license.blank? %>
+					<div class="text_font">
+						The USDA PACA license number 
+						for <%= @organization.name %> is 
+                        <b><%= @organization.paca_license %></b>. 
+						A PACA license is required for almost all produce trading in the
+                        United States. If there's an eror with your license number, ask for
+                        help from the support team in
+<a href="http://foodmoves.campfirenow.com/e08e3" onclick="window.open(this.href,'Chat','width=650,height=1000');return false;">online chat</a>.
+					</div>
+					<% else %>
+					<div id="text_font">
+						<%= @organization.name %> has not given us a USDA PACA license
+                        number. A PACA license is required for almost all produce trading in
+                        the United States and buyers and sellers usually require it. If you'd
+                        like to provide a PACA license number, ask for help from the support
+                        team in
+<a href="http://foodmoves.campfirenow.com/e08e3" onclick="window.open(this.href,'Chat','width=650,height=1000');return false;">online chat</a>.
+					</div>
+					<% end %>
+				</li>
+				<% if false %>
+					<li class="line">
+						<% unless @organization.bluebook_password.blank? %>
+						<div class="text_font">
+							<%= @organization.name %> uses the Blue Book credit reporting
+	                        service. The company's Blue Book ID Number is 
+							<b><%= @organization.bluebook_member_id %></b>.
+						</div>
+						<% else %>
+						<div id="text_font">
+							<%= @organization.name %> did not provide a Blue Book ID Number.
+                            If you'd like to learn more about Blue Book financial ratings
+                            and how you can use them, see our FAQ or ask for help from the
+                            support team in <a href="http://foodmoves.campfirenow.com/e08e3" onclick="window.open(this.href,'Chat','width=650,height=1000');return false;">online chat</a>.
+						</div>
+						<% end %>
+					</li>
+				<% end %>
+			</ul>
+		<% else %>
+			<ul class="details">
+				<% if false %>
+					<li class="line">
+						<div class="text_font"> 
+							<b>OPTIONAL:</b> If your company subscribes to the Blue Book
+                            credit reporting service, you can enter a Blue Book ID Number
+                            and password. <b>If you do not have a Blue Book ID Number and
+                            password, or do not wish to provide it, you can skip this step
+                            and go to Step 4.</b>
+						</div>
+						<div id="li_font">
+							Blue Book ID Number
+						</div>
+					    <%= form.text_field :bluebook_member_id, :size => 10  %>
+						<br />
+					    <div id="li_font">
+							Blue Book Password
+						</div>
+					    <%= form.text_field :bluebook_password %>
+					</li>
+				<% else %>
+					<li class="line">
+						<div class="text_font">
+							Go directly to Step 4.
+						</div>
+					</li>
+				<% end %>
+			</ul>
+		<% end %>
+	<% end %>
+<% end %>
+<!--[eoform:member]-->

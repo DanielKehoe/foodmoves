@@ -1,0 +1,15 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), invoices_path %>&nbsp;Invoices</h1>
+
+<h2><%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), invoice_path(@invoice) -%>&nbsp;<%=h @invoice.date_to_end -%></h2>
+
+<%= error_messages_for :invoice -%>
+
+<% form_for :invoice, :url => invoice_path(@invoice), :html => { :method => :put, :class => 'baseform' } do |form| -%>
+
+	<%= render :partial => 'form', :object => form -%>
+	
+	<p>
+		<%= submit_tag "Update" -%>
+	</p>
+	
+<% end -%>

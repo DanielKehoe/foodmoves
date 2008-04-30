@@ -1,0 +1,95 @@
+<h1><%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), organization_path(@affiliation.organization) -%>&nbsp;<%=h @affiliation.organization.name -%></h1>
+
+<h2><%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'), user_path(@affiliation.user) -%>&nbsp;<%=h @affiliation.user.name %></h2>
+
+<% content_for(:secondary) do -%>
+	<div class="show-secondary">
+		
+		<label>Created at</label>
+			<span>
+				<%= local_time @affiliation.created_at -%>
+			</span>
+		<br />
+
+		<label>Updated at</label>
+			<span>
+				<%= local_time @affiliation.updated_at -%>
+			</span>
+		<br />
+		
+	</div>	
+<% end -%>
+
+<div class="show">
+
+	<% if @affiliation.approved -%>
+
+		<p>
+			<%= @affiliation.user.name %> was authorized to trade produce on behalf of
+			<%= @affiliation.organization.name %>. 
+			<% if @affiliation.approved_to_sell -%>
+				Authorized to sell. 
+			<% end -%>
+			<% if @affiliation.approved_to_buy -%>
+				Authorized to buy. 
+			<% end -%>
+		</p>
+	
+		<p>
+			<%= @affiliation.called_by %> spoke to <%= @affiliation.talked_to %> 
+			at <%= local_time @affiliation.reviewed_at %>.
+		</p>
+		<% if logged_in? -%><% restrict_to 'support' do -%>
+			<br />
+			<br />
+			<% unless @affiliation.approved_to_sell %>
+				<%= button_to 'Add Approval to Sell', :controller => 'affiliations', :action => 'add_sell_approval', :id => @affiliation.id %>
+				<br />
+			<% end %>
+			<% unless @affiliation.approved_to_buy %>
+				<%= button_to 'Add Approval to Buy', :controller => 'affiliations', :action => 'add_buy_approval', :id => @affiliation.id %>
+			<% end %>
+		<% end %><% end %>	
+
+	<% else -%>
+	
+		<% if @affiliation.called_by.blank? -%>
+		
+		<p>
+			<%= @affiliation.user.name %> has not been authorized to buy or sell produce on behalf of
+			<%= @affiliation.organization.name %>.
+		</p>
+	
+		<p>
+			The Foodmoves support team has not yet contacted <%= @affiliation.organization.name %>.
+		</p>			
+
+		<p>
+			You may use <%= link_to 'chat', 'http://foodmoves.campfirenow.com/e08e3', :popup => ['Chat', 'width=650,height=1000'] %> to contact Foodmoves support.
+		</p>
+				
+		<% else -%>
+		
+		<p>
+			<%= @affiliation.user.name %> has not been authorized to buy or sell produce on behalf of
+			<%= @affiliation.organization.name %>.
+		</p>
+	
+		<p>
+			The Foodmoves support team contacted <%= @affiliation.talked_to %> at <%= @affiliation.organization.name %> at <%= local_time @affiliation.reviewed_at %>.
+		</p>
+
+		<p>
+			Our notes say:
+			<br />
+			<%= @affiliation.notes %>.
+		</p>
+		
+		<p>
+			You may use <%= link_to 'chat', 'http://foodmoves.campfirenow.com/e08e3', :popup => ['Chat', 'width=650,height=1000'] %> to contact Foodmoves support.
+		</p>
+		
+		<% end -%>
+				
+	<% end -%>
+</div>

@@ -1,0 +1,718 @@
+/* YUI Grids page layout tweaks */
+
+#bd{
+background:url(/images/bck_edit.png) 0 0 repeat-y ;
+margin:0;
+margin:auto;text-align:left; /* leave unchanged */
+width:57.69em;/* non-IE */
+*width:56.30em;/* IE */
+min-width:750px;/* optional but recommended */
+*width:750px;
+}
+
+#hd {
+background:url(/images/header.jpg) 0 0 no-repeat;
+height:54px;
+margin:auto;text-align:left; /* leave unchanged */
+width:57.69em;/* non-IE */
+*width:56.30em;/* IE */
+min-width:750px;/* optional but recommended */
+*width:750px;
+}
+
+#ft{
+background:url(/images/footer.gif) no-repeat;
+height:12px;
+width:57.69em;/* non-IE */
+*width:56.30em;/* IE */
+min-width:750px;/* optional but recommended */
+*width:750px;
+}
+
+#footer_content{
+padding:55px 0 0 25px;
+}
+
+/* common.css END */
+
+/* rest of content */
+
+.tomato_image
+{width:200px;
+}
+
+div#headline
+{font-size:150%;
+ color:red;
+ font-family:arial narrow;
+ font-weight:bold;
+ margin-bottom:10px;
+}
+
+div#details_font,div#details_font2
+{font-size:150%;
+ color:#A1A1A1;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div#red_font
+{font-size:100%;
+ color:red;
+ display:inline;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div#basket_font
+{font-size:100%;
+ color:red;
+ float:right;
+ padding:5px;
+ padding-top:15px;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div#left_content{
+ width:200px;
+ padding-left:10px;
+ margin-top:10px;
+}
+
+div#middle_content{
+ border-left:1px solid #D6D6D6;
+ margin-left:10px;
+ padding-left:5px;
+ margin-top:10px;
+ width:300px;
+ background-color: #E8E8E8;
+}
+
+div#side-content{
+ border-left:1px solid #D6D6D6;
+ margin-left:5px;
+ *margin-left:0;
+ margin-top:10px;
+ padding-left:5px;
+ width:170px;
+}
+
+dl.detail_list
+{width:300px;
+ font-family:arial narrow;
+ font-weight:bold;
+ border-bottom:1px solid #D6D6D6;
+}
+
+dl.detail_list_alt
+{width:300px;
+ font-family:arial narrow;
+ font-weight:bold;
+ border-bottom:1px solid #D6D6D6;
+}
+
+dl.detail_list dt
+{color:#FE7A22; 
+ width:150px;
+ float:left;
+ clear:left;
+ border-bottom:1px solid #D6D6D6;
+ height:100%;
+}
+
+dl.detail_list_alt dt
+{color:#FE7A22; 
+ width:150px;
+ float:left;
+ clear:left;
+ border-bottom:1px solid white;
+ height:100%;;
+ background-color:#D6D6D6;
+}
+
+dl.detail_list dd
+{color:#717171;
+ width:150px;
+ float:left;
+ border-bottom:1px solid #D6D6D6;
+ height:100%;;
+}
+
+dl.detail_list_alt dd
+{color:#717171;
+ width:150px;
+ float:left;
+ border-bottom:1px solid white;
+ height:100%;;
+ background-color:#D6D6D6;
+}
+
+ul.details
+{width:300px; 
+ font-size:100%;
+ color:#717171;
+ display:inline;
+ font-family:arial narrow;
+ font-weight:bold;
+ float:left;
+ text-align:left;
+ border-bottom:1px solid #D6D6D6;
+}
+
+ul.details li
+{border-top:1px solid #D6D6D6;
+ text-align:left;
+ float:left;
+ width:300px; 
+ height:20px;
+}
+
+div#li_font,div#li_font_1,div#li_font_2,div#li_font_3,div#li_font_4,div#li_font_5,div#li_font_6,div#li_font_7,div#li_font_8,div#li_font_9,div#li_font_10,div#li_font_11,div#li_font_12,div#li_font_13,div#li_font_14,div#li_font_15,div#li_font_16,div#li_font_17,div#li_font_18,div#li_font_19,div#li_font_20
+{font-size:100%;
+ color:#FE7A22;
+ width:200px;
+ float:left;
+ margin:0px;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div#li_font2
+{font-size:100%;
+ color:#FE7A22;
+ width:200px;
+ float:left;
+ margin:0px;
+ padding-left:200px;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div#li_font3
+{font-size:100%;
+ color:#FE7A22;
+ width:200px;
+ float:left;
+ margin:0px;
+ padding-left:200px;
+ margin-top:-23px;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div.fm_submit
+{padding:10px;
+ float:right;
+}
+
+div.middle_content
+{width:340px; 
+ height:100%;
+ float:left;
+ margin-left:10px;
+ margin-top:10px;
+ border-right:1px solid #D6D6D6;
+ margin-bottom:50px;
+ *padding-bottom:50px;
+}
+
+div.middle_content2
+{width:500px; 
+ height:100%;
+ float:left;
+ padding-left:124px;
+ margin-top:10px;
+
+}
+
+div.left_content
+{width:200px; 
+ padding-left:40px;
+ margin-top:10px;
+ padding-right:10px;
+ height:100%;
+ float:left;
+}
+
+ul.details2
+{width:500px; 
+ font-size:100%;
+ color:#717171;
+ display:inline;
+ font-family:arial narrow;
+ font-weight:bold;
+ float:left;
+ text-align:left;
+ border-bottom:1px solid #D6D6D6;
+}
+
+ul.details2 li
+{border-top:1px solid #D6D6D6;
+ text-align:left;
+ float:left;
+ width:500px; 
+ padding-top:14px;
+ padding-bottom:14px;
+ 
+}
+ul.details2 li.line
+{line-height:200%;
+}
+
+.sidenav
+{padding-left:10px;
+ padding-right:2px;
+ float:left;
+}
+
+.sidenav2
+{
+ float:right;
+}
+
+div.center
+{padding:150px;
+ *padding-bottom:0px;
+ width:200px;
+ line-height:250%;
+ margin-bottom:200px;
+ *margin-bottom:120px;
+}
+
+#number
+{width:45px;
+ font-size:90%;
+ height:18px;
+ color:#999999;
+}
+
+.right_side
+{padding-left:10px;
+ padding-right:2px;
+ float:left;
+}
+
+.right_side2
+{
+ float:right;
+}
+
+div.line
+{float:left;
+ width:300px;
+}
+
+div.line2
+{float:left;
+ width:300px;
+ margin-left:-20px;
+}
+
+div#orange_font,div#orange_font_1,div#orange_font_2,div#orange_font_3
+{font-size:100%;
+ color:#FE7A22;
+ width:100px;
+ float:left;
+ *margin-top:-8px;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+#crust,#crust_1,#crust_2,#crust_3,#crust_4,#crust_5,#crust_6,#crust_7,#crust_8,#crust_9,#crust_10,#crust_11,#crust_12
+{width:140px;
+ font-size:100%;
+ height:18px;
+ color:#999999;
+}
+
+#crust2
+{width:138px;
+ font-size:100%;
+ height:18px;
+ color:#999999;
+}
+
+#number,#number_1,#number_2,#number_3,#number_4,#number_5,#number_6,#number_7
+{width:45px;
+ font-size:90%;
+ height:18px;
+ color:#999999;
+}
+
+div.fm_submit
+{padding:10px;
+ float:right;
+ 
+}
+
+div.submit_button
+{float:right;
+ padding-top:10px;
+}
+
+div#submit_font
+{font-size:100%;
+ color:red;
+ float:right;
+ padding:5px;
+ padding-top:17px;
+ font-family:arial;
+ font-weight:bold;
+}
+
+div#submit_font2
+{font-size:100%;
+ color:red;
+ float:right;
+ padding:5px;
+ margin-top:-8px;
+ padding-top:17px;
+ font-family:arial;
+ font-weight:bold;
+}
+
+.text_orange
+{color:#FE7A22;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+.text_red
+{color:red;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+.form_small_text{
+font-family:arial narrow;
+font-size:93%;
+}
+
+.right_align_small_text{
+float: right;
+text-align: right;
+font-family:arial narrow;
+font-size:93%;
+}
+
+/* pop ups */
+
+.popup_for_new_bid{
+position:relative;
+top:0px;
+margin-left:50px;
+background:url(/images/popup1.jpg) 0 0 no-repeat;
+width:194px;
+height:153px;
+line-height: 90%
+}
+
+.popup_for_up_bid{
+position:relative;
+margin-left:-150px;
+background:url(/images/popup1.jpg) 0 0 no-repeat;
+width:194px;
+height:153px;
+line-height: 90%
+}
+
+/* tabs */
+
+#tabbed ul.form_tabs {
+	list-style:none;
+	margin:0;
+	padding:0;
+	clear:both;
+	height:20px;
+	clear:both;
+}
+
+#tabbed ul.form_tabs li {
+	float:left;
+	margin-right:7px;
+	text-align:center;
+}
+
+#tabbed ul.form_tabs li a {
+	display:block;
+	font-size:100%;
+	height:20px;
+	padding:0 6px 0 6px;
+	background-color:#fff;
+	width:100%;
+	font-weight: bold;
+}
+
+#tabbed ul.form_tabs li a:hover {
+}
+
+#tabbed ul.form_tabs li a.active {
+	background-color:#E8E8E8;
+}
+
+/* forms */
+
+.auction_form{
+ color:#666666;
+ font-family:arial narrow;
+}
+
+.auction_form_indented{
+ margin-left: 100px;
+ color:#666666;
+ font-family:arial narrow;
+}
+
+.auction_form_small_text{
+ font-size:93%;
+}
+
+.long_label{
+ color:#666666;
+ font-family:arial narrow;
+ margin-left: 120px; /* subjective */
+ width: 180px; /* (textarea width) + (label width) + (label margin) - (left margin) */
+}
+
+
+.small_field{
+ color:#666666;
+ font-family:arial narrow;
+ display: inline;
+ margin-left: 120px; /* subjective */
+ width: 180px; /* (textarea width) + (label width) + (label margin) - (left margin) */
+}
+
+.baseform legend { 
+ color:#666666;
+ font-family:arial narrow;
+ font-weight: bold;
+}
+
+/*
+	In the following section, many of the values must be changed in reference to another.
+	Items labeled as 'subjective' are not dependent and may be easily changed as you see fit.
+*/
+.baseform label { 
+	margin-right: 0px; /* label margin */
+}
+.baseform label.long, .baseform p.label {
+	margin-left: 120px; /* subjective */
+	width: 180px; /* (textarea width) + (label width) + (label margin) - (left margin) */
+}
+.baseform label span {
+	color: #900; /* color of required asterisk */
+}
+.baseform input, .baseform textarea, .baseform select,
+.baseform .checks input, .baseform.checks input {
+	margin-left: 100px; /* (label width) + (label margin) */
+	width: 180px; /* subjective, only applies to non-checkbox or radio inputs */
+}
+
+.baseform input.small_field, .baseform input[type="radio"].small_field {
+	display: inline;
+	margin-left: 120px; /* (label width) + (label margin) */
+	width: 40px; /* subjective, only applies to non-checkbox or radio inputs */
+}
+
+.baseform textarea { 
+	width: 300px; /* subjective, recommend: (3/2)(input width) */
+}
+.baseform p.desc {
+	margin-left: 100px; /* (label width) + (label margin) **recommended */
+}
+.baseform .checks label, .baseform.checks label {
+	margin-left: 100px; /* (label width) + 2(label margin) */
+}
+.baseform .checks h2, .baseform.checks h2 {
+	width: 80px; /* label width *//* label margin = (input left margin) - (label width) */
+	margin-right: 10px; /* label margin */
+}
+/*
+	The following makes Internet Explorer 6.x play nicely. 
+	These fix the double float margin bug.
+*/
+* html .baseform .checks input, * html .baseform.checks input { 
+	margin-left: 105px;  /* (1/2)((label width) + (label margin)) */
+}
+* html .baseform .checks label, * html .baseform.checks label { 
+	margin-left: 100px; /* (label width) + (label margin) */
+	height: 1em; 
+}
+
+
+/*********************************************************************************
+	DO NOT EDIT BELOW THIS LINE
+*********************************************************************************/
+
+
+.baseform {
+	font-family:arial narrow;
+}
+
+.baseform label {
+	/* 
+		A label must precede the form element in the HTML
+		You must keep the top padding for some browsers to keep the label and the form element looking on the same line
+	*/
+	float: left;
+	text-align: right;
+	padding-top: 0.2em;
+	font-weight: bold;
+	font-size: 1em;
+	color: #666666;
+}
+
+.baseform label:after { 
+	/* 
+		Creates a ":" after LABELs. This only works in some browsers 
+	*/
+	content: ""; 
+}
+
+.baseform label.long {
+	/*
+		If your label text does not fit in the left-hand side, consider this class
+	*/
+	float: none;
+	display: block;
+	text-align: left;
+	color: #666666;
+}
+
+.baseform label.long:after {
+	content: "";
+}
+
+.baseform input, .baseform textarea, .baseform select {
+	/*
+		These items must immediately follow the LABEL item associated with it and followed by a BR (see below).
+		The following width must be 10pixels wider than the width of the LABEL.
+	*/
+	display: block;
+	margin-bottom: 4px;
+}
+
+.baseform .time select, .baseform.time select {
+	width: 50px;
+	display: inline;
+	margin-left: 0px;
+	margin-bottom: 20px;
+}
+
+.baseform select[multiple="multiple"] {
+	/*
+		Mozilla has some weird concept of how to display multiple select boxes.
+		For some reason, display: block; does not affect it.
+		For more information, see https://bugzilla.mozilla.org/show_bug.cgi?id=342531
+		This fixes that problem. DON'T FORGET YOUR BR TAG AFTER SELECT!
+	*/
+	margin-left: 0px;
+}
+.baseform br { 
+	/* 
+		Always include a BR tag at the end of a line of items -- generally immediately following one of an INPUT, SELECT or TEXTAREA.
+		Within div.checks, include the BR after the LABEL
+	*/
+	clear: left;
+} 
+
+.baseform input[type="radio"], .baseform input[type="checkbox"], 
+.baseform input[type="hidden"] { 
+	/* 
+		Keeps Mozilla browsers (and others) from making the RADIO and CHECKBOXES too wide and/or tall.
+		Also removes unnecessary borders from these browsers (They don't respond as expected) 
+	*/
+	width: auto; 
+	height: 0.8em; 
+	border: 0;
+}
+
+.baseform input[type="hidden"] {
+	/*
+		Firefox doesn't want to make them actually hidden, so I'll force it.
+	*/
+	display: none;
+}
+
+.baseform p.desc {
+	/*
+		Use this immediately following an item that needs a longer description than can be handled by the LABEL.
+		The left margin should be the same as INPUT, TEXTAREA and SELECT objects.
+	*/
+	display: block;
+	position: relative;
+	top: -1em;
+	margin-bottom: 0em;
+	font-style: italic;
+	font-size: 0.9em;
+}
+
+/* 
+	The following section is for reversing the display of CHECKBOX and RADIO INPUTs.
+	Surround the section of items with <fieldset class="checks"></fieldset> or <div class="checks"></div>.
+	It is highly recommended to use FIELDSET over DIV when there are multiple items.
+	In the section, the INPUT precedes the LABEL and the BR comes last (after the label).
+*/
+.baseform .checks label, .baseform.checks label {
+	/*
+		Overrides for previously defined stuff and changes.
+		Left margin must be 10pixels more than ".baseform input, .baseform select" etc.
+	*/
+	float: none;
+	width: auto;
+	clear: none;
+	display: block;
+	text-align: left;
+	height: 0.4em;
+	padding-top: 0;
+	margin-bottom: 0;
+	color: black;
+	font-size: 0.8em;
+	font-weight: normal;
+}
+
+.baseform .checks h2, .baseform.checks h2 {
+	/*
+		Overrides for previously defined stuff and changes.
+		Left margin must be 10pixels more than ".baseform input, .baseform select" etc.
+	*/
+	text-align: right;
+	font-weight: bold;
+	font-size: 1em;
+	height: 1.4em;
+	padding-top: 0;
+	margin-bottom: 10;
+	color: #666666;
+}
+
+.baseform .checks label:after, .baseform.checks label:after, .checks label:after  { 
+	/* 
+		Makes the ":" not generated after the LABEL. 
+	*/
+	content: ""; 
+} 
+
+.baseform .checks input, .baseform.checks input {
+	/*
+		Left margin is the same value as ".baseform input, .baseform select" etc.
+	*/
+	float: left;
+	text-align: right;
+	width: auto;
+}
+
+.baseform .radio, .baseform.radio {
+	/*
+		Overrides for previously defined stuff and changes.
+		Left margin must be 10pixels more than ".baseform input, .baseform select" etc.
+	*/
+	font-size: 0.8em;
+	display: inline;
+	margin-left: 110px;
+}
+
+/* 
+	End reverse checks/radios section
+*/

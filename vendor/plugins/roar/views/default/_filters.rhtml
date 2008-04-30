@@ -1,0 +1,15 @@
+<% if roar.has_filters? %>
+<h3 id="filter_toggle" class="toggle"><a href="#" >Filter:</a></h3>
+<div class='filter' id='filter'>
+  <% form_for(:filter, roar.filters.params, :url=>collection_path, :html=>{:method=>'get'}) do |form| %>
+  <% roar.filters.each do |filter| %>
+    <p><label for="search"><%= filter.label  %></label><br />
+    <%= roar_filter(filter, form) %>
+    </p>
+  <% end %>
+  <p><input type='submit' name='commit' value='Filter'> or 
+  <%= link_to("Reset", collection_path, {:class=>"cancel-filters"}) %>
+  </p>
+  <% end %>
+</div>
+<% end %>

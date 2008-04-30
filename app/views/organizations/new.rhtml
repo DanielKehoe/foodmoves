@@ -1,0 +1,13 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), organizations_path %>&nbsp;Organizations</h1>
+
+<h2>New Organization</h2>
+
+<% form_for :organization, :url => organizations_path, :html => { :class => 'baseform' } do |form| -%>
+
+  <%= render :partial => 'form', :object => form -%>
+
+	<p>
+		<%= submit_tag 'Create' -%>
+	</p>
+	
+<% end -%>

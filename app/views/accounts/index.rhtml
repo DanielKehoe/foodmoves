@@ -1,0 +1,55 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), accounts_path %>&nbsp;All Accounts</h1>
+
+<% content_for(:secondary) do %>
+
+	<h2>Search By Name</h2>
+	<% form_tag accounts_path, :method => 'get' do %>
+		<%= text_field_with_auto_complete :account,
+	        :name,
+	         { :size => 20 }, :skip_style => true -%>
+		&nbsp;<%= submit_tag 'Search' %>
+	<% end -%>
+	<br />
+	<h4><%= link_to 'Download CSV File', formatted_accounts_path(:csv), :class=>"cvs-link" %></h4>
+<% end %>
+
+<table class="admin">
+<thead>
+	<tr>
+		<th colspan='3'>&nbsp;</th>
+		<th><b>Specialist</b></th>
+		<th>&nbsp;</th>
+		<th>&nbsp;</th>
+		<th><b>Name</b></th>
+	</tr>
+</thead>
+ 
+<% for account in @accounts %>
+	<tr>
+		<td><%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), account_path(account) %></td>
+	    <td><%= link_to image_tag('group_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_organization_path(account) %></td>
+	    <td><% restrict_to 'admin' do -%><%= link_to image_tag('group_delete.png', :alt=>'Delete', :title=>'Delete Item'), account_path(account), :confirm => 'Are you sure?', :method => :delete %><% end -%></td>
+		<td>
+			<% unless account.acct_exec_id.nil? -%>
+				<% unless account.administrator.nil? -%>
+					<%= account.administrator.name %>
+				<% end -%>
+			<% else -%>
+				unassigned
+			<% end -%>
+		</td>
+		<td><% unless account.phones.first.nil? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => account.phones.first.number), "skype:#{account.phones.first.skype}" -%><% end -%></td>
+		<td><% unless account.email.blank? -%><%= mail_to account.email, image_tag('email.png', :alt => 'send email', :title => account.email), :subject => "Message from Foodmoves.com" -%><% end -%></td>
+		<td>
+			<% unless account.website.blank? %>
+				<%= link_to account.name, "http://#{account.website}" %>
+			<% else %>
+				<%= account.name %>
+			<% end %>
+		</td>
+	</tr>
+<% end %>
+</table>
+<% content_for(:footer) do %>
+	<%= will_paginate @accounts %>
+<% end %>

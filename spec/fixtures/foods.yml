@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  parent_id: 1
+  children_count: 1
+  name: MyString
+  plu: 1
+  form: 1
+two:
+  id: 2
+  parent_id: 1
+  children_count: 1
+  name: MyString
+  plu: 1
+  form: 1

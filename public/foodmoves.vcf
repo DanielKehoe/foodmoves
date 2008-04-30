@@ -1,0 +1,15 @@
+BEGIN:VCARD
+VERSION:3.0
+N:;;;;
+FN:Food Moves\, Inc.
+ORG:Food Moves\, Inc.;
+EMAIL;type=INTERNET;type=WORK;type=pref:info@foodmoves.com
+TEL;type=WORK;type=pref:(602) 714-2245
+TEL;type=WORK;type=FAX:(480) 829-4938
+item1.ADR;type=WORK;type=pref:;;2710 South Rural Road;Tempe;AZ;85282;USA
+item1.X-ABADR:us
+item2.URL;type=pref:http\://www.foodmoves.com
+item2.X-ABLabel:_$!<HomePage>!$_
+X-ABShowAs:COMPANY
+X-ABUID:8D12EE2A-CA7D-4EF7-B5B6-5547CAFAE308\:ABPerson
+END:VCARD

@@ -1,0 +1,35 @@
+<!-- Buy/Search -->
+<!-- using layout "buy" -->
+<div id="map">
+	<% unless @map == nil -%>
+		<div align="center">
+			<%= @map.div(:width => 750,:height => 500) %>
+		</div>
+	<% else -%>	
+		<div class="errorExplanation">
+			<%= 'No map was created.'.t %>
+		</div>
+	<% end -%>
+</div><!-- id="map" -->
+<br />
+<div id="list">
+	<div class="rows_heading">
+		<div class="hd_cell_1 red bold">
+			<% unless @search.nil? -%>
+				<% if @search.query -%>
+					<%= @search.query -%>
+				<% elsif @search.location_name -%>
+					<%= @search.location_name -%>
+				<% else -%>
+					<%= 'SEARCH RESULTS'.t %>
+				<% end -%>
+			<% else -%>
+				<%= 'SEARCH RESULTS'.t %>
+			<% end -%>
+		</div>
+		<div class="baker_hd_cell_3"><%= 'BUY or BID'.t %></div>
+		<div class="baker_hd_cell_4"><%= 'TIME LEFT'.t %></div>
+	</div><!-- rows_heading -->
+	<%= render :partial => 'current_auctions' -%>
+</div><!-- id="list" -->
+

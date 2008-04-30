@@ -1,0 +1,30 @@
+<%% @heading = "<%= plural_name.capitalize %>" %>
+<h2><%%= @heading %></h2><br /><br />
+
+  <table width="100%">
+    <tr>
+      <% eval(model_name + '.content_columns').each do |column| -%>
+      <td><strong><%= column.human_name  %></strong></td>
+      <% end -%>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  
+    <%% for <%= singular_name %> in @<%= plural_name %> %>
+      <tr>
+        <% eval(model_name + '.content_columns').each do |column| -%>
+        <td><%%= <%= singular_name %>.<%= column.name %> %></td>
+        <% end -%>
+        <td><%%= link_to 'Show', :action => 'show<%= suffix %>', :id => <%= singular_name %> %></td>
+        <td><%%= link_to 'Edit', :action => 'edit<%= suffix %>', :id => <%= singular_name %> %></td>
+        <td><%%= link_to 'Delete', :action => 'destroy<%= suffix %>', :id => <%= singular_name %> %></td>
+      </tr>
+    <%% end %>
+  </table>
+
+  <%%= link_to 'Previous page', { :page => @<%= singular_name %>_pages.current.previous } if @<%= singular_name %>_pages.current.previous %>
+  <%%= link_to 'Next page', { :page => @<%= singular_name %>_pages.current.next } if @<%= singular_name %>_pages.current.next %> 
+
+<br />
+
+<%%= link_to 'New <%= singular_name %>', :action => 'new<%= suffix %>' %>

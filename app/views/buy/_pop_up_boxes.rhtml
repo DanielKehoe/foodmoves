@@ -1,0 +1,56 @@
+
+<% restrict_to 'member' do -%>
+	<% if auction.current_bid == 0 and auction.buy_now_price > 0 -%>
+		<a href="#" onclick="Element.toggle('buy_now_form_<%= auction.id.to_s %>'); return false;"><%= image_tag('ico_3.gif', :alt=>"It's Yours", :title=>"It's Yours") -%></a>
+		<div id="buy_now_form_<%= auction.id.to_s %>" class="popup_for_new_bid" style="display:none;">
+			<div class="popup_header">
+				It's Yours<sup>&trade;</sup> <div class="bubble_close"><a href="#" onclick="Element.toggle('buy_now_form_<%= auction.id.to_s %>'); return false;">close</a></div>
+	 		</div><!-- class="popup_header" -->
+	 		<div class="popup_content">		
+				You are entering into a 
+				legally binding agreement 
+				for the purchase of 
+				<%= link_to auction.description, auction_path(auction) -%>.
+				at the It's Yours<sup>&trade;</sup> price of <b><%= number_to_currency auction.buy_now_price -%></b>.
+				<br />
+				<br />
+	 		</div><!-- class="popup_content" -->
+	 		<div class="popup_footer">
+				<% form_for :bid, 
+			:url => {:controller => 'bids', :action => 'new', :id => auction.id},
+			:html => { :method => :put } do |form| -%>
+					<%= form.hidden_field :amount, :value => auction.buy_now_price.to_s %>
+					<%= submit_tag 'Buy Now' -%>
+				<% end -%>
+			</div><!-- class="popup_footer" -->
+		</div><!-- id="buy_now_form_" -->
+	<% end -%>
+	<a href="#" onclick="Element.toggle('bid_form_<%= auction.id.to_s %>'); return false;"><%= image_tag('ico_10.gif', :alt=>'Enter Bid', :title=>"Enter Bid") -%>	</a>
+	<div id="bid_form_<%= auction.id.to_s %>" class="popup_for_new_bid" style="display:none;">
+		<div class="popup_header">
+			enter bid <div class="bubble_close"><a href="#" onclick="Element.toggle('bid_form_<%= auction.id.to_s %>'); return false;">close</a></div>
+		 </div><!-- class="popup_header" -->
+		 <div class="popup_content">		
+			You are entering into a 
+			legally binding agreement 
+			for the purchase of 
+			<%= link_to auction.description, auction_path(auction) -%>.
+			<% if auction.current_bid == 0 -%>
+				The minimum bid is <%= number_to_currency auction.minimum_bid -%>.
+			<% else -%>
+				You must bid more than <%= number_to_currency ( auction.current_bid + auction.bid_increment ) -%>.
+			<% end -%>
+		</div><!-- class="popup_content" -->
+		<div class="popup_footer">
+			<% form_for :bid, 
+							:url => {:controller => 'bids', :action => 'new', :id => auction.id}, 
+							:html => { :method => :put } do |form| -%>
+						<b>$</b>&nbsp;<%= form.text_field :amount, :size => 6 %>
+						<br />
+						<%= submit_tag 'Enter Bid' -%>
+			<% end -%>
+		</div><!-- class="popup_footer" -->
+	</div><!-- id="bid_form" -->
+<% end -%>
+<br />
+

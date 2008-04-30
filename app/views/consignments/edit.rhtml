@@ -1,0 +1,23 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), consignments_path %>&nbsp;Consignments</h1>
+
+<h2><%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), auction_path(@auction) -%>&nbsp;<%=h @auction.description -%> <i>sold by</i> <%= @auction.user.name %> <i>to</i> <%= @buyer.name %></h2>
+
+<%= error_messages_for :auction -%>
+
+<% form_for :auction, :url => consignment_path(@auction), :html => { :method => :put, :class => 'baseform' } do |form| -%>
+
+	<br />
+
+	<label>Quantity</label>
+	<span><%= form.text_field :quantity %></span><br />
+
+	<br />
+
+	<label>Closing price</label>
+	<span><%= text_field 'auction', 'current_bid', :value => number_to_currency(@auction['current_bid']), :size => 10 -%></span><br />
+	
+	<p>
+		<%= submit_tag "Close" -%>
+	</p>
+	
+<% end -%>

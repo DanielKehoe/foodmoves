@@ -1,0 +1,36 @@
+Congratulations!
+
+You're now a full member of the online trading community at Foodmoves.
+
+The Foodmoves support team has verified that you are affiliated with <%= @company.name %> and are authorized to buy and sell produce on behalf of the company.
+
+<% case @user.starts_as 
+     when 'buyer' -%>
+Remember, there's never a charge for a buyer at Foodmoves!
+
+You can set up "watched products" and check every day for new deals.
+
+Or search by location to find what you need, when you need it.
+
+We're here to help you find the best deals and get the products you want. 
+
+  <% when 'seller' -%>
+Buyers are looking for the products you have to offer.
+
+Check anytime to see what products are in "top demand." We also show the "top prices" being paid for products listed at Foodmoves.
+
+It's easy to list your products for sale. 
+
+Just log in and click the button to "Create a New Auction." You only pay a fee when you've found a winning bidder that is willing to pay your minimum price. Remember, the Foodmoves commission on sales is very reasonable, typically lower than you'd pay to make a sale offline!
+
+Buyers are waiting for your products, so try a trade today.
+
+  <% else -%>
+Whether you are buying, selling, or just watching the industry, we are here to help. 
+
+<% end -%>
+Use the "chat" link at the top of any page to ask questions and give us your feedback.
+
+You can log in to the site at the following web address:
+
+http://www.foodmoves.com/session/new

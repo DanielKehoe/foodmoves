@@ -1,0 +1,23 @@
+<h1><% restrict_to 'support' do -%><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), phones_path %>&nbsp;<% end -%>Phone Numbers</h1>
+
+<h2><%= link_to image_tag('phone.png', :alt=>'Show', :title=>'Show Item'), phone_path(@phone) -%>&nbsp;<%=h @phone.localized(@current_user) -%></h2>
+
+<%= error_messages_for :phone -%>
+
+<div class="show">
+	<label>For</label>
+		<span>
+			<%=h @phone.phonable.name -%>
+		</span>
+	<br />
+</div>
+
+<% form_for :phone, :url => phone_path(@phone), :html => { :method => :put, :class => 'baseform' } do |form| -%>
+
+	<%= render :partial => 'form', :object => form -%>
+	
+	<p>
+		<%= submit_tag "Update" -%>
+	</p>
+	
+<% end -%>

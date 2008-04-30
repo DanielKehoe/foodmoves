@@ -1,0 +1,53 @@
+<div class="container">
+	<div class="content">
+	<div class="container_header">CONTACT FOODMOVES</div>
+	<br />
+	<br />
+	<div class="container_header2">Use Chat for Immediate Help</div>
+	<p class="about">
+		The quickest and best way to reach us is to <strong><%= link_to 'click here for chat', 'http://foodmoves.campfirenow.com/e08e3', {:popup => ['Chat', 'width=650,height=1000'], :title => 'CHAT FOR ONLINE HELP'} %></strong>. Our account managers and technical support staff are in the chat room from approximately <strong>8am Eastern Time to 8pm Pacific Time</strong>.
+	</p>
+	<div class="container_header2">How to Use Chat</div>
+	<p class="about">
+		We are alerted as soon as you type a message, so type &quot;hello&quot; and we'll know you are there. It may take up to five minutes for us to respond to your message in chat if we are helping other visitors, so please check back in a few minutes to see if we have a reply for you.
+	</p>
+	<div class="container_header2">By Email <%= mail_to 'info@foodmoves.com', image_tag('email.png', :alt=>"email", :title=>"send email"), :subject => "Message to Foodmoves.com" -%></div>
+	<p class="about">	
+	For general inquiries, our email address is <%= mail_to 'info@foodmoves.com', 'info@foodmoves.com', {:encode => 'javascript'} -%>
+	</p>
+	<p class="about">	
+	For technical support, our email address is <%= mail_to 'support@foodmoves.com', 'support@foodmoves.com', {:encode => 'javascript'} -%>
+	</p>
+	<div class="container_header2">By Skype <%= link_to image_tag('skype.jpg', :alt => 'skype', :title => 'call with Skype'), "skype:#{+16027142245}" -%></div>
+	<p class="about">	
+	Click to <strong><%= link_to 'call with Skype', "skype:#{+16027142245}" -%></strong> if you have Skype installed on your computer. Our Skype name is &quot;foodmoves.com.&quot;
+	</p>	
+	<div class="container_header2">By Telephone</div>
+	<p class="about">
+		For customer service, call us at: 
+		<strong>(602) 714-2245</strong>.
+	</p>
+	<p class="about">
+		Our office in Arizona is staffed from <strong>8am to 5pm
+		Pacific Time</strong> and we are delighted to help!
+	</p>
+	<div class="container_header2">Contact Information</div>
+
+	<div class="right" style="width:500px;">
+			<a href="/foodmoves.vcf">
+			<img border="0" src="/images/business_card.gif" width="130" height="32" title="Download our Business Card and add us to your Address Book" alt="business card"/></a>
+	</div>
+		<h3>Food Moves, Inc.</h3>
+		<p class="about">
+			2710 South Rural Road
+			<br />Tempe, AZ 85282
+			<br>Phone: +1 602-714-2245
+			<br>Fax: +1 480-829-4938
+		</p>
+		<br />
+
+
+
+	</div><!-- class="content" -->
+</div><!-- class="container" -->
+

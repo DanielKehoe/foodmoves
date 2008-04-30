@@ -1,0 +1,55 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), phones_path %>&nbsp;All Phone Numbers</h1>
+
+<% content_for(:secondary) do %>
+	<h2>Search Partial Number</h2>
+	<% form_tag phones_path, :method => 'get' do %>
+		<%= text_field_tag :search,
+	        				params[:search],
+	         				{ :size => 20 } -%>
+		&nbsp;<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+	<br />
+	<h4><%= link_to 'Download CSV File', formatted_phones_path(:csv), :class=>"cvs-link" %></h4>
+<% end %>
+
+<table class="admin">
+<thead>
+  <tr>
+	<th colspan='3'>&nbsp;</th>
+	<th><strong>User or Organization</strong></th>
+	<th><strong>Location</strong></th>
+	<th><strong>Phone Number</strong></td>
+  </tr>
+</thead>
+ 
+<% for phone in @phones %>
+	<tr>
+		<td><%= link_to image_tag('phone.png', :alt=>'Show', :title=>'Show Item'), phone_path(phone) %></td>
+	    <td><%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_phone_path(phone) %></td>
+	    <td><%= link_to image_tag('phone_delete.png', :alt=>'Delete', :title=>'Delete Item'), phone_path(phone), :confirm => 'Are you sure?', :method => :delete %></td>
+		<td style="white-space: nowrap;">
+		<% if phone.phonable.nil? -%>
+			<b>ORPHANED, PLEASE DELETE</b>
+		<% else -%>
+			<% if phone.phonable_type == 'User' -%>
+				<%= link_to phone.phonable.name, user_path(phone.phonable) %>
+			<% elsif phone.phonable_type == 'Organization' -%>
+				<%= link_to phone.phonable.name, organization_path(phone.phonable) %>
+			<% elsif phone.phonable_type == 'Prospect' -%>
+				<%= link_to phone.phonable.name, prospect_path(phone.phonable) %>
+			<% else -%>
+				<%= phone.phonable.name %>
+			<% end -%>
+		<% end -%></td>
+		<td>
+			<% unless phone.tag_for_phone.nil? -%>
+				<%= phone.tag_for_phone.downcase %>
+			<% end -%>
+		</td>
+		<td style="white-space: nowrap;"><span style="float:left;"><% unless phone.skype.blank? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => 'call with Skype'), "skype:#{phone.skype}" -%><% end -%></span>&nbsp;<%= phone.localized(@current_user) %></td>
+	</tr>
+<% end %>
+</table>
+<% content_for(:footer) do %>
+	<%= will_paginate @phones %>
+<% end %>

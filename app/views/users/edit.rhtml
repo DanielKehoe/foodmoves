@@ -1,0 +1,107 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), users_path %>&nbsp;Users</h1>
+
+<h2><%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'), user_path(@user) -%>&nbsp;<%=h @user.name %></h2>
+
+<%= error_messages_for :user %>
+
+<div class="show">
+	
+	<% unless @user.phones.size == 0 %>	
+		<label>Phone Numbers</label>
+		<ul>
+			<li>
+				<% for phone in @user.phones %>
+				  <%= link_to image_tag('phone.png', :alt=>'Show', :title=>'Show Item'), phone_path(phone) %><%=h phone.localized(@current_user) %> (<%=h phone.tag_for_phone %>)<br />
+				<% end %>
+			</li>
+		</ul>
+	<% end -%>
+
+	<br />
+	<label>&nbsp;</label>
+		<span>
+			<%= link_to('Add Phone Number', new_user_phone_path(@user), :class=>"rnew new-link") %>
+		</span>
+	<br />
+
+	<% unless @user.addresses.size == 0 %>	
+		<label>Addresses</label>
+		<ul>
+			<li>
+				<% for address in @user.addresses %>
+				  <%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), address_path(address) %>&nbsp;<%=h address.tag_for_address %>:<br /><%= address.address_block %><br /><br />
+				<% end %>
+			</li>
+		</ul>
+	<% end -%>
+
+	<br />
+	<label>&nbsp;</label>
+		<span>
+			<%= link_to('Add Address', new_user_address_path(@user), :class=>"rnew new-link") %>
+		</span>
+	<br />
+
+	<% unless @user.watched_products.size == 0 %>	
+		<label>Email Alerts</label>
+		<ul>
+			<li>
+				<% for product in @user.watched_products %>
+				  <%= link_to image_tag('ico_1.gif', :alt=>'Delete', :title=>"Delete \"#{product.description}\" from email alerts"), {:action => 'delete_from_watchlist', :id => product.id}, :confirm => "Really delete \"#{product.description}\" from email alerts?", :method => :delete %>&nbsp;<%= product.description %><br />
+				<% end %>
+			</li>
+		</ul>
+	<% end -%>
+
+<% form_for(:user, :url => user_path(@user), :html => { :method => :put, :class => 'baseform' }) do |form| %>
+
+	<br />
+	<label>Add Email Alert for</label><br />
+	<span><%= form.collection_select :food_root_id, 
+		@food_root_children, 
+		:id, 
+		:name,
+		{:prompt => "– none –"} %></span>
+		<br />
+		<%= related_collection_select :user, 
+			:food_grandparent_id, 
+			[:user, :food_root_id], 
+			@foods,
+			:id, 
+			:name, 
+			:parent_id %>
+		<span>
+	<br />
+	
+	
+	<label>Organization</label>
+		<span>
+			<% unless @user.organizations.first.nil? -%>
+				<%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), organization_path(@user.organizations.first) %>&nbsp;<%= @user.organizations.first.name %>
+			<% else -%>
+				no organization
+			<% end -%>
+		</span>
+	<br />
+		
+	<label>Assigned to</label>
+		<span>
+			<% unless @user.organizations.first.nil? -%>
+				<% unless @user.organizations.first.acct_exec_id.nil? -%>
+					<%= @user.organizations.first.administrator.name %>
+				<% else -%>
+					unassigned
+				<% end -%>
+			<% end -%>
+		</span>
+	<br />
+		
+</div>
+
+	<%= render :partial => 'form', :object => form %>
+	<div class="baseform">	
+	<p>
+		<%= submit_tag "Update" %>
+	</p>
+	</div>	
+<% end %>

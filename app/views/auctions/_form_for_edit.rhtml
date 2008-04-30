@@ -1,0 +1,275 @@
+<% fields_for :auction do |form| %>
+		<br />
+		<div id="details_font">ABOUT OUR FEE</div>
+		<dl class="sidebox_list">	
+			There is no charge if no buyer is found.
+			You are charged the auction fee only if a winning bidder is found 
+			before the auction closes.
+			<br />
+			<dt>&nbsp;</dt><dd>
+			<%= form.radio_button :premium_service, true %>&nbsp;<b>Premium Service (10% fee)</b>
+			<br />
+			Premium service puts our specialists to work finding a
+			buyer. Ideal for distressed loads and time-critical sales.
+			It's like having a dedicated sales force working the phones!
+			<br />
+			<%= form.radio_button :premium_service, false %>&nbsp;<b>Standard Service (5% fee)</b>
+			<br />
+			Standard service saves you money and gives you all the power of
+			online trading.
+			</dd>
+			<br />	
+			<% if @auction.user.organizations.first.billing_approved -%>
+				<dt>&nbsp;</dt><dd><%= form.radio_button :bill_me, false %>&nbsp;Charge my card 
+					<br />
+					<%= form.radio_button :bill_me, true %>&nbsp;Bill me</dd><br />
+			<% end %>		
+			<% if @auction.user.organizations.first.billing_approved -%>
+				Your company qualifies for &quot;net 30 days&quot; payment terms.
+				We'll invoice you. 
+				Or, choose to pay with your credit card.
+			<% else %>
+				Your credit card will be billed for the auction fee.
+				Your company does not qualify for &quot;net 30 days&quot; payment terms.
+			<% end %>
+		</dl>		
+	</div><!-- class="yui-u first" id="left_content" -->
+	<div class="yui-u" id="middle_content">
+			<% if @procedure == 'ok_to_quickcopy' %>
+				<% if @current_user.id == @auction.seller_id %>
+					<div id="details_font">Save as a New Auction?</div>
+					<span class="sidebox_small_text">Edit and please (!) review carefully before saving as a new auction. Auctions cannot be edited or changed after the first bid is received.</span> 
+					<br />
+					<%= submit_tag "Save as New Auction" %>
+					<br />
+					<br />
+				<% else -%>
+					<% if logged_in? -%>
+						<% restrict_to 'support' do -%>
+							<div id="details_font">Save as a New Auction?</div>
+							<br />
+							<br />
+							<%= submit_tag "Save as New Auction" %>
+							<br />
+							<br />			
+						<% end -%>
+					<% end -%>
+				<% end -%>
+			<% end -%>
+			<% if @procedure == 'ok_to_edit' %>
+				<% if @current_user.id == @auction.seller_id %>
+					<div id="details_font">Edit Auction Details</div>
+					<span class="sidebox_small_text">Auctions can be edited or changed ONLY until the first bid is received.</span> 
+					<br />
+					<%= submit_tag "Save Changes" %>
+					<br />
+					<br />
+				<% else -%>
+					<% if logged_in? -%>
+						<% restrict_to 'support' do -%>
+							<div id="details_font">Edit Auction Details</div>
+							<br />
+							<br />
+							<%= submit_tag "Save Changes" %>
+							<br />
+							<br />			
+						<% end -%>
+					<% end -%>
+				<% end -%>
+			<% end -%>
+			<% if @procedure == 'ok_for_new' %>
+				<% if @current_user.id == @auction.seller_id %>
+					<div id="details_font">Save New Auction</div>
+					<span class="sidebox_small_text">Please review your details carefully. Auctions can be edited or changed ONLY until the first bid is received.</span> 
+					<br />
+					<%= submit_tag "Save New Auction" %>
+					<br />
+					<br />
+				<% else -%>
+					<% if logged_in? -%>
+						<% restrict_to 'support' do -%>
+							<div id="details_font">Save New Auction</div>
+							<br />
+							<br />
+							<%= submit_tag "Save New Auction" %>
+							<br />
+							<br />			
+						<% end -%>
+					<% end -%>
+				<% end -%>
+			<% end -%>
+			<% if logged_in? -%>
+				<% restrict_to 'support' do -%>
+					<div id="details_font">Is This a Consignment Sale?</div>
+					<dl class="detail_list">
+						<dt>Consignment Sale?</dt><dd><span class="form_small_text"><%= form.radio_button :consignment, false %>&nbsp;No&nbsp;<%= form.radio_button :consignment, true  %>&nbsp;Yes</span></dd>
+						<dt>Consigning Seller ID</dt><dd><span class="form_small_text"><%= form.text_field :seller_id, :size => 6 -%></span></dd>
+						<dt>Consignment Buyer ID</dt><dd><span class="form_small_text"><%= form.text_field :buyer_id, :size => 6 -%></span></dd>
+					</dl>
+					<br />
+					<br />			
+				<% end -%>
+			<% end -%>
+			<div id="details_font">Auction Details</div>
+			<dl class="detail_list">
+				<%= form.hidden_field :description -%>
+				<%= form.hidden_field :food_id -%>
+				<%= form.hidden_field :origin_region_id -%>
+				<%= form.hidden_field :test_only -%>
+				<dt>Minimum bid</dt><dd><span class="form_small_text"><%= text_field 'auction', 'minimum_bid', :value => number_to_currency(@auction['minimum_bid']), :size => 10 -%></span></dd>
+				<dt>It's Yours<sup>&trade;</sup> price</dt><dd><span class="form_small_text"><%= text_field 'auction', 'buy_now_price', :value => number_to_currency(@auction['buy_now_price']), :size => 10 -%></span></dd>
+				<dt>Bid increment</dt><dd><span class="form_small_text"><%= text_field 'auction', 'bid_increment', :value => number_to_currency(@auction['bid_increment']), :size => 10 -%></span></dd>
+			</dl>
+			<dl class="detail_list_alt"> 
+				<dt><span>Req'd Credit</span></dt><dd>
+				<span class="right_align_small_text">
+					<%= form.collection_select :creditworth_id, 
+							@creditworth, 
+							:id, 
+							:description %></span>
+					<br /><span class="right_align_small_text">
+					<%= form.collection_select :timeliness_id, 
+							@timeliness, 
+							:id, 
+							:description %></span>
+					<br /><span class="right_align_small_text">
+					<%= form.collection_select :integrity_id, 
+							@integrity, 
+							:id, 
+							:description %></span>
+				</dd>
+			</dl>
+			<dl class="detail_list">
+				<dt>Time zone displayed</dt><dd><%= TzTime.zone %></dd>
+				<dt>Current time (right now)</dt><dd><%= local_time Time.now %></dd>	
+				<dt>Auction start</dt><dd><span class="form_small_text"><%= date_field :auction, :date_to_start, :format => '%d %b %Y', :value => (zoneless_time @auction.date_to_start), :size => 20 -%></span></dd>
+				<% if @procedure == 'ok_to_edit' %>
+					<dt>Auction end</dt><dd><span class="form_small_text"><%= date_field :auction, :date_to_end, :format => '%d %b %Y', :value => (local_time @auction.date_to_end), :size => 20 -%></span></dd>
+				<% else -%>
+					<dt>Auction end</dt><dd><span class="form_small_text"><%= date_field :auction, :date_to_end, :format => '%d %b %Y', :value => (zoneless_time @auction.date_to_end), :size => 20 -%></span></dd>
+				<% end -%>
+				<dt>Pick up within</dt><dd><span class="form_small_text"><%= form.radio_button :pickup_limit, '24' %>&nbsp;24 hrs&nbsp;<%= form.radio_button :pickup_limit, '48' %>&nbsp;48 hrs&nbsp;<%= form.radio_button :pickup_limit, '72' %>&nbsp;72 hrs</span></dd>
+				</dl>
+				<dl class="detail_list_alt">
+				<dt>Quantity</dt><dd><span class="form_small_text"><%= form.text_field :quantity, :size => 6 -%></span></dd>
+				<dt>Minimum quantity</dt><dd><span class="form_small_text"><% if @auction.allow_partial == true -%>
+					<%= form.text_field :min_quantity, :size => 6 -%>
+				<% else -%>
+					<%= form.text_field :quantity, :size => 6 -%>
+				<% end -%></span></dd>
+				<dt>Bid on partial?</dt><dd><span class="form_small_text"><%= form.radio_button :allow_partial, true %>&nbsp;Yes&nbsp;<%= form.radio_button :allow_partial, false %>&nbsp;No</span></dd>
+				<dt>Cases Per Pallet</dt><dd><span class="form_small_text"><%= form.text_field :cases_per_pallet, :size => 6 -%></span></dd>
+				<dt>How packed</dt><dd><span class="form_small_text"><%= form.collection_select :pack_id,
+									@packs, 
+									:id, 
+									:name, 
+									{:prompt => "– Select Pack –"} %></span></dd>
+				<dt>Size</dt><dd><span class="form_small_text"><%= form.collection_select :size_id,
+									@sizes, 
+									:id, 
+									:name, 
+									{:prompt => "– Select Size –"} %></span></dd>
+				<dt>Per case count</dt><dd><span class="form_small_text"><%= form.collection_select :per_case_id,
+									@per_cases, 
+									:id, 
+									:name, 
+									{:prompt => "– Select Count Per Case –"} %></span></dd>
+			</dl>
+			<dl class="detail_list">	
+				<dt>Country of origin</dt><dd><span class="form_small_text"><%= form.collection_select :origin_country_id, 
+					@countries, 
+					:id, 
+					:name %></span></dd>
+				<dt>Export or domestic use</dt><dd><span class="form_small_text"><%= form.radio_button :for_export, false %>&nbsp;Domestic&nbsp;<%= form.radio_button :for_export, true  %>&nbsp;Export</span></dd>
+				<dt>Lot Identification #</dt><dd><span class="form_small_text"><%= form.text_field :lot_number, :size => 20 -%></span></dd>
+				<dt>Pickup #</dt><dd><span class="form_small_text"><%= form.text_field :pickup_number, :size => 20 -%></span></dd>
+				<dt>Buyer PO #</dt><dd><span class="form_small_text"><%= form.text_field :po_number, :size => 20 -%></span></dd>
+			</dl>
+			<dl class="detail_list_alt">
+				<dt>Grown</dt><dd><span class="form_small_text"><%= form.collection_select :grown_id,
+										@growns, 
+										:id, 
+										:name, 
+										{:prompt => "– Select How Grown –"} %></span></dd>
+				<dt>Weight</dt><dd><span class="form_small_text"><%= form.collection_select :weight_id,
+										@weights, 
+										:id, 
+										:name, 
+										{:prompt => "– Select Weight –"} %></span></dd>
+				<dt>Color</dt><dd><span class="form_small_text"><%= form.collection_select :color_id,
+										@colors, 
+										:id, 
+										:name, 
+										{:prompt => "– Select Color –"} %></span></dd>
+				<dt>Quality</dt><dd><span class="form_small_text"><%= form.collection_select :quality_id,
+										@qualities, 
+										:id, 
+										:name, 
+										{:prompt => "– Select Quality –"} %></span></dd>
+				<dt>Condition</dt><dd><span class="form_small_text"><%= form.collection_select :condition_id,
+										@conditions, 
+										:id, 
+										:name, 
+										{:prompt => "– Select Condition –"} %></span></dd>
+				<dt>PLU sticker</dt><dd><span class="form_small_text"><%= form.radio_button :plu_stickered, true %>&nbsp;Yes&nbsp;<%= form.radio_button :plu_stickered, false  %>&nbsp;No</span></dd>
+				<dt>PLU number</dt><dd><span class="form_small_text"><%= form.text_field :plu, :size => 6 -%></span></dd>
+				<dt>Current Pulp Temp.</dt><dd><span class="form_small_text"><%= form.text_field :temperature, :size => 6 -%>
+					<%= form.radio_button :celsius, true %>&nbsp;&deg;Cel.&nbsp;<%= form.radio_button :celsius, false  %>&nbsp;&deg;Fahr.</span></dd>
+				<dt>Iced</dt><dd><span class="form_small_text"><%= form.radio_button :iced, true %>&nbsp;Iced&nbsp;<%= form.radio_button :iced, false  %>&nbsp;Not Iced</span></dd>
+				<dt>Barcoded</dt><dd><span class="form_small_text"><%= form.radio_button :barcoded, true %>&nbsp;Yes&nbsp;<%= form.radio_button :barcoded, false  %>&nbsp;No</span></dd>
+			</dl>
+			<dl class="detail_list">	
+				<dt>Organic certified</dt><dd><span class="form_small_text"><%= form.radio_button :organic, true %>&nbsp;Yes&nbsp;<%= form.radio_button :organic, false  %>&nbsp;No</span></dd>
+				<dt>Fair Trade certified</dt><dd><span class="form_small_text"><%= form.radio_button :fair_trade, true %>&nbsp;Yes&nbsp;<%= form.radio_button :fair_trade, false  %>&nbsp;No</span></dd>
+				<dt>Kosher certified</dt><dd><span class="form_small_text"><%= form.radio_button :kosher, true %>&nbsp;Yes&nbsp;<%= form.radio_button :kosher, false  %>&nbsp;No</span></dd>
+			</dl>
+			<dl class="detail_list_alt"> 
+			<dt>Certifications</dt>
+				<dd>
+					<% for certification in @certifications %>
+						<%= check_box_tag 'auction[certification_ids][]', certification.id, @auction.certifications.include?(certification) %>
+						  <label for="auction[certification_ids][]"><%=h certification.name %></label>
+						<br />
+					<% end %>
+				</dd>
+				<dt>Treatment</dt>
+				<dd>
+					<% for treatment in @treatments %>
+						<%= check_box_tag 'auction[treatment_ids][]', treatment.id, @auction.treatments.include?(treatment) %>
+						  <label for="auction[treatment_ids][]"><%=h treatment.name %></label>
+						<br />
+					<% end %>
+				</dd>
+			</dl>
+			<br />
+			<br />
+		
+	</div><!-- class="yui-u" id="middle_content" -->
+<div class="yui-u" id="side-content">
+	<div id="details_font">SHIPPING FROM</div>
+	<dl class="sidebox_list">
+		<% unless @auction.address.nil? %>
+			<dt><%= @auction.address.tag_for_address %></dt><dd><%= @auction.address.address_block %></dd>
+		<% else %>
+			<dt><span class="red"><b>WARNING!</b></span></dt><dd><span class="red">NO SHIPPING ADDRESS!</span></dd>
+		<% end %>
+	</dl>
+	<br />
+	<% unless @map == nil -%>
+		<%= @map.div(:width => 200,:height => 200) %>
+	<% end -%>
+	<dl class="sidebox_list">
+		<dt>&nbsp;</dt><dd>Ship from a different location?
+			<br/>
+			<span class="right">
+			<% unless @auction.user.addresses.size == 0 %>
+				<%= form.collection_select :address_id,
+									@auction.user.addresses, 
+									:id, 
+									:tag_plus_city %></span>
+			<% end %> 
+	<%= link_to 'add a new address?', new_user_address_path(@auction.user.id), :confirm => 'This will take you to a new page where you can create a new address. You will NOT return to this page so you may have to start over.' -%>
+		<br />	
+		</dd>
+	</dl>
+<% end %> 	

@@ -1,0 +1,94 @@
+<!--[form:organization]-->
+
+	<label>Organization Name</label>
+	<span><%= form.text_field :name -%></span><br />
+
+	<label>Mark for Follow Up Review</label>
+	<span><%= form.check_box :needs_review %></span>
+	<br />
+
+	<label>Assign To</label>
+	<span><%= form.collection_select :acct_exec_id, 
+		@administrators, 
+		:id, 
+		:name, 
+		{:prompt => "– unassigned –"} %></span>
+	<br />
+	<br />
+
+	<label>PACA License</label>
+	<span><%= form.text_field :paca_license %></span>
+	<br />
+	<br />
+	
+	<label>Credit Worth</label>
+	<%= form.collection_select :creditworth_id, 
+		@creditworth, 
+		:id, 
+		:description %>
+	<br />
+	<label>Timeliness of Payment</label>
+	<%= form.collection_select :timeliness_id, 
+		@timeliness, 
+		:id, 
+		:description %>
+	<br />
+	<label>Risk Factor</label>
+	<%= form.collection_select :integrity_id, 
+		@integrity, 
+		:id, 
+		:description %>
+	<br />
+	<br />
+
+	<% unless @organization.card_info.nil? %>
+		<label>Credit Card</label>
+		<ul>
+			<li>
+				<table border="0" cellspacing="15" cellpadding="15">  
+				<tr><td>Type:</td><td><%= @organization.card_info.tag %></td></tr>   
+				<tr><td>Number:</td><td><%= @organization.card_info.display_number %></td></tr>  
+				<tr><td>Expiration:</td><td><%= @organization.card_info.month %>/<%= @organization.card_info.year %></td></tr>
+				<tr><td>Name on Card:</td><td><%= @organization.card_info.first_name %>&nbsp;<%= @organization.card_info.last_name %></td></tr>
+				<tr><td><%= link_to image_tag('table_delete.png', :alt=>'Delete', :title=>"Delete card"), card_info_path(@organization.card_info.id), :confirm => "Really delete this card?", :method => :delete %>&nbsp;<sup><%= link_to 'Delete This Card?', card_info_path(@organization.card_info.id), :confirm => "Really delete this card?", :method => :delete %></sup></td></tr>
+				<tr><td><%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_card_info_path(@organization.card_info.id) -%>&nbsp;<sup><%= link_to 'Update This Card?', edit_card_info_path(@organization.card_info.id) -%></sup></td></tr>
+				</table>
+			</li>
+		</ul>
+	<% else -%>
+		<% fields_for :card_info do |form| %>
+
+			<label>Credit Card Type</label>
+			<%= form.select :tag, 
+				CardInfo.all_tags %>
+			<br />
+
+			<label>Card Number</label>
+			<span><%= form.text_field :number %></span>
+			<br />
+
+			<label>Expiration Month</label>
+			<%= form.select :month, 
+				CardInfo.all_months %>
+			<br />
+
+			<label>Expiration Year</label>
+			<%= form.select :year, 
+				CardInfo.all_years %>
+			<br />
+
+			<label>First Name on Card</label>
+			<span><%= form.text_field :first_name %></span>
+			<br />
+
+			<label>Last Name on Card</label>
+			<span><%= form.text_field :last_name %></span>
+			<br />
+			<br />		
+		<% end %>
+	<% end %>
+	 
+
+	
+<!--[eoform:organization]-->
+

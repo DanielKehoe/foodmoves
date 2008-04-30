@@ -1,0 +1,131 @@
+<!--[form:member]-->
+<% if @on_step_four == false %>
+		<br />
+		<br />
+		<div class="errorExplanation">
+			<% if flash.any? %>
+				<p>
+					<b><%= flash[:notice] %></b>
+					<div class="red"><b><%= flash[:error] %></b></div>
+				</p>
+			<% else %>
+				<h2><b>We don't have enough information.</b></h2>
+		    	<p>It seems you did not click the &quot;Go To Step 4&quot; button.</p>
+			<% end %>
+				<p>Please select the &quot;Step 3&quot; tab (above), enter the required information, and click the button at the bottom of the form.</p>
+	  </div>
+<% else %>
+	<br />
+	<% fields_for :affiliation do |form| %>
+		<ul class="details">
+			<li class="line">
+				<% unless @affiliation.organization.phones.first.blank? -%>
+					<div id="li_font">
+						Company Phone
+					</div>
+					<%= link_to image_tag('skype.jpg', :alt => 'call', :title => 'call with Skype'), "skype:#{@affiliation.organization.phones.first.skype}" -%>&nbsp;<%= @affiliation.organization.phones.first.localized(@current_user) %>
+				<% end -%>
+			<br />
+
+		<div id="li_font">Called by</div>
+		<%= @affiliation.called_by %>
+		<br />
+
+
+		<div id="li_font">Talked to</div>
+		<%= form.text_field :talked_to, :size => 40 -%>
+		<br />
+
+		<div id="li_font">Approved to Sell</div>
+		<%= form.check_box :approved_to_sell %>
+		<br />
+		
+		<div id="li_font">Approved to Buy</div>
+		<%= form.check_box :approved_to_buy %>
+		<br />
+	<% end %>
+	
+	<% unless @organization.card_info.nil? %>
+		<% if @organization.card_info.missing? %>
+			<p>This company does not have a credit card on file with us. Though they may qualify for 
+				&quot;net 30 days&quot; invoicing, we ask for a credit card as security for all accounts.</p>
+	
+			<% fields_for :card_info do |form| %>
+	
+				<div id="li_font">Credit Card Type</div>
+				<%= form.select :tag, 
+					CardInfo.all_tags %>
+				<br />
+
+				<div id="li_font">Card Number</div>
+				<span><%= form.text_field :number %></span>
+				<br />
+
+				<div id="li_font">Expiration Month</div>
+				<%= form.select :month, 
+					CardInfo.all_months %>
+				<br />
+	
+				<div id="li_font">Expiration Year</div>
+				<%= form.select :year, 
+					CardInfo.all_years %>
+				<br />
+	
+				<div id="li_font">First Name on Card</div>
+				<span><%= form.text_field :first_name %></span>
+				<br />
+
+				<div id="li_font">Last Name on Card</div>
+				<span><%= form.text_field :last_name %></span>
+				<br />	
+			<% end %>
+		<% else %>
+			<p>We have a credit card on file for <%= @organization.name %>.</p>
+		<% end %>
+	<% else %>
+		<p>This company does not have a credit card on file with us. Though they may qualify for 
+			&quot;net 30 days&quot; invoicing, we ask for a credit card as security for all accounts.</p>
+
+		<% fields_for :card_info do |form| %>
+
+			<div id="li_font">Credit Card Type</div>
+			<%= form.select :tag, 
+				CardInfo.all_tags %>
+			<br />
+
+			<div id="li_font">Card Number</div>
+			<span><%= form.text_field :number %></span>
+			<br />
+
+			<div id="li_font">Expiration Month</div>
+			<%= form.select :month, 
+				CardInfo.all_months %>
+			<br />
+
+			<div id="li_font">Expiration Year</div>
+			<%= form.select :year, 
+				CardInfo.all_years %>
+			<br />
+
+			<div id="li_font">First Name on Card</div>
+			<span><%= form.text_field :first_name %></span>
+			<br />
+
+			<div id="li_font">Last Name on Card</div>
+			<span><%= form.text_field :last_name %></span>
+			<br />
+		<% end %>	
+	<% end %>
+		
+	<p>Be polite and tactful! These notes will be seen by the user.</p>
+	
+	<% fields_for :affiliation do |form| %>
+		<div id="li_font">Notes</div>
+		<%= form.text_area :notes, :cols => 38, :rows => 10 %>
+		<br />
+	<% end %>
+		
+	<p>All done? Click &quot;Submit&quot; to record.</p>
+	
+<% end %>
+<!--[eoform:member]-->

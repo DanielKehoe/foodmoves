@@ -1,0 +1,18 @@
+<p>
+  <b>Email:</b>
+  <%=h @administrator.email %>
+</p>
+
+<p>
+  <b>First name:</b>
+  <%=h @administrator.first_name %>
+</p>
+
+<p>
+  <b>Last name:</b>
+  <%=h @administrator.last_name %>
+</p>
+
+
+<%= link_to 'Edit', edit_administrator_path(@administrator) %> |
+<%= link_to 'List', administrators_path %>

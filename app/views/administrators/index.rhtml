@@ -1,0 +1,28 @@
+<h1>Staff</h1>
+
+<table class="admin">
+<thead>
+  <tr>
+	<th colspan='4'></th>
+    <th>Link to Account Page</th>
+	<th>Last Log In</th>
+	<th>Access</th>
+  </tr>
+</thead>
+
+<% for administrator in @administrators %>
+  <tr>
+	<td><%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'), user_path(administrator) %></td>
+    <td><%= link_to image_tag('user_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_user_path(administrator) %></td>
+    <td><%= link_to image_tag('user_delete.png', :alt=>'Delete', :title=>'Delete Item'), administrator_path(administrator), :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to image_tag('shield_add.png ', :alt=>'Update Permissions', :title=>'Change Permissions'), edit_user_permission_path(administrator, administrator) %></td>
+    <td><%= link_to administrator.name, member_path(administrator) %></td>
+	<td><%= local_time administrator.last_login_at %></td>
+	<td>
+		<% administrator.permissions.each do |permission| %>
+			<%=h permission.role.title %>
+		<% end %>
+	</td>
+  </tr>
+<% end %>
+</table>

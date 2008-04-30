@@ -1,0 +1,17 @@
+
+<% if permit?("admin") -%>
+	<p>
+		<b>Role to Be Given the Invited Guest:</b>&nbsp;
+		<%= form.collection_select :role_id,
+		Role.find(:all), 
+		:id, 
+		:title, 
+		{:prompt => "– Select Role –"} %>
+	</p>
+<% else -%>
+	<%= form.hidden_field :role_id %>
+<% end -%>
+<p>
+	<b>Use This Invitation Code<br />(or Enter a New Code):</b>&nbsp;
+	<%= form.text_field :code %>
+</p>

@@ -1,0 +1,9 @@
+<% if respond_to?(:roar) %>
+<h2><%= link_to(roar.table.title, collection_path) %>
+<% if roar.tables.size > 1 then %>
+(<%= roar.tables.collect { |table|
+	roar.table.name == table.name ? table.name : 	link_to(table.name, collection_path_for(nil, {:view => table.name}))
+}.join(", ") %>)
+<% end %>
+</h2>
+<% end %>

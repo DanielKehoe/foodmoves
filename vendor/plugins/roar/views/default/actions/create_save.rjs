@@ -1,0 +1,4 @@
+page.insert_html :top, rdom_class(model_class, "list"), :roar_partial => "row_outer"
+page << "Roar.reset_new_form('#{rdom_class(model_class)}')"
+page << "Roar.updated('#{rdom_id(@record)}')"
+page.call 'Flash.notice', "#{model_name} was successfully created"

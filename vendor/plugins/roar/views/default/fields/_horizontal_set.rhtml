@@ -1,0 +1,9 @@
+<table width="100%">
+  <tr>
+    <% field.fields.each do |f| %>
+    <td><ul>
+      <%= roar_field(f, form, record) %>
+    </ul></td>
+    <% end %>
+  </tr>
+</table>

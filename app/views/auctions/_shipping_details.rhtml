@@ -1,0 +1,81 @@
+<div id="details_font">
+	<% if @auction.allow_partial -%>
+		<span class="red"><%= @auction.min_quantity -%> to <%= @auction.quantity -%></span>
+	<% else -%>
+		<span class="red"><%= @auction.quantity -%></span>
+	<% end -%>
+	<% unless @auction.pack.nil? %>
+		<span class="red"><%= @auction.pack.name.downcase %></span>
+	<% else -%>
+		<span class="red">units</span>
+	<% end -%>
+</div>
+<div id="details_font">
+	<% unless @auction.size.nil? %>
+		<span class="red">
+			<% if @auction.size.name.downcase.include?('sold by count') -%>
+				<%= @auction.per_case.name -%>
+			<% else -%>
+				<%= @auction.size.name -%> size
+			<% end -%>
+		</span>
+	<% end -%>
+</div>
+<% if @auction.date_to_pickup > Time.now -%>
+	<div id="details_font">SHIPPING FROM</div>
+<% else -%>
+	<div id="details_font">SHIPPED FROM</div>		
+<% end -%>
+<dl class="sidebox_list">
+	<dt><%= @auction.address.tag_for_address %></dt><dd><%= @auction.address.address_block %></dd>	
+</dl>
+<br />
+<% unless @map == nil -%>
+	<%= @map.div(:width => 200,:height => 200) %>
+<% end -%>
+<br />
+<div class="sidebox_small_text">
+	<%= link_to 'Find other products nearby', {:controller => 'buy', :action => 'search_nearby', :id => @auction}, :class => 'zoom-link' %>
+</div>
+<br />
+<% if @auction.buyer_id.nil? %>
+	<% if @current_user.id == @auction.seller_id %>
+		<div id="details_font">Add an Auction Product Photo?</div>
+		<% form_for(:asset, :url => auction_assets_path(@auction), :html => { :multipart => true }) do |f| %>
+				<span class="sidebox_small_text">Select a file from your computer:</span> 
+				<br />
+				<%= f.file_field :uploaded_data, {:size => 17} %>
+				<br />
+				<br />
+				<%= submit_tag "Upload Product Photo" %>
+		<% end %>
+		<br />
+	<% else -%>
+		<% if logged_in? -%>
+			<% restrict_to 'support' do -%>
+				<div id="details_font">Add an Auction Product Photo?</div>
+				<% form_for(:asset, :url => auction_assets_path(@auction), :html => { :multipart => true }) do |f| %>
+						<span class="sidebox_small_text">Select a file from your computer:</span>  
+						<br />
+						<%= f.file_field :uploaded_data, {:size => 17} %>
+						<br />
+						<br />
+						<%= submit_tag "Upload Product Photo" %>
+				<% end %>
+				<br />			
+			<% end -%>
+		<% end -%>
+	<% end -%>
+<% end -%>
+<div class="tomato_image">
+	<% unless @auction.assets.empty? %>	
+		<% for asset in @auction.assets %>
+			<%= link_to(image_tag(asset.public_filename(:size200)), auction_asset_path(@auction, asset)) %>
+			<br />
+			<%= link_to 'LARGER PHOTO', auction_asset_path(@auction, asset), :class=>"zoom-link" %>
+		<% end %>
+	<% else -%>
+		<%= image_tag('gray.jpg', :alt=>"no product photo", :size => '200x200') %>
+	<% end -%>
+</div>
+

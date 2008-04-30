@@ -1,0 +1,14 @@
+<% if roar.table.pager.number_of_pages > 1 %>
+<div>
+    <span class="page_links">
+    <% if roar.table.page.prev? -%>
+    <%= link_to 'Earlier', params.merge({:page=>roar.table.page.prev.number}) -%>
+    <% end -%>
+    
+    <% if roar.table.page.next -%>
+    <%= link_to 'Later', params.merge({:page=>roar.table.page.next.number}) -%>
+    <% end -%>
+    </span>
+</div>
+<div style="clear: both;"></div>
+<% end %>

@@ -1,0 +1,23 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), admin_mugshots_path %>&nbsp;All User Mugshots</h1>
+
+<table>
+  <tr>
+	<th>&nbsp;</th>
+	<th>&nbsp;</th>
+    <th>W</th>
+    <th>H</th>
+    <th>Size</th>
+  </tr>
+  
+<% for asset in @mugshots %>
+  <tr>
+	<td><%= link_to image_tag(asset.public_filename(:size120), :alt=>"\"User ##{asset.attachable_id}\"", :title=>"\"User ##{asset.attachable_id}\""), user_mugshot_path(asset.attachable_id, asset) -%></td>
+	<td><%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Image'), user_mugshot_path(asset.attachable_id, asset) %></td>
+    <td><%=h asset.width %> px</td>
+    <td><%=h asset.height %> px</td>
+    <td><%=h asset.size %> bytes</td>
+  </tr>
+<% end %>
+</table>
+
+<%= will_paginate @mugshots %>

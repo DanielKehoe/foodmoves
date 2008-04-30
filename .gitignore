@@ -1,0 +1,9 @@
+/db/*.sqlite3
+config/locomotive.yml
+config/database.yml
+log/*.log
+log/locomotive.pid
+tmp/**/*
+.DS_Store
+doc/api
+doc/app

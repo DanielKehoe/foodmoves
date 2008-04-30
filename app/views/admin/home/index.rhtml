@@ -1,0 +1,435 @@
+<% content_for(:secondary) do -%>
+	<div class="show-secondary">
+				
+		<h2>Scorecard</h2>
+
+		<table class="sidetable">
+		    <caption class="sidetable">Completed Auctions</caption>
+		    <thead >
+		      <tr class="sidetable">
+		        <th class="sidetable">(to&nbsp;date)</th>
+				<th class="sidetable">(last&nbsp;24&nbsp;hrs)</th>
+				<th class="sidetable">(last&nbsp;72&nbsp;hrs)</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr class="sidetable">  
+		        <td class="sidetable"><%= @auctions_completed -%></td>
+				<td class="sidetable"><%= @auctions_completed_last_72hrs -%></td>
+				<td class="sidetable"><%= @auctions_completed_last_24hrs -%></td>
+		      </tr>
+		    </tbody>
+		  </table>
+		
+		<table class="sidetable">
+		    <caption class="sidetable">Active Auctions</caption>
+		    <thead >
+		      <tr class="sidetable">
+		        <th class="sidetable">Auctions</th>
+		        <th class="sidetable">Bids</th>
+				<th class="sidetable">Expiring&nbsp;w/in&nbsp;24&nbsp;hrs</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr class="sidetable">  
+		        <td class="sidetable"><%= @auctions_count -%></td>
+		        <td class="sidetable"><%= @bids_count -%></td>
+				<td class="sidetable"><%= @expiring_count -%></td>
+		      </tr>
+		    </tbody>
+		  </table>
+
+		<table class="sidetable">
+		    <caption class="sidetable">New Users</caption>
+		    <thead >
+		      <tr class="sidetable">
+		        <th class="sidetable">All</th>
+				<th class="sidetable">Nixies</th>
+		        <th class="sidetable">Guests</th>
+				<th class="sidetable">Members</th>
+		      </tr>
+		      <tr class="sidetable">
+				<th class="sidetable">(to&nbsp;date)</th>
+				<th class="sidetable">(no&nbsp;visit)</th>
+		        <th class="sidetable">(visited)</th>
+				<th class="sidetable">(traders)</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr class="sidetable">  
+	        <td class="sidetable"><%= link_to @users_count, '/users' %></td>
+			<td class="sidetable"><%= link_to @nixies_count, '/users?type=nixies' %></td>
+	        <td class="sidetable"><%= link_to @guests_count, '/users?type=guests' %></td>
+			<td class="sidetable"><%= link_to @members_count, '/users?type=members' %></td>
+		      </tr>
+		      <tr class="sidetable">
+				<th class="sidetable">&nbsp;(last&nbsp;7&nbsp;days)</th>
+				<th class="sidetable">&nbsp;</th>
+		        <th class="sidetable">&nbsp;</th>
+				<th class="sidetable">&nbsp;</th>
+		      </tr>
+		      <tr class="sidetable">  
+				<td class="sidetable"><%= @users_count_last_7_days -%></td>
+				<td class="sidetable"><%= @nixies_count_last_7_days -%></td>
+		        <td class="sidetable"><%= @guests_count_last_7_days -%></td>
+				<td class="sidetable"><%= @members_count_last_7_days -%></td>
+		        
+		      </tr>
+		      <tr class="sidetable">
+				<th class="sidetable">&nbsp;(last&nbsp;24&nbsp;hrs)</th>
+				<th class="sidetable">&nbsp;</th>
+		        <th class="sidetable">&nbsp;</th>
+				<th class="sidetable">&nbsp;</th>
+		      </tr>
+		      <tr class="sidetable"> 
+			    <td class="sidetable"><%= @users_count_last_day -%></td>
+				<td class="sidetable"><%= @nixies_count_last_day -%></td>
+		        <td class="sidetable"><%= @guests_count_last_day -%></td>
+				<td class="sidetable"><%= @members_count_last_day -%></td>
+		      </tr>
+		    </tbody>
+		  </table>
+
+		<table class="sidetable">
+		    <caption class="sidetable">New Users This Week</caption>
+		    <thead >
+		      <tr class="sidetable">
+				<th class="sidetable">&nbsp;</th>
+		        <th class="sidetable">All</th>
+				<th class="sidetable">Nixies</th>
+		        <th class="sidetable">Guests</th>
+				<th class="sidetable">Members</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+			  <tr class="sidetable">
+				<td class="sidetable"><%= (8.days.ago.beginning_of_day - 7.hours).strftime("%m/%d") -%></td>
+		        <td class="sidetable"><%= @all_count_8days_ago -%></td>
+				<td class="sidetable"><%= @nixies_count_8days_ago -%></td>
+		        <td class="sidetable"><%= @guests_count_8days_ago -%></td>
+				<td class="sidetable"><%= @members_count_8days_ago -%></td>
+		      </tr>
+			  <tr class="sidetable">
+				<td class="sidetable"><%= (7.days.ago.beginning_of_day - 7.hours).strftime("%a") -%></td>
+		        <td class="sidetable"><%= @all_count_7days_ago -%></td>
+				<td class="sidetable"><%= @nixies_count_7days_ago -%></td>
+		        <td class="sidetable"><%= @guests_count_7days_ago -%></td>
+				<td class="sidetable"><%= @members_count_7days_ago -%></td>
+		      </tr>
+			  <tr class="sidetable">
+				<td class="sidetable"><%= (6.days.ago.beginning_of_day - 7.hours).strftime("%a") -%></td>
+		        <td class="sidetable"><%= @all_count_6days_ago -%></td>
+				<td class="sidetable"><%= @nixies_count_6days_ago -%></td>
+		        <td class="sidetable"><%= @guests_count_6days_ago -%></td>
+				<td class="sidetable"><%= @members_count_6days_ago -%></td>
+		      </tr>
+			  <tr class="sidetable">
+				<td class="sidetable"><%= (5.days.ago.beginning_of_day - 7.hours).strftime("%a") -%></td>
+		        <td class="sidetable"><%= @all_count_5days_ago -%></td>
+				<td class="sidetable"><%= @nixies_count_5days_ago -%></td>
+		        <td class="sidetable"><%= @guests_count_5days_ago -%></td>
+				<td class="sidetable"><%= @members_count_5days_ago -%></td>
+		      </tr>
+			  <tr class="sidetable">
+				<td class="sidetable"><%= (4.days.ago.beginning_of_day - 7.hours).strftime("%a") -%></td>
+		        <td class="sidetable"><%= @all_count_4days_ago -%></td>
+				<td class="sidetable"><%= @nixies_count_4days_ago -%></td>
+		        <td class="sidetable"><%= @guests_count_4days_ago -%></td>
+				<td class="sidetable"><%= @members_count_4days_ago -%></td>
+		      </tr>
+		      <tr class="sidetable">
+				<td class="sidetable"><%= (3.days.ago.beginning_of_day - 7.hours).strftime("%a") -%></td>
+		        <td class="sidetable"><%= @all_count_3days_ago -%></td>
+				<td class="sidetable"><%= @nixies_count_3days_ago -%></td>
+		        <td class="sidetable"><%= @guests_count_3days_ago -%></td>
+				<td class="sidetable"><%= @members_count_3days_ago -%></td>
+		      </tr>
+		      <tr class="sidetable"> 
+				<td class="sidetable"><%= (2.days.ago.beginning_of_day - 7.hours).strftime("%a") -%></td>
+		        <td class="sidetable"><%= @all_count_2days_ago -%></td>
+				<td class="sidetable"><%= @nixies_count_2days_ago -%></td>
+		        <td class="sidetable"><%= @guests_count_2days_ago -%></td>
+				<td class="sidetable"><%= @members_count_2days_ago -%></td>
+		      </tr>
+		      <tr class="sidetable"> 
+				<td class="sidetable"><%= (1.day.ago.beginning_of_day - 7.hours).strftime("%a") -%></td>
+		        <td class="sidetable"><%= @all_count_1days_ago -%></td>
+				<td class="sidetable"><%= @nixies_count_1days_ago -%></td>
+		        <td class="sidetable"><%= @guests_count_1days_ago -%></td>
+				<td class="sidetable"><%= @members_count_1days_ago -%></td>
+		      </tr>
+		      <tr class="sidetable"> 
+				<td class="sidetable">Today</td>
+		        <td class="sidetable"><%= @all_count_0days_ago -%></td>
+				<td class="sidetable"><%= @nixies_count_0days_ago -%></td>
+		        <td class="sidetable"><%= @guests_count_0days_ago -%></td>
+				<td class="sidetable"><%= @members_count_0days_ago -%></td>
+		      </tr>
+		    </tbody>
+		  </table>
+				
+		<table class="sidetable">
+		    <caption class="sidetable">Seller/Buyer Activity</caption>
+		    <thead >
+		      <tr class="sidetable">
+		        <th class="sidetable">Members</th>
+		        <th class="sidetable">Sellers</th>
+				<th class="sidetable">Buyers</th>
+		      </tr>
+		      <tr class="sidetable">
+				<th class="sidetable" colspan="2">(visited&nbsp;to&nbsp;date)</th>
+				<th class="sidetable">&nbsp;</th>
+		        <th class="sidetable">&nbsp;</th>
+				<th class="sidetable">&nbsp;</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr class="sidetable">  
+			<td class="sidetable"><%= link_to @members_count, '/users?type=members' %></td>
+		    <td class="sidetable"><%= link_to @sellers_count, '/users?type=sellers' %></td>
+			<td class="sidetable"><%= link_to @buyers_count, '/users?type=buyers' %></td>
+		      </tr>
+		      <tr class="sidetable">
+		<th class="sidetable" colspan="2">&nbsp;(visited&nbsp;last&nbsp;72&nbsp;hrs)</th>
+				<th class="sidetable">&nbsp;</th>
+		        <th class="sidetable">&nbsp;</th>
+		      </tr>
+		      <tr class="sidetable">  
+		        <td class="sidetable"><%= @members_count_logins_last_72_hrs -%></td>
+		        <td class="sidetable"><%= @sellers_count_logins_last_72_hrs -%></td>
+				<td class="sidetable"><%= @buyers_count_logins_last_72_hrs -%></td>
+		      </tr>
+		      <tr class="sidetable">
+		<th class="sidetable" colspan="2">&nbsp;(visited&nbsp;last&nbsp;24&nbsp;hrs)</th>
+				<th class="sidetable">&nbsp;</th>
+		        <th class="sidetable">&nbsp;</th>
+		      </tr>
+		      <tr class="sidetable">  
+		        <td class="sidetable"><%= @members_count_logins_last_day -%></td>
+		        <td class="sidetable"><%= @sellers_count_logins_last_day -%></td>
+				<td class="sidetable"><%= @buyers_count_logins_last_day -%></td>
+		      </tr>
+			      <tr class="sidetable"><th class="sidetable" colspan="3">&nbsp;(active&nbsp;last&nbsp;24&nbsp;hrs,&nbsp;inc.&nbsp;admin)</th>
+					<th class="sidetable">&nbsp;</th>
+			        <th class="sidetable">&nbsp;</th>
+			      </tr>
+			      <tr class="sidetable">  
+			        <td class="sidetable"><%= @members_count_logins_last_day -%></td>
+			        <td class="sidetable"><%= @sellers_active_last_day -%></td>
+					<td class="sidetable"><%= @buyers_active_last_day -%></td>
+			      </tr>
+		    </tbody>
+		  </table>
+									
+	</div>	
+<% end -%>
+
+<div class="yui-g"> 
+	<div class="yui-gb first"> 
+		<div class="yui-u first">
+			<h3>Products</h3>
+			<ul class="navigation">		
+				<li>
+					<%= link_to 'Foods', foods_path %>
+				</li>
+				<li>
+					<%= link_to 'Color', colors_path %>
+				</li>
+				<li>
+					<%= link_to 'Weight', weights_path %>
+				</li>
+				<li>
+					<%= link_to 'Size', sizes_path %>
+				</li>
+				<li>
+					<%= link_to 'Pack', packs_path %>
+				</li>
+				<li>
+					<%= link_to 'Grown', growns_path %>
+				</li>
+				<li>
+					<%= link_to 'Per Case Count', per_cases_path %>
+				</li>
+				<li>
+					<%= link_to 'Quality', qualities_path %>
+				</li>
+				<li>
+					<%= link_to 'Condition', conditions_path %>
+				</li>
+				<li>
+					<%= link_to 'Certifications', certifications_path %>
+				</li>
+				<li>
+					<%= link_to 'Treatments', treatments_path %>
+				</li>
+			</ul>
+			<h3>Options</h3>
+			<ul class="navigation">
+				<li>
+					<%= link_to 'Flag for Users', flag_for_users_path %>
+				</li>	
+				<li>
+					<%= link_to 'Feedback', feedbacks_path %>
+				</li>
+				<li>
+					<%= link_to 'Creditworth', creditworths_path %>
+				</li>
+				<li>
+					<%= link_to 'Risk Factor', integrities_path %>
+				</li>
+				<li>
+					<%= link_to 'Timeliness', timelinesses_path %>
+				</li>
+				<li>
+					<%= link_to 'Liability Limits', liability_limits_path %>
+				</li>
+				<li>
+					<%= link_to 'Industry Roles', industry_roles_path %>
+				</li>
+				<li>
+					<%= link_to 'How They Heard About Us', how_heards_path %>
+				</li>	
+				<li>
+					<%= link_to 'Phone Locations', tag_for_phones_path %>
+				</li>
+				<li>
+					<%= link_to 'Address Locations', tag_for_addresses_path %>
+				</li>
+				<li>
+					<%= link_to 'Site Roles', roles_path %>
+				</li>
+				<li>
+					<%= link_to 'Call Results', call_results_path %>
+				</li>
+				<li>
+					<%= link_to 'Test Email', :controller => 'admin/send', :action => 'index' %>
+				</li>
+			</ul>
+			<h3>Super Admin</h3>
+			<ul class="navigation">
+				<li>
+					<%= link_to 'SVN Repository', 'https://foodmoves.unfuddle.com/', {:target => '_blank', :title => 'https://foodmoves.unfuddle.com/'}  %>
+				</li>				
+			</ul>
+		</div> 
+		<div class="yui-u">
+			<h3>My Account Page</h3>
+			<ul class="navigation">
+				<li>
+					<%= link_to @current_user.email, member_path(@current_user) %>
+				</li>					
+			</ul>
+			<h3>Auctions &amp; Bidding</h3>
+			<ul class="navigation">	
+				<li>
+					<%= link_to 'Auctions', auctions_path %>
+				</li>
+				<li>
+					<%= link_to 'Bids', bids_path %>
+				</li>
+				<li>
+					<%= link_to 'Auction Photos', admin_auctionphotos_path %>
+				</li>
+				<li>
+					<%= link_to 'Consignments', consignments_path %>
+				</li>
+				<li>
+					<%= link_to 'Invoices', invoices_path %>
+				</li>
+			</ul>
+			<h3>Translation Panel</h3>
+			<ul class="navigation">	
+				<li>
+					<%= link_to 'To Spanish (Mexico)', :controller => 'admin/translate', :action => 'index', :locale => "es-MX" %>
+				</li>
+			</ul>
+			<h3>Members</h3>
+			<ul class="navigation">
+				<li>
+					<% if @affiliations_pending_count > 0 %>
+						<span class="red">
+						<%= link_to 'Authorize Trading', affiliations_path %>
+						<br />
+						<%= @affiliations_pending_count %> pending!</span>
+					<% else -%>
+						<%= link_to 'Authorize Trading', affiliations_path %>
+					<% end -%>
+				</li>
+				<li>
+					<%= link_to 'Watched Locations', watched_locations_path %>
+				</li>
+			</ul>
+			<h3>Traffic</h3>
+			<ul class="navigation">
+				<li>
+					<%= link_to 'Google Analytics', 'https://www.google.com/analytics/reporting/dashboard?id=5201975&scid=2745770', {:target => '_blank', :title => 'Google Analytics'} %>
+				</li>
+			</ul>
+			<h3>Help</h3>
+			<ul class="navigation">
+				<li>
+					<%= link_to 'Google Docs', 'http://docs.google.com/', {:target => '_blank', :title => 'http://docs.google.com/'} %>
+				</li>
+			</ul>
+		</div>
+		<div class="yui-u"> 
+			<h3>Users</h3>
+			<ul class="navigation">				
+				<li>
+					<%= link_to 'All Users', users_path %>
+				</li>
+				<li>
+					<%= link_to 'Invite New Buyer', new_user_path %>
+				</li>
+				<li>
+					<%= link_to 'Reports', reports_path %>
+				</li>
+				<li>
+					<%= link_to 'Staff', administrators_path %>
+				</li>
+				<li>
+					<%= link_to 'Invitation Codes', invitation_codes_path %>
+				</li>
+				<li>
+					<%= link_to 'Mugshots', admin_mugshots_path %>
+				</li>
+			</ul>
+			<h3>Organizations</h3>
+			<ul class="navigation">
+				<li>
+					<%= link_to 'All Organizations', organizations_path %>
+				</li>
+				<li>
+					<%= link_to 'Accounts', accounts_path %>
+				</li>
+				<li>
+					<%= link_to 'Prospects', prospects_path %>
+				</li>
+				<li>
+					<%= link_to 'Prospect Contacts', contacts_path %>
+				</li>
+			</ul>
+			<h3>Phones &amp; Addresses</h3>
+			<ul class="navigation">
+				<li>
+					<%= link_to 'Phone Numbers', phones_path %>
+				</li>
+				<li>
+					<%= link_to 'Addresses', addresses_path %>
+				</li>		
+			</ul>
+			<h3>Recent Logins</h3>
+			<table class="admin">
+				<% for user in @users %>
+				  <tr>
+					<td>
+						<% if user.last_login_at %>
+							<% if user.flag_for_user.nil? -%><%= image_tag "flag_blue.png", :alt=>'Flag', :title=>"no flag set" %><% else -%><%= image_tag "flag_#{user.flag_for_user.color}.png", :alt=>'Flag', :title=>"#{user.flag_for_user.name} user" %><% end -%>&nbsp;<%=h user.last_name -%>&nbsp;<%= local_time user.last_login_at -%>
+						<% end -%>
+					</td>
+				  </tr>
+				<% end %>
+			</table>
+		</div>  
+	</div>
+</div>

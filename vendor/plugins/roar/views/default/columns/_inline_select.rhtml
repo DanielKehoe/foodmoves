@@ -1,0 +1,10 @@
+<% formid = rdom_id(record, column.method.to_s) %>
+<% linkid = rdom_id(record, "#{column.method.to_s}-link") %>
+<span id="<%= linkid %>"><%= link_to_function(h(column.data(record, self)), "$('#{formid}').show(); $('#{linkid}').hide();") %></span>
+<div style="display: none;" id="<%= formid %>">
+<% remote_form_for(model_symbol, record, :url=>model_path(record), :html=>{:method=>:put}) do |remote_form| %>
+  <%= remote_form.select(column.method, column.options[:choices]) %><br />
+  <%= submit_tag("Submit") %> or 
+  <%= link_to_function("Cancel", "$('#{formid}').hide(); $('#{linkid}').show();") %>
+<% end %>
+</div>

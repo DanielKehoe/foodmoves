@@ -1,0 +1,49 @@
+<!--[form:address]-->
+
+<% unless @address_tags.size == 0 -%>
+	<label>Location</label><span><%= form.collection_select :tag_for_address,
+						@address_tags, 
+						:name, 
+						:name,
+						{},
+						{:onchange => "changed(this, 'Other', 'You chose \"Other\". Please enter a name for this location:')"} %></span><br />
+	</span><br />
+<% end -%>
+		
+	<label>Region</label>
+	<span><%= form.collection_select :region_id, 
+		Geographies::Region.find(:all, :order => 'sort_order'), 
+		:id, 
+		:name %></span><br />
+		
+	<label>Country</label>
+	<span><%= related_collection_select :address, 
+		:country_id, 
+		[:address, :region_id], 
+		Geographies::Country.find(:all, :order => 'sort_order'), 
+		:id, 
+		:name, 
+		:parent_id,
+		{:selected=>@address.country_id} %></span><br />
+
+	<label><%= @address.label_for_admin_area -%></label>
+	<span><%= related_collection_select :address, 
+		:admin_area_id, 
+		[:address, :country_id], 
+		Geographies::AdminArea.find(:all, :order => 'sort_order'),  
+		:id, 
+		:name, 
+		:parent_id,
+		{:selected=>@address.admin_area_id} %></span><br />																		
+
+    <label><%= @address.label_for_locality -%></label>
+    <span><%= form.text_field :locality -%></span><br />
+
+    <label><%= @address.label_for_thoroughfare -%></label>
+    <span><%= form.text_field :thoroughfare -%></span><br />
+
+    <label><%= @address.label_for_postal_code -%></label>
+    <span><%= form.text_field :postal_code -%></span><br />
+
+<!--[eoform:address]-->
+

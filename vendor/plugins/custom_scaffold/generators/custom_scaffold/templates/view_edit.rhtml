@@ -1,0 +1,15 @@
+<h1><%%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), <%= plural_name -%>_path %>&nbsp;<%= plural_name.capitalize -%></h1>
+
+<h2><%%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), <%= singular_name -%>_path(@<%= singular_name -%>) -%>&nbsp;<%%=h @<%= singular_name -%>.name -%></h2>
+
+<%%= error_messages_for :<%= singular_name -%> -%>
+
+<%% form_for :<%= singular_name -%>, :url => <%= singular_name -%>_path(@<%= singular_name -%>), :html => { :method => :put, :class => 'baseform' } do |form| -%>
+
+	<%%= render :partial => 'form', :object => form -%>
+	
+	<p>
+		<%%= submit_tag "Update" -%>
+	</p>
+	
+<%% end -%>

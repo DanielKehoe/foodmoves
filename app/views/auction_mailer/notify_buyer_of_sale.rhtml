@@ -1,0 +1,32 @@
+
+You've won an auction at Foodmoves.com.
+<% if @auction.test_only? -%>
+
+Well, not really. This auction was only with TEST DATA.
+
+Too bad. We want you to be buying real products at Foodmoves.com!
+
+<% end -%>
+YOUR WINNING BID
+============================================================
+Bid Placed: <%= @bid.updated_at %>
+Your Offer: <%= number_to_currency @auction.current_bid %>
+============================================================
+
+SELLER CONTACT INFORMATION
+============================================================
+Email: <%=h @auction.user.email %>
+Seller: <%=h @auction.user.name %>
+<% unless @auction.user.organizations.first.nil? %>Company: <%=h @auction.user.organizations.first.name -%><% end -%>
+<% unless @auction.user.phones.empty? %><% for phone in @auction.user.phones %>
+Phone: <%=h phone.number %> (<%=h phone.tag_for_phone %>)<% end -%><% end %>
+============================================================
+
+AUCTION DETAILS
+============================================================
+<%= @auction.description %>
+============================================================
+
+Thanks for using our service!
+
+-- Foodmoves.com

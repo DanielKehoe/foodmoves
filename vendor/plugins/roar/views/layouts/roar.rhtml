@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>Roar</title>
+  <%= stylesheet_link_tag 'roar/reset-fonts-grids', 'roar/screen', 'roar/roar' %>
+  <%= javascript_include_tag :defaults, 'roar/lowpro', 'roar/modalbox', 'roar/admin' %>
+  <script type="text/javascript">
+    <%= yield :javascript %>
+
+		var MainMenu = {
+		  toggleMenu: function(element) {
+				if ($(element)) {
+			    if (Element.visible($(element))) {
+			      MainMenu.hideMenu(element);
+			    } else {
+			      MainMenu.showMenu(element);
+			    };
+				};
+		  },
+		  showMenu: function(element) {
+				if ($(element)) {
+		    	$(element).show(); /*visualEffect('blindDown', {duration: 0.3}); */
+				}
+		  },
+		  hideMenu: function(element) {
+				if ($(element)) {
+		    	$(element).hide();
+				};
+		  }
+		};
+
+		/* Uncomment for autohide behavior
+		Event.addBehavior({
+		  '#hd:mouseover': function() { MainMenu.showMenu('mainnav'); },
+		  '#hd:mouseout': function() { MainMenu.hideMenu('mainnav'); },
+		});
+
+		Event.onReady(function() {
+		  MainMenu.hideMenu('mainnav');
+		});		
+		*/
+  </script>
+</head>
+
+<body>
+<div id="doc3" class="yui-t5">
+	<div id="hd">
+	  <div class="top clearfix">
+	    <%= render :roar_partial => "header" %>
+	  </div>
+    <div class="yui-gd infobar"> 
+      <div class="yui-u first">
+				<%= render :roar_partial => "page_title" %>
+      </div> 
+      <div class="yui-u">
+        <div id="flashes">
+          <div id="flash-notice" class="notice" style="display: <%= flash[:notice] ? 'block' : 'none' %>;"><%= flash[:notice] %></div>
+          <div id="flash-errors" class="errors" style="display: <%= flash[:error] ? 'block' : 'none' %>;"><%= flash[:notice] %></div>
+        </div>
+      </div> 
+    </div>
+	</div>
+	<div id="bd">
+    <div id="yui-main"> 
+       <div class="yui-b">
+ 	       <div class="main">					
+           <%= yield %>  
+          </div>
+        </div> 
+    </div> 
+    <div class="yui-b">
+		  <div class="sidebar">
+		    <%= yield :secondary %>
+		  </div>
+    </div>    
+	</div>
+	<div id="ft">
+		<p style="float: left; padding: 3px 10px;"><img id='loading_liferay_static' src="/images/roar/loading_liferay.gif" /></p>
+	  <p><a href="http://nanoware.com/roar/">Roar</a> offers automatic rails</p>
+	</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Foodmoves: <%=
+		if @title then
+			h @title
+		else
+			h controller.controller_name.titlecase
+		end
+	-%></title>
+  <%= stylesheet_link_tag 'form', 'scaffold' %>
+  <%= javascript_include_tag :defaults %>
+</head>
+<body>
+	<div id="doc3" class="yui-t5">
+		<div id="hd">
+		    <div class="yui-gd infobar"> 
+		      <div class="yui-u first">
+		        <div id="flashes">
+		          <div id="flash-notice" class="notice" style="display: <%= flash[:notice] ? 'block' : 'none' %>;"><%= flash[:notice] %></div>
+		          <div id="flash-errors" class="errors" style="display: <%= flash[:error] ? 'block' : 'none' %>;"><%= flash[:error] %></div>
+		        </div>
+		      </div> 
+		    </div>
+		</div><!-- id="hd" -->
+		<div id="bd">
+		    <div id="yui-main"> 
+		       <div class="yui-b">
+		 	       <div class="main">
+<h1>Start Here</h1>
+<div class="show">
+	<p>
+	It appears that you are the first visitor. No administrator exists yet. Use this form to create the first administrator.
+	</p>
+
+	<%= error_messages_for :administrator %>
+
+	<% form_for(:administrator, :url => administrators_path) do |form| %>
+
+		<label>First name</label>
+		<span><%= form.text_field :first_name %></span><br />
+
+		<label>Last name</label>
+		<span><%= form.text_field :last_name %></span><br />
+
+		<label for="email">Email</label>
+		<span><%= form.text_field :email %></span><br />
+
+		<label for="password">Password</label>
+		<span><%= form.password_field :password %></span><br />
+
+		<label for="password_confirmation">Confirm Password</label>
+		<span><%= form.password_field :password_confirmation %></span><br />
+
+		<label>Region</label>
+		<span><%= form.collection_select :region_id, 
+			Geographies::Region.find(:all, :order => 'sort_order'), 
+			:id, 
+			:name %></span><br />
+	
+		<label>Country</label>
+		<span><%= related_collection_select :administrator, 
+			:country_id, 
+			[:administrator, :region_id], 
+			Geographies::Country.find(:all, :order => 'sort_order'), 
+			:id, 
+			:name, 
+			:parent_id %></span><br />
+
+		<label>Time Zone</label>
+		<span><%= related_collection_select :administrator, 
+			:time_zone, 
+			[:administrator, :country_id], 
+			Geographies::CountryTimeZone.find(:all, :order => 'sort_order'),  
+			:name, 
+			:name, 
+			:parent_id %></span><br />																					
+			
+	  <label>&nbsp;</label><span>
+	    <%= submit_tag "Create New Administrator" %>
+	  </span><br />
+	<% end %>
+</div>
+		          </div>
+		        </div> 
+		    </div> 
+		    <div class="yui-b">
+		    </div>    
+		</div><!-- id="bd" -->
+		<div id="ft">
+		</div><!-- id="ft" -->
+	</div><!-- doc3 -->
+</body>
+</html>

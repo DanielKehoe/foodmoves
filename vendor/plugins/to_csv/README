@@ -1,0 +1,40 @@
+= to_csv
+
+This plugin provides support for responding to the CSV format, as well as exporting
+a collection of ActiveRecord objects to CSV.
+
+
+= Installation
+
+./script/plugin install -x http://svn.integralserver.com/plugins/to_csv
+
+
+= Usage
+
+You can simply take a collection of ActiveRecord objects and apply the to_csv method to them:
+
+@users = User.find(:all)
+@users.to_csv
+
+For a more RESTful way of exporting a CSV, do something like this in your controller:
+
+respond_to do |wants|
+  wants.csv do
+    render :text => @users.to_csv
+    response.headers['Content-Type'] = 'text/csv; charset=iso-8859-1; header=present'
+    response.headers['Content-Disposition'] = "attachment; filename=users_#{Time.now.strftime("%m-%d-%Y")}.csv"
+  end
+end
+
+
+== Options
+
+:header - Set to false to not output a header row w/ column names
+:order - Array of columns in explicit order
+:except - Array of columns to omit
+:only - Omit all columns except those specified in this array. Also uses this as the explicit order.
+:delimeter - Defaults to ','
+
+---
+Copyright (c) 2006 Chris Abad
+released under the MIT license

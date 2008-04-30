@@ -1,0 +1,16 @@
+<ul class="details">
+	<li class="line">
+		<div class="text_font">
+			Enter the name of the company you work for and we'll show you a list of the companies we know about.
+		</div>
+		<div class="text_font_1">
+			What is your company name?
+		</div>
+		<div id="li_font">Company Name</div>
+		<div class="left">
+			<% fields_for :organization do |form| %>
+				<%= form.text_field :name, :size => 60 -%>
+			<% end %>
+		</div>
+	</li>
+</ul>

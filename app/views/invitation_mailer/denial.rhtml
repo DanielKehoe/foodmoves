@@ -1,0 +1,19 @@
+We're sorry to report that the Foodmoves support team has been unable to verify that you are affiliated with <%= @company.name %> and are authorized to buy and sell produce on behalf of the company.
+
+<%= @affiliation.called_by %>, from our support team, made a call to <%= @company.phones.first.number %> <%= distance_of_time_in_words(Time.now, @affiliation.reviewed_at) -%> ago and talked to <%= @affiliation.talked_to %>.
+
+Here are our notes from the call:
+
+<%= @affiliation.notes %>
+
+We'd like to get you set up for trading and we're sorry we were unable to complete the process today.
+
+This email was generated automatically so you'd have an immediate update on your status. <%= @affiliation.called_by %> will follow up to see if we can resolve the outstanding issues and get you trading soon. 
+
+You can log in to Foodmoves at the following web address:
+
+http://www.foodmoves.com/session/new
+
+Use the "chat" link at the top of any page to ask questions and give us your feedback.
+
+Again, we're very sorry that we were unable to authorize trading for you today.

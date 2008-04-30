@@ -1,0 +1,1 @@
+require 'phonemic_password'

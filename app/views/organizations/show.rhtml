@@ -1,0 +1,197 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), organizations_path %>&nbsp;Organizations</h1>
+
+<h2><%= link_to image_tag('group_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_organization_path(@organization) -%>&nbsp;<%=h @organization.name %></h2>
+
+<% content_for(:secondary) do %>
+	<div class="show-secondary">
+		
+		<label>Industry role</label>
+			<span>
+				<%= @organization.industry_role %>
+			</span>
+		<br />
+
+		<label>Source</label>
+			<span>
+				<%= @organization.source %>
+			</span>
+		<br />
+		
+		<label>Assigned to</label>
+			<span>
+				<% if @organization.acct_exec_id.class.to_s == 'Fixnum' -%>
+					<% unless @organization.administrator.nil? -%>
+						<%= @organization.administrator.name %>
+					<% else -%>
+						unassigned
+					<% end -%>
+				<% else -%>
+					unassigned
+				<% end -%>
+			</span>
+		<br />
+
+		<label>Created by</label>
+			<span>
+				<% if @organization.created_by.class.to_s == 'Fixnum' -%>
+					<% unless @organization.user.nil? -%>
+						<%= @organization.user.name %>
+					<% else -%>
+						no record
+					<% end -%>
+				<% else -%>
+					<% unless @organization.created_by_name.nil? -%>
+						<%= @organization.created_by_name %>
+					<% else -%>
+						no record
+					<% end -%>
+				<% end -%>
+			</span>
+		<br />
+
+		<label>Created at</label>
+			<span>
+				<%= local_time @organization.created_at -%>
+			</span>
+		<br />
+
+		<label>Updated at</label>
+			<span>
+				<%= local_time @organization.updated_at -%>
+			</span>
+		<br />
+
+		<label>Updated by</label>
+			<span>
+				<%= @organization.updated_by -%>
+			</span>
+		<br />
+				
+		<label>Outcome</label>
+			<span>
+				<%= @organization.call_result %>
+			</span>
+		<br />
+	
+		<label>&nbsp;</label>
+			<span>
+				<%= link_to('Add Logo', new_organization_logo_path(@organization), :class=>"rnew new-link") %>
+			</span>
+		<br />
+	
+		<% unless @organization.assets.empty? %>	
+			<label><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), organization_logos_path(@organization) %>&nbsp;Logos</label>
+					<% for asset in @organization.assets %>
+						<%= link_to image_tag('table_delete.png', :alt=>'Delete', :title=>'Delete Item'), organization_logo_path(@organization, asset), :confirm => 'Are you sure?', :method => :delete %>&nbsp;<i>Delete logo?</i>
+						<br />
+						<img src="<%= asset.public_filename(:size120) %>" title="<%= asset.public_filename(:size120) %>" alt="image should appear here" />
+						<br />
+					<% end %>
+			<br />
+			<br />
+		<% end -%>
+				
+	</div>
+	
+<% end %>
+
+<div class="show">
+	
+	<% unless @organization.phones.empty? %>	
+		<label>Phone Numbers</label>
+		<ul>
+			<li>
+				<% for phone in @organization.phones %>
+				  <%= link_to image_tag('phone.png', :alt=>'Show', :title=>'Show Item'), phone_path(phone) %><%=h phone.localized(@current_user) %>&nbsp;<% unless phone.skype.blank? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => 'call with Skype'), "skype:#{phone.skype}" -%><% end -%>&nbsp;(<%=h phone.tag_for_phone %>)<br />
+				<% end %>
+			</li>
+		</ul>
+	<% end -%>
+	
+	<br />
+	<label>&nbsp;</label>
+		<span>
+			<%= link_to('Add Phone Number', new_organization_phone_path(@organization), :class=>"rnew new-link") %>
+		</span>
+	<br />
+	
+	<% unless @organization.addresses.empty? %>	
+		<label>Addresses</label>
+		<ul>
+			<li>
+				<% for address in @organization.addresses %>
+				  <%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), address_path(address) %>&nbsp;<%=h address.tag_for_address %>:<br /><%= address.address_block %><br /><br />
+				<% end %>
+			</li>
+		</ul>
+	<% end -%>
+
+	<br />
+	<label>&nbsp;</label>
+		<span>
+			<%= link_to('Add Address', new_organization_address_path(@organization), :class=>"rnew new-link") %>
+		</span>
+	<br />
+
+	<% unless @organization.affiliations.empty? %>	
+		<label>Traders</label>
+		<ul>
+			<li>
+				<% for affiliation in @organization.affiliations %>
+				  <% restrict_to 'manager' do -%><%= link_to image_tag('ico_6.gif', :alt=>'Delete', :title=>"Remove #{affiliation.user.name} from authorization for trading for  #{@organization.name}"), affiliation_path(affiliation), :confirm => "Are you sure you want to remove #{affiliation.user.name} from authorization for trading for  #{@organization.name}?", :method => :delete %><% end -%>&nbsp;<%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'), user_path(affiliation.user) %>&nbsp;<%=h affiliation.user.name %>, <%=h affiliation.user.industry_role %>,
+				<% if affiliation.approved %>
+					<i>authorization <%= link_to 'approved', affiliation_path(affiliation) %> <%= local_time affiliation.reviewed_at %> by <%=h affiliation.called_by %>. 
+						<% if affiliation.approved_to_sell -%>
+							Authorized to sell. 
+						<% end -%>
+						<% if affiliation.approved_to_buy -%>
+							Authorized to buy. 
+						<% end -%>	
+						</i>
+				<% else -%>
+					<i>authorization <%= link_to 'pending', affiliation_path(affiliation) %> since <%= distance_of_time_in_words(Time.now, affiliation.created_at) %></i>
+				<% end -%>
+				<br />
+				<% end %>
+			</li>
+		</ul>
+	<% end -%>
+	
+	<br />
+
+	<label>PACA License</label>
+		<span>
+			<%= @organization.paca_license %>
+		</span>
+	<br />
+	
+	<label>Financial Profile</label>
+	<ul>
+		<li>
+			<table border="0" cellspacing="15" cellpadding="15">  
+			<tr><td>Credit Worth:</td><td><% unless @organization.creditworth.nil? %><%= @organization.creditworth.description %><% end -%></td></tr>   
+			<tr><td>Timeliness:</td><td><% unless @organization.timeliness.nil? %><%= @organization.timeliness.description %><% end -%></td></tr>  
+			<tr><td>Risk Factor:</td><td><% unless @organization.integrity.nil? %><%= @organization.integrity.description %><% end -%></td></tr>
+			</table>
+		</li>
+	</ul>
+	
+	<br />
+	<br />
+	
+	<label>Credit Card</label>
+	<ul>
+		<li><% if @organization.card_info.nil? %>
+				No credit card on file.
+			<% else -%>
+				<table border="0" cellspacing="15" cellpadding="15">  
+				<tr><td>Type:</td><td><%= @organization.card_info.tag %></td></tr>   
+				<tr><td>Number:</td><td><%= @organization.card_info.display_number %></td></tr>  
+				<tr><td>Expiration:</td><td><%= @organization.card_info.month %>/<%= @organization.card_info.year %></td></tr>
+				<tr><td>Name on Card:</td><td><%= @organization.card_info.first_name %>&nbsp;<%= @organization.card_info.last_name %></td></tr>
+				</table>
+			<% end %>
+		</li>
+	</ul>
+			
+</div>

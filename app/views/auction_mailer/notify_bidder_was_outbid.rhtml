@@ -1,0 +1,27 @@
+You might want to know...
+
+You've been outbid at an auction at Foodmoves.com.
+<% if @auction.test_only? -%>
+
+Well, not really. This auction was only with TEST DATA.
+
+<% end -%>
+You might want to return to enter a bid greater than <%= number_to_currency @auction.current_bid %>.
+
+AUCTION DETAILS
+============================================================
+<%=h @auction.description %>
+shipping from <%=h @auction.shipping_from %>
+============================================================
+
+CURRENT BIDDING
+============================================================
+Current Top Bid: <%= number_to_currency @auction.current_bid %>
+Top Bid Placed: <%= @auction.date_last_bid %>
+Your Bid: <%= number_to_currency @old_bid.amount %>
+Your Bid Placed: <%= @old_bid.updated_at %>
+============================================================
+
+Thanks for using our service!
+
+-- Foodmoves.com

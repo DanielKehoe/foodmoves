@@ -1,0 +1,64 @@
+<% if @asset.attachable_type == 'User' %>
+	<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), user_mugshots_path %>&nbsp;Images for <%=h @asset.attachable.name %></h1>
+<% end -%>
+<% if @current_user.id == @asset.created_by_id %>
+	<h2><%= link_to image_tag('table_delete.png', :alt=>'Delete', :title=>'Delete Image'), user_mugshot_path(@owner, @asset), :confirm => 'Are you sure?', :method => :delete %>&nbsp;Delete</h2>
+<% else -%>
+	<% restrict_to 'support' do -%>
+		<h2><%= link_to image_tag('table_delete.png', :alt=>'Delete', :title=>'Delete Image'), user_mugshot_path(@owner, @asset), :confirm => 'Are you sure?', :method => :delete %>&nbsp;Delete</h2>
+	<% end -%>
+<% end -%>
+<br />
+<br />
+<p>
+	<% if @asset.attachable_type == 'User' %>
+		<%= link_to image_tag('user.png', :alt=>'User', :title=>'User Details'), member_path(@owner) -%>&nbsp;<b>Mugshot for <%=h @asset.attachable.name %></b>
+	<% end -%>
+	<% if @asset.attachable_type == 'Auction' %>
+		<b><%= link_to image_tag('ico_2.gif', :alt=>'Auction', :title=>'Auction Details'), auction_path(@owner) -%>&nbsp;Auction <%=h @asset.attachable.id %>; <%=h @asset.attachable.description %>; <%=h @asset.attachable.address.city_state %></b>
+	<% end -%>
+</p>
+<br />
+<br />
+<img src="<%= @asset.public_filename %>" />
+<% restrict_to 'support' do -%>
+	<p>
+	  <b>Image Owner Type:</b>
+	  <%=h @asset.attachable_type %>
+	</p>
+
+	<p>
+	  <b>Filename:</b>
+	  <%=h @asset.filename %>
+	</p>
+
+	<p>
+	  <b>Width:</b>
+	  <%=h @asset.width %> px
+	</p>
+
+	<p>
+	  <b>Height:</b>
+	  <%=h @asset.height %> px
+	</p>
+
+	<p>
+	  <b>Content type:</b>
+	  <%=h @asset.content_type %>
+	</p>
+
+	<p>
+	  <b>Size:</b>
+	  <%=h @asset.size %> bytes
+	</p>
+
+	<p>
+	  <b>Updated at:</b>
+	  <%=h @asset.updated_at %>
+	</p>
+
+	<p>
+	  <b>Created at:</b>
+	  <%=h @asset.created_at %>
+	</p>
+<% end -%>

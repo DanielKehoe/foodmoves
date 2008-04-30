@@ -1,0 +1,32 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), assets_path %>&nbsp;Images <% unless @assets.size == 0 %>for <%=h @assets.first.attachable.name %><% end %></h1>
+
+<h2><%= link_to('Add Image', new_user_asset_path(@user), :class=>"rnew new-link") %></h2>
+
+<table>
+  <tr>
+	<th colspan='2'>&nbsp;</th>
+    <th>W</th>
+    <th>H</th>
+    <th>Size</th>
+	<th>Filename</th>
+  </tr>
+
+<% unless @assets.size == 0 %>  
+	<% for asset in @assets %>
+	  <tr>
+		<td><%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Image'), asset_path(asset) %></td>
+	    <td><%= link_to image_tag('table_delete.png', :alt=>'Delete', :title=>'Delete Image'), asset_path(asset), :confirm => 'Are you sure?', :method => :delete %></td>
+	    <td><%=h asset.width %> px</td>
+	    <td><%=h asset.height %> px</td>
+	    <td><%=h asset.size %> bytes</td>
+		<td><%=h asset.public_filename %></td>
+	  </tr>
+	<% end %>
+<% else %>
+	<tr>
+		<td>no images found</td>
+	</tr>
+<% end %>	
+</table>
+
+<br />

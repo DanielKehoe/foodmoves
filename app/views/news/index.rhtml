@@ -1,0 +1,123 @@
+<!-- News/Index -->
+<!-- using layout "yui_t7_doc2" -->
+<% Globalize::Locale.translator.cache_reset %>
+
+<div class="yui-g" id="page_title" >
+	<div class="container_header"><%= 'NEWS'.t.upcase %></div>
+</div><!-- class="yui-g" id="page_title" -->
+<div class="yui-g">
+	<div class="yui-u first">
+		<div class="container">
+		<img src="images/apple_header.jpg" alt="" />
+		<div class="apple_text"><%= 'What\'s new at foodmoves.com'.t %></div>
+		<ul class="container">
+			<li><div class="header_titles"><%= 'Foodmoves in the News!'.t %></div>
+				<div class="width">
+					<b><%= 'Newspaper reports what Foodmoves users are saying'.t %></b><br />
+					<%= 'We\'ve had some great feedback from our users and  
+					now it\'s making the news.'.t %>
+					<%= 'See'.t %> <%= link_to "Company Helps Save Thanksgiving", "http://www.azcentral.com/news/articles/1123biz-produce1124-ON.html" %> <%= 'in the Arizona Republic. There\'s other coverage, too, with'.t %> <%= link_to "Firm Launches Online Produce Auction", "http://www.azstarnet.com/allheadlines/208516" %> <%= 'in the Arizona Daily Star and'.t %> <%= link_to "Produce Industry Gets New Players ", "http://www.nogalesinternational.com/articles/2007/10/29/news/news4.txt" %> <%= 'in the Nogales International'.t %>.
+				</div>
+				<!-- graphic could go here -->
+			</li>
+			<li><div class="header_titles"><%= 'Credit Verified and Risk Reduced'.t %></div>
+				<div class="width">
+					<b><%= 'Sellers can set minimum financial requirements'.t %></b><br />
+					 <%= 'No one wants to sell to a buyer who can\'t pay. That\'s not likely with
+                     Foodmoves.'.t %> <%= 'All buyers (and sellers) have their financial profile
+                     verified by Dun &amp; Bradstreet or Red Book Credit Services before
+                     they are approved for trading.'.t %> <%= 'Sellers can now set minimum
+                     requirements for a bidder\'s Credit Worth, Timeliness, and Risk Factor
+                     when an auction is created.'.t %> <%= 'This was a user-requested feature; let us
+                     know if there\'s more we can do!'.t %>
+				</div>
+				<!-- graphic could go here -->
+			</li>
+		</ul>
+		</div><!-- class="container" -->
+		<div class="container">
+		<img src="images/apple_header.jpg" alt="" />
+		<div class="apple_text"><%= 'Tips and tricks'.t %></div>
+		<ul class="container">
+			<li><div class="header_titles"><%= 'Getting Help'.t %></div>
+				<div class="width">
+					<b><%= 'Use the &quot;chat&quot; link'.t %></b><br />
+					<%= 'The'.t %> <%= link_to 'chat', 'http://foodmoves.campfirenow.com/e08e3', {:popup => ['Chat', 'width=650,height=1000'], :title => 'CHAT FOR ONLINE HELP'} %> <%= 'link at the top of every page
+					gets you into our live chat room. During working hours
+					(including late nights and weekends!) you\'ll find our
+					support team online and answering questions. You can 
+					also chat with other Foodmoves users.'.t %> <%= 'Give us a little time
+					when you ask a question&mdash;sometimes we need a few minutes 
+					to respond. Just leave your message and check back in a few minutes.'.t %>
+				</div>
+				<!-- graphic could go here -->
+			</li>
+		</ul>
+		</div><!-- class="container" -->
+	</div><!-- class="yui-u first" -->
+	<div class="yui-u">
+		<div class="container">
+		<img src="images/apple_header.jpg" alt="" />
+		<div class="apple_text"><%= 'Site status'.t %></div>
+		<ul class="container">
+			<li><div class="header_titles"><%= 'Site Updated with New Features'.t %></div>
+				<div class="width">
+					<b>Improved ease of use based on user requests</b><br />
+					 We've been listening to our users and we've improved our site.
+					 Many features have been streamlined and enhanced, and many bugs 
+					eliminated. Check out the improved Auction Details page, which lets 
+					you search by location for nearby auction items. And for sellers,
+					there are new features to edit and &quot;quick copy&quot; auctions,
+					making it easier than ever to post products for sale.
+				</div>
+				<!-- graphic could go here -->
+			</li>
+			<li><div class="header_titles"><%= 'Auctions'.t %></div>
+				<div class="width">
+					<b><%= 'All active auctions'.t %></b><br />
+					<%= @active_auctions -%> <%= 'active auctions'.t %>
+				</div>
+				<!-- graphic could go here -->
+			</li>
+			<li><div class="header_titles"><%= 'Top Cities'.t %></div>
+				<div class="width">
+					<b><%= 'All active auctions'.t %></b><br />
+					<br />
+					<table>
+						<% for city in @cities %>
+						  <tr>
+							<td>
+								<%= city[0] -%> &mdash; <%= city[1] -%>
+							</td>
+						  </tr>
+						<% end %>
+					</table>
+				</div>
+				<!-- graphic could go here -->
+			</li>
+			<li><div class="header_titles"><%= 'Top Products'.t %></div>
+				<div class="width">
+					<b><%= 'All active auctions'.t %></b><br />
+					<br />
+					<table>
+						<% for product in @products %>
+						  <tr>
+							<td>
+								<%= product[0] -%> &mdash; <%= product[1] -%>
+							</td>
+						  </tr>
+						<% end %>
+					</table>
+				</div>
+				<!-- graphic could go here -->
+			</li>
+		</ul>
+		</div><!-- class="container" -->
+	</div><!-- class="yui-u" -->
+</div><!-- class="yui-g" -->
+<div class="yui-g">
+	<div class="yui-u first">
+	</div><!-- class="yui-u" -->
+	<div class="yui-u">
+	</div><!-- class="yui-u" -->
+</div><!-- class="yui-g" -->

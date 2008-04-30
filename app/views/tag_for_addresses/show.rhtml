@@ -1,0 +1,19 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), tag_for_addresses_path %>&nbsp;Address Locations</h1>
+
+<h2><%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_tag_for_address_path(@tag_for_address) -%>&nbsp;<%=h @tag_for_address.name %></h2>
+
+<div class="show">
+	
+	<label>Sort order</label>
+		<span>
+			<%= @tag_for_address.sort_order %>
+		</span>
+	<br />
+
+	<label>Name</label>
+		<span>
+			<%= @tag_for_address.name %>
+		</span>
+	<br />
+
+</div>

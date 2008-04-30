@@ -1,0 +1,15 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), tag_for_addresses_path %>&nbsp;Address Locations</h1>
+
+<h2><%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), tag_for_address_path(@tag_for_address) -%>&nbsp;<%=h @tag_for_address.name -%></h2>
+
+<%= error_messages_for :tag_for_address -%>
+
+<% form_for :tag_for_address, :url => tag_for_address_path(@tag_for_address), :html => { :method => :put, :class => 'baseform' } do |form| -%>
+
+	<%= render :partial => 'form', :object => form -%>
+	
+	<p>
+		<%= submit_tag "Update" -%>
+	</p>
+	
+<% end -%>

@@ -1,0 +1,11 @@
+<div class="row_listing">
+	<div class="row_description"><%= link_to image_tag('products/generic.gif', :alt=>'Auctions', :title=>"See all auctions for \"#{product.description}\"", :size => '44x44', :class => 'thumb'), :action => 'search_for_product', :id => product.food_id -%>&nbsp;<%= product.description -%><br />
+		<%= link_to image_tag('ico_2.gif', :alt=>'Auctions', :title=>"See all auctions for \"#{product.description}\""), :action => 'search_for_product', :id => product.food_id -%>&nbsp;<%= link_to image_tag('ico_1.gif', :alt=>'Delete', :title=>"Delete \"#{product.description}\" from watched products"), {:action => 'delete_from_watchlist', :id => product.id}, :confirm => "Really delete \"#{product.description}\" from watched products?", :method => :delete %>
+	</div><!-- id="row_description" -->
+	<div class="able_cell_3"><%= product.auctions -%></div>
+	<div class="able_cell_4"><%= product.bids -%></div>
+	<div class="able_cell_5"><%= number_to_currency product.low -%></div>
+	<div class="able_cell_6"><%= number_to_currency product.high -%></div>
+</div><!-- id="row_listing" -->
+<div class="line_style_1"></div>
+<div class="clear"></div>

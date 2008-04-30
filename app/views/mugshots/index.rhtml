@@ -1,0 +1,19 @@
+<h1><%= link_to image_tag('user.png', :alt=>'List', :title=>'Show List'), user_path(@owner) %>&nbsp;Images for <%=h @owner.name %></h1>
+
+<table>
+  <tr>
+	<th>&nbsp;</th>
+    <th>W</th>
+    <th>H</th>
+    <th>Size</th>
+  </tr>
+  
+<% for asset in @assets %>
+  <tr>
+	<td><%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Image'), user_mugshot_path(asset.attachable_id,asset) %></td>
+    <td><%=h asset.width %> px</td>
+    <td><%=h asset.height %> px</td>
+    <td><%=h asset.size %> bytes</td>
+  </tr>
+<% end %>
+</table>

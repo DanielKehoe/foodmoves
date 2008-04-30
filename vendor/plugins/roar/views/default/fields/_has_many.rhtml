@@ -1,0 +1,35 @@
+<% 
+ 	model = (field.options[:class_name] || field.method.to_s.classify).constantize
+	table_id = "#{field.path}_#{field.method}"
+%>
+<fieldset>
+<legend><%= field.name %></legend>
+<table style="width: 100%;">
+	<tbody id="<%= table_id %>">
+	<% field.field_data(record).each do |option| %>
+		<% fields_for("#{field.path}[edit_#{field.method}][]", option) do |fields| %>
+		<tr>
+			<% field.fields.each do |f| %>
+			<td><%= roar_field(f, fields, option) %></td>
+			<% end %>
+			<td><%= link_to_function "x", "this.up('tr').remove()", :class=>"delete-link" %>
+		</tr>
+		<% end %>
+	<% end %>
+	
+	<% ((field.options[:number_blank] || 1) + 1).times do |i| %>
+		<% fields_for("#{field.path}[new_#{field.method}][]", model.new) do |fields| %>
+		<tr <%= "id='new_row-#{table_id}' style='display: none;'" if i==0 %> >
+			<% field.fields.each do |f| %>
+			<td><%= roar_field(f, fields, model.new) %></td>
+			<% end %>
+			<td style="width: 1%"><%= link_to_function "x", "this.up('tr').remove()", :class=>"delete-link" %>
+		</tr>
+		<% end %>
+	<% end %>	
+	</tbody>
+	<tfoot>
+		<tr><td style="text-align: right;"><%= link_to_function("Add Another", "RoarRepeatingTable.copyRow('#{table_id}')") %></td><td colSpan="<%= field.fields.size %>"></td></tr>
+	</tfoot>
+</table>
+</fieldset>

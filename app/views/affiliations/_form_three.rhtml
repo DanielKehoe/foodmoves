@@ -1,0 +1,60 @@
+<!--[form:member]-->
+<% if @on_step_three == false %>
+		<br />
+		<br />
+		<div class="errorExplanation">
+			<% if flash.any? %>
+				<p>
+					<b><%= flash[:notice] %></b>
+					<div class="red"><b><%= flash[:error] %></b></div>
+				</p>
+			<% else %>
+				<h2><b>We don't have enough information.</b></h2>
+		    	<p>It seems you did not click the &quot;Go To Step 3&quot; button.</p>
+			<% end %>
+				<p>Please select the &quot;Step 2&quot; tab (above), enter the required information, and click the button at the bottom of the form.</p>
+	  </div>
+<% else %>
+	<br />
+	<% fields_for :affiliation do |form| %>
+	
+
+	<ul class="details">
+		<div class="text_font">
+		</div>
+		<li class="line">
+			<% unless @affiliation.organization.phones.first.blank? -%>
+				<div id="li_font">
+					Company Phone
+				</div>
+				<%= link_to image_tag('skype.jpg', :alt => 'call', :title => 'call with Skype'), "skype:#{@affiliation.organization.phones.first.skype}" -%>&nbsp;<%= @affiliation.organization.phones.first.localized(@current_user) %>
+			<% end -%>
+		<br />
+
+		<% if @affiliation.organization.phones.first.blank? -%>
+			<div class="text_font">
+			<span style="color:red;">The user did not provide a company phone number!</span></div>
+		<% end -%>
+
+		<% if @affiliation.user.first_name.blank? -%>
+			<div class="text_font">
+			<span style="color:red;">The user did not provide a first name!</span></div>
+		<% end -%>
+
+		<% if @affiliation.user.last_name.blank? -%>
+			<div class="text_font">
+			<span style="color:red;">The user did not provide a last name!</span></div>
+		<% end -%>
+
+	<p>Here's where you call the company and check if <%=h @affiliation.user.name %> is authorized for trading. Be sure to ask:</p>
+	<p>Does <%=h @affiliation.user.name %> work for <%=h @affiliation.organization.name -%>?</p>
+	<p>Is <%=h @affiliation.user.name %> authorized to buy or sell produce for <%=h @affiliation.organization.name -%>?</p>
+	<p>Who is the manager or executive who has the authority to approve <%=h @affiliation.user.name %> trading for <%=h @affiliation.organization.name -%>?</p>
+	<p>Also:</p>
+	<p>Be sure you have the full name of the person (no abbreviations like &quot;Billy W.&quot;) and <%= link_to 'edit', edit_user_path(@affiliation.user) -%> the user record if necessary.</p>
+	<p>Get the company's mailing and physical addresses and <%= link_to 'edit', edit_organization_path(@affiliation.organization) -%>  the company records if necessary. <span style="color:red;">If the company name is in ALL CAPS or all lowercase, please <%= link_to 'edit it', edit_organization_path(@affiliation.organization) -%>.</span></p>
+
+	<br />
+	<% end %>
+<% end %>
+<!--[eoform:member]-->

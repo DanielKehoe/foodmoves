@@ -1,0 +1,49 @@
+<!--[form:address]-->
+<% fields_for :physical_address do |form| %>
+
+	<br />
+	<br />
+
+	<h2>Physical Address</h2>
+
+	<br />
+	<br />
+
+	<label>Region</label>
+	<span><%= form.collection_select :region_id, 
+		Geographies::Region.find(:all, :order => 'sort_order'), 
+		:id, 
+		:name %></span><br />
+	
+	<label>Country</label>
+	<span><%= related_collection_select :physical_address, 
+		:country_id, 
+		[:physical_address, :region_id], 
+		Geographies::Country.find(:all, :order => 'sort_order'), 
+		:id, 
+		:name, 
+		:parent_id,
+		{:selected=>@physical_address.country_id} %></span><br />
+
+	<label>State</label>
+	<span><%= related_collection_select :physical_address, 
+		:admin_area_id, 
+		[:physical_address, :country_id], 
+		Geographies::AdminArea.find(:all, :order => 'sort_order'),  
+		:id, 
+		:name, 
+		:parent_id,
+		{:selected=>@physical_address.admin_area_id} %></span><br />																		
+
+    <label>City</label>
+    <span><%= form.text_field :locality -%></span><br />
+
+    <label>Address</label>
+    <span><%= form.text_field :thoroughfare -%></span><br />
+
+    <label>Postal Code</label>
+    <span><%= form.text_field :postal_code -%></span><br />
+
+<% end %>
+<!--[eoform:address]-->
+

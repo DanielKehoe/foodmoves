@@ -1,0 +1,18 @@
+<% 
+  source = filter.options.delete(:source) || name.to_s.match(/^(.*?)(_id)*$/)[1];
+  to_id = "filter_#{filter.options[:to]}"
+  active_id = "filter_#{name}"
+  destination_path = collection_path_for(source, filter.options[:to] => "scope_to", :format => "json")
+  choices = []
+%>
+
+<script type="text/javascript">
+ Event.addBehavior({
+  '#<%= to_id %>': ScopedSelect('<%= destination_path %>', '<%= active_id %>', 'id', 'name') 
+}) 
+</script>
+<select id='filter_<%= name %>' name='<%= name %>'>
+  <%= "<option></option>" if filter.options[:include_blank] %>
+  <%= "<option value="">#{filter.options[:prompt]}</option>" if filter.options[:prompt] %>
+  <%= options_for_select(choices, roar.filters.params[name].to_i) %>
+</select>

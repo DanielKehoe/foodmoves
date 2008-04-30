@@ -1,0 +1,10 @@
+<% form_field(field, record) do %>
+<% object = record.send(field.method) %>
+	<% input_id = rdom_id(record, field.method) 	%>
+	<%= link_to_function h(object ? object.to_roar_s : ""), "this.next().show()" %>
+	<div style="display: <%= record.new_record? ? 'block' : 'none' %>">
+	  <input  id='<%= input_id %>' autocomplete_href="<%=  collection_path(field.options[:source] || field.method, "auto_complete") %>" class="rautocomplete" type="text" value='' name='<%= (field.options[:source] || field.method).to_s %>' class='text_field' />
+		<%= form.hidden_field("#{field.method}_id", :id=>"hidden-#{input_id}") %>
+		or <%= link_to_function "Cancel", "this.parentNode.hide()" %>
+	</div>
+<% end %>

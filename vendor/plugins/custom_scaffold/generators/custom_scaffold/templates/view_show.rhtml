@@ -1,0 +1,32 @@
+<h1><%%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), <%= plural_name %>_path %>&nbsp;<%= plural_name.capitalize %></h1>
+
+<h2><%%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_<%= singular_name %>_path(@<%= singular_name %>) -%>&nbsp;<%%=h @<%= singular_name %>.name %></h2>
+
+<%% content_for(:secondary) do -%>
+	<div class="show-secondary">
+		
+		<label>Created at</label>
+			<span>
+				<%%= local_time @<%= singular_name %>.created_at -%>
+			</span>
+		<br />
+
+		<label>Updated at</label>
+			<span>
+				<%%= local_time @<%= singular_name %>.updated_at -%>
+			</span>
+		<br />
+		
+	</div>	
+<%% end -%>
+
+<div class="show">
+<% eval(model_name + '.content_columns').each do |column| -%>
+
+	<label><%= column.human_name %></label>
+		<span>
+			<%%= @<%= singular_name %>.<%= column.name %> %>
+		</span>
+	<br />
+<% end -%>
+</div>

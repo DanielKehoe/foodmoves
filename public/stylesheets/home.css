@@ -1,0 +1,375 @@
+/* home.css */
+
+/* YUI Grids page layout tweaks OVERRIDE */
+
+div#hd
+{background-image:url(../images/header.png);
+ background-repeat:no-repeat;
+ width:950px;
+ height:98px;
+ font-family:verdana;
+}
+
+
+div#bd
+{background-image:url(/images/content.png);
+ background-repeat:repeat-y;
+ width:950px;
+ position:relative;
+ font-family:arial;
+ margin:0px;
+ padding:0px;
+}
+
+div#ft
+{ background-image:url(/images/footer.png);
+  background-repeat:no-repeat;
+  width:950px;
+  height:53px;
+  margin:0px;
+  padding:0px;
+}
+
+/* common.css OVERRIDE */
+
+body
+{background-image:url(/images/background.jpg);
+ background-repeat:repeat-x;
+ background-color: #d6ebff;
+ margin:0px;
+ font-family:arial;
+}
+
+/* styles for utility and convenience */
+
+a
+{text-decoration:none;
+}
+
+div.logo, ul.navlinks
+{float:left;
+}
+
+div.logo
+{padding:10px;
+ margin-top:-21px;
+}
+
+ul.navlinks
+{list-style-type:none;
+ margin:0px;
+ padding-left:0px;
+ padding-top:35px;
+ font-size:123.1%;
+}
+
+ul.navlinks li
+{display:inline;
+ padding-left:10px;
+}
+
+a.navlinks
+{color:#999999;
+ font-family:verdana;
+ font-size:93%;
+ font-weight:bold;
+ text-decoration:none;
+}
+
+a.navlinks:hover
+{margin:0px;
+ color:#ffffff;
+ text-decoration:none;
+ font-family:verdana;
+ font-size:93%;
+ font-weight:bold;
+}
+
+div.buy_text
+{margin-top:-30px;
+ padding-left:16px;
+}
+
+a.buy_text
+{color:#ff9900;
+ font-size:123.1%;
+ font-weight:bold;
+}
+
+div.buy_sell_buttons_home
+{
+}
+
+a.buy_sell_link_home
+{color:#ff9900;
+ font-size:400%;
+ font-weight:bold;
+}
+
+div.sell_text
+{margin-top:-30px;
+ padding-left:24px;
+}
+
+a.sell_text
+{color:#ff9900;
+ font-size:123.1%;
+ font-weight:bold;
+}
+
+/* common.css END */
+
+/* home.css */
+
+div.right
+{float:right;
+}
+
+div.left
+{float:left;
+}
+
+div.foodmoves
+{width:770px;
+ height:260px;
+ margin-bottom:0px;
+}
+
+div.foodmoves_image
+{margin-top:10px;
+}
+
+div#movie_caption
+{background-color:black;
+ color:white;
+ font-weight:bold;
+ text-align:center;
+ margin-top:0px;
+ margin-left:40px;
+ margin-right:26px;
+ padding-top:2px;
+ padding-bottom:2px;
+ padding-left:0px;
+}
+
+div.foodmoves_content
+{width:240px;
+ text-align:left;
+ padding-top:10px;
+ padding-left:60px;
+ line-height:180%;
+}
+
+/* home page intro "This is foodmoves.com,"; added line-height */
+div#foodmoves
+{color:#ff3333;
+ font-weight:bold;
+ margin-bottom:0px;
+ line-height: 17px;
+}
+
+/*  below home page intro */
+div#foodmoves_block
+{margin-bottom:0px;
+ width:160px;
+ line-height: 17px;
+ margin-bottom:7px;
+}
+/* featured auction */
+
+div#login,div#login2 {
+width: 180px;
+height: 18px;
+background: url(/images/form.jpg);
+background-repeat:no-repeat;
+position:absolute;
+}
+
+div#login #s, div#login2 #s2 {
+padding: 1px 0px 0px 4px;
+border: 0;
+position:absolute;
+font-size:85%;
+width: 145px;
+margin:0px;
+background:none;
+}
+
+div#login #go, div#login #go2 {
+height: 18px;
+position:relative;
+}
+
+div.form
+{float:left;
+ height:40px;
+ width:240px;
+}
+
+div#form, div#form2
+{color:#666666;
+ font-family:arial;
+ font-size:85%;
+}
+
+div#line
+{width:765px;
+ height:26px;
+ background-image:url(/images/line.jpg);
+ background-repeat:no-repeat;
+ font-family:arial;
+ text-align:left;
+ font-size:85%;
+ margin:0px;
+ padding:0px;
+}
+
+div.line_content
+{padding-top:6px;
+ padding-left:20px;
+}
+
+div#linetext, div#linetext2
+{font-family:arial;
+ color:#2078cc;
+ font-size:85%;
+ font-weight:bold;
+ margin:0px;
+ float:left;
+ padding-left:10px;
+ padding-right:10px;
+}
+
+div#steps
+{width:770px;
+ height:270px; 
+ margin:0px; 
+ padding:0px;
+}
+
+div.steps_text
+{padding-left:60px;
+ padding-top:30px;
+ font-family:verdana;
+ font-size:182%;
+ font-weight:bold;
+ text-align:left;
+ color:#cccccc;
+}
+
+div.steps_header_text
+{margin-top:-165px;
+ padding-left:48px;
+}
+
+a.steps_header_text
+{color:#ff9900;
+ font-size:123.1%;
+ font-weight:bold;
+}
+
+div.steps_header2_text
+{margin-top:-165px;
+ padding-left:106px;
+}
+
+a.steps_header2_text
+{color:#ff9900;
+ font-size:123.1%;
+ font-weight:bold;
+}
+
+div.steps_header3_text
+{margin-top:-165px;
+ padding-left:40px;
+}
+
+a.steps_header3_text
+{color:#ff9900;
+ font-size:123.1%;
+ font-weight:bold;
+}
+
+div.steps_images
+{float:left;
+ padding-left:30px;
+ padding-top:10px;
+}
+
+div#side
+{width:180px;
+ margin:0px;
+ float:right;
+}
+
+div#features
+{color:#f42424;
+ font-family:arial;
+ font-size:108%;
+ font-weight:bold;
+ width:74px;
+ margin-left:2px;
+ padding-left:30px;
+ border-bottom:2px solid #ff7f00;
+}
+
+div#side_content
+{padding-left:10px;
+ padding-top:10px;
+ color:#333333;
+ font-family:Verdana, Arial, Helvetica, sans-serif;
+ font-size:85%;
+ line-height:180%;
+ width:150px;
+ height:250px;
+}
+
+div#side_image
+{color:#333333;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:77%;
+text-align:center;
+}
+
+div#side_image img
+{display: block;
+margin-left: auto;
+margin-right: auto;
+}
+
+/* featured auction */
+div#featured {
+height:120px;
+margin-top: 10px;
+border: 3px solid #b3d9ed; /* color of border */
+font-size: 77%;
+line-height:180%;
+font-weight: bolder;
+color: #575757;
+*font-family: Verdana, Arial, Helvetica, sans-serif;/* IE */
+*margin-right: 5px;/* IE */
+}
+div#featured .mh { color:#105273; background-color:#B3D9ED; font: bold 10px Verdana, Arial, Helvetica, sans-serif; height: 16px;}
+div#featured img{
+padding: 5px;
+}
+
+div#home_col_1
+{width:240px;
+ text-align:left;
+ padding-top:10px;
+ padding-left:40px;
+}
+
+div#home_col_2
+{width:240px;
+ text-align:left;
+ padding-top:10px;
+ padding-right:60px;
+}
+
+div#ads
+{text-align:center;
+ padding-top:250px;
+}
+/* home.css END*/

@@ -1,0 +1,31 @@
+<h1>Editing administrator</h1>
+
+<%= error_messages_for :administrator %>
+
+<% form_for(:administrator, :url => administrator_path(@administrator), :html => { :method => :put }) do |f| %>
+
+	<p><label for="email">Email</label><br/>
+	<%= f.text_field :email %></p>
+
+	<p><label for="first_name">First name</label><br/>
+	<%= f.text_field :first_name %></p>
+
+	<p><label for="last_name">Last name</label><br/>
+	<%= f.text_field :last_name %></p>
+	
+	<p><label for="password">Password</label><br/>
+	<%= f.password_field :password %></p>
+
+	<p><label for="password_confirmation">Confirm Password</label><br/>
+	<%= f.password_field :password_confirmation %></p>
+
+	<p><label for="user_time_zone">Default timezone</label>
+	<%= time_zone_select 'user', 'time_zone', TZInfo::Timezone.all.sort, :model => TZInfo::Timezone %></p>
+
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', administrator_path(@administrator) %> |
+<%= link_to 'List', administrators_path %>

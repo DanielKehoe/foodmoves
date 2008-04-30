@@ -1,0 +1,15 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), bids_path %>&nbsp;Bids</h1>
+
+<h2><%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), bid_path(@bid) -%>&nbsp;<%=h @bid.auction.description -%></h2>
+
+<%= error_messages_for :bid -%>
+
+<% form_for :bid, :url => bid_path(@bid), :html => { :method => :put, :class => 'baseform' } do |form| -%>
+
+	<%= render :partial => 'form', :object => form -%>
+	
+	<p>
+		<%= submit_tag "Update" -%>
+	</p>
+	
+<% end -%>

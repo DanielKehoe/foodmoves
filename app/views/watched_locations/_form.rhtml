@@ -1,0 +1,33 @@
+<!--[form:watched_location]-->
+
+	<label>Region</label>
+	<span><%= form.collection_select :region_id, 
+		Geographies::Region.find(:all, :order => 'sort_order'), 
+		:id, 
+		:name %></span><br />
+		
+	<label>Country</label>
+	<span><%= related_collection_select :watched_location, 
+		:country_id, 
+		[:watched_location, :region_id], 
+		Geographies::Country.find(:all, :order => 'sort_order'), 
+		:id, 
+		:name, 
+		:parent_id,
+		{:selected=>@watched_location.country_id} %></span><br />
+
+	<label>State/Province</label>
+	<span><%= related_collection_select :watched_location, 
+		:admin_area_id, 
+		[:watched_location, :country_id], 
+		Geographies::AdminArea.find(:all, :order => 'sort_order'),  
+		:id, 
+		:name, 
+		:parent_id,
+		{:selected=>@watched_location.admin_area_id} %></span><br />																		
+
+    <label>City</label>
+    <span><%= form.text_field :locality -%></span><br />
+
+<!--[eoform:watched_location]-->
+

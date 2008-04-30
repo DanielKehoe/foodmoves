@@ -1,0 +1,34 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), affiliations_path %>&nbsp;Affiliations</h1>
+
+	
+<h2>Pending Affiliations</h2>
+<ul>
+	<% unless @pending_affiliations.empty? %>
+	<li>
+		<% for affiliation in @pending_affiliations %>
+		  <%= link_to image_tag('table_edit.png', :alt=>'Show', :title=>'Show Item'), edit_affiliation_path(affiliation) -%>&nbsp;<% restrict_to 'manager' do -%><%= link_to image_tag('table_delete.png', :alt=>'Delete', :title=>'Delete Item'), affiliation_path(affiliation), :confirm => 'Are you sure?', :method => :delete %><% end -%>&nbsp;<%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), organization_path(affiliation.organization) %>&nbsp;<%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'), user_path(affiliation.user) %>&nbsp;
+		<% unless affiliation.organization.nil? %><b><%=h affiliation.organization.name %>,</b> <%=h affiliation.user.name %>, <i><% unless affiliation.organization.acct_exec_id.nil? %><% unless affiliation.organization.administrator.nil? %>assigned to <b><%= affiliation.organization.administrator.name %></b><% else -%>unassigned<% end -%><% end -%></i>, <i><%= distance_of_time_in_words(Time.now, affiliation.created_at) %> since the request</i><% else -%><span style="color:red;">COMPANY MISSING!</span><% end -%><br /><br />
+		<% end %>
+	</li>
+	<% else -%>
+		<li><i>No Pending Affiliations</i></li>
+	<% end -%>
+</ul>
+
+
+<br />
+
+<h2>Affiliations Verified</h2>
+<ul>
+	<% unless @approved_affiliations.empty? %>
+	<li>
+		<% for affiliation in @approved_affiliations %>
+		  <%= link_to image_tag('table_edit.png', :alt=>'Show', :title=>'Show Item'), affiliation_path(affiliation) -%>&nbsp;<% restrict_to 'manager' do -%><%= link_to image_tag('table_delete.png', :alt=>'Delete', :title=>'Delete Item'), affiliation_path(affiliation), :confirm => 'Are you sure?', :method => :delete %><% end -%>&nbsp;<%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), organization_path(affiliation.organization) %>&nbsp;<%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'), user_path(affiliation.user) %>&nbsp;<% unless affiliation.organization.nil? %><b><%=h affiliation.organization.name %>,</b><% end -%> <% unless affiliation.user.nil? %><%=h affiliation.user.name %>, <% end -%><% unless affiliation.organization.nil? %><i><% unless affiliation.organization.acct_exec_id.nil? %><% unless affiliation.organization.administrator.nil? %>assigned to <b><%= affiliation.organization.administrator.name %></b><% else -%>unassigned<% end -%><% end -%></i>,<% end -%> <i><%=h local_time affiliation.reviewed_at %>, by <%=h affiliation.called_by %></i><br /><br />
+		<% end %>
+	</li>
+	<% else -%>
+		<li><i>No Affiliations Verified in the Past Week</i></li>
+	<% end -%>
+</ul>
+
+

@@ -1,0 +1,2 @@
+module Foodmoves::LegalHelper
+end

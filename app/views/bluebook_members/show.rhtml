@@ -1,0 +1,172 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), bluebook_members_path %>&nbsp;Blue Book Members</h1>
+<h1 style="color: red;">FOR FOODMOVES INTERNAL USE ONLY</h1>
+<h1 style="color: red;">PROPRIETARY DATA; USE UNDER TERMS OF LICENSE ONLY</h1>
+
+<h2><%=h @bluebook_member.name %></h2>
+
+<% content_for(:secondary) do -%>
+	<div class="show-secondary">
+		
+		<label>Created at</label>
+			<span>
+				<% unless @bluebook_member.created_at.nil? %>
+					<%= local_time @bluebook_member.created_at -%>
+				<% end -%>
+			</span>
+		<br />
+
+		<label>Updated at</label>
+			<span>
+				<% unless @bluebook_member.updated_at.nil? %>
+					<%= local_time @bluebook_member.updated_at -%>
+				<% end -%>
+			</span>
+		<br />
+
+		<label>Business</label>
+			<span>
+				<% if @bluebook_member.section == 'P' -%>
+					Produce
+				<% elsif @bluebook_member.section == 'T' %>
+					Transport
+				<% elsif @bluebook_member.section == 'S' %>
+					Supplier
+				<% else -%>
+					Unknown
+				<% end -%>
+			</span>
+		<br />
+		
+		<label>License type</label>
+			<span>
+				<%= @bluebook_member.license_type %>
+			</span>
+		<br />
+
+		<label>License</label>
+			<span>
+				<%= @bluebook_member.license %>
+			</span>
+		<br />
+
+		<label>Chainstores</label>
+			<span>
+				<%= @bluebook_member.chainstores %>
+			</span>
+		<br />
+
+		<label>Volume</label>
+			<span>
+				<%= @bluebook_member.volume %>
+			</span>
+		<br />
+
+		<label>Credit worth rating</label>
+			<span>
+				<%= @bluebook_member.credit_worth_rating %>
+			</span>
+		<br />
+
+		<label>Integ ability rating</label>
+			<span>
+				<%= @bluebook_member.integ_ability_rating %>
+			</span>
+		<br />
+
+		<label>Pay rating</label>
+			<span>
+				<%= @bluebook_member.pay_rating %>
+			</span>
+		<br />
+
+		<label>Rating numerals</label>
+			<span>
+				<%= @bluebook_member.rating_numerals %>
+			</span>
+		<br />
+		
+	</div>	
+<% end -%>
+
+<div class="show">
+
+	<label>Blue Book ID</label>
+		<span>
+			<%= @bluebook_member.bluebook_id %>
+		</span>
+	<br />
+	
+	<label>Web site</label>
+		<span>
+			<% unless @bluebook_member.website.blank? %>
+			<%= link_to @bluebook_member.name, "http://#{@bluebook_member.website}" %>
+			<% else %>
+				<%= @bluebook_member.name %>
+			<% end %>
+		</span>
+	<br />
+
+	<label>Corr trade name 1</label>
+		<span>
+			<%= @bluebook_member.corr_trade_name_1 %>
+		</span>
+	<br />
+
+	<label>Corr trade name 2</label>
+		<span>
+			<%= @bluebook_member.corr_trade_name_2 %>
+		</span>
+	<br />
+
+	<label>Voice phone</label>
+		<span>
+			<% unless @bluebook_member.skype.blank? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => 'call with Skype'), "skype:#{@bluebook_member.skype}" -%><% end -%>&nbsp;<%= @bluebook_member.voice_phone %>
+		</span>
+	<br />
+
+	<label>Fax</label>
+		<span>
+			<%= @bluebook_member.fax %>
+		</span>
+	<br />
+
+	<label>Tollfree</label>
+		<span>
+			<%= @bluebook_member.tollfree %>
+		</span>
+	<br />
+
+	<label>Email</label>
+		<span>
+			<% unless @bluebook_member.email.blank? -%><%= mail_to @bluebook_member.email, image_tag('email.png', :alt => 'send email', :title => @bluebook_member.email), :subject => "Message from Foodmoves.com" -%>&nbsp;<%= mail_to @bluebook_member.email, @bluebook_member.email, :subject => "Message from Foodmoves.com" -%><% end -%>
+		</span>
+	<br />
+
+	<label>Mailing Address</label>
+		<span>
+			<%= @bluebook_member.address_mailing %>
+		</span>
+	<br />
+
+	<label>Physical Address</label>
+		<span>
+			<%= @bluebook_member.address_physical %>
+		</span>
+	<br />
+	
+	<label>County</label>
+		<span>
+			<% unless @bluebook_member.county.blank? -%>
+				<%= @bluebook_member.county.titlecase %>
+			<% end -%>
+		</span>
+	<br />
+
+	<% unless @bluebook_member.hqbbid == @bluebook_member.bluebook_id -%>
+		<label>Parent Company</label>
+			<span><%= link_to image_tag('table_back.png', :alt => "Show parent company", :title => "Show parent company"), bluebook_member_path(@bluebook_member.hqbbid) -%>
+			</span>
+		<br />
+	<% end -%>
+
+</div>

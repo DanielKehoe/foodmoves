@@ -1,0 +1,28 @@
+<% form_field(field, record) do %>
+  Add: <input id='<%= rdom_id(record, field.method) %>' type="text" value="" name='<%= field.options[:source].to_s %>' />
+  <img src="/images/roar/progress.gif" class="" id='<%= rdom_id(record, "progress-edit-#{field.method}") %>' style="display: none;">
+  <div class="auto_complete" id='<%= rdom_id(record, "#{field.method}-auto_complete") %>'></div>
+  <script type="text/javascript">
+  new Ajax.Autocompleter('<%= rdom_id(record, field.method) %>', 
+    '<%= rdom_id(record, "#{field.method}-auto_complete") %>', 
+    '<%= collection_path(field.options[:source], "auto_complete") %>', 
+    {'indicator':  '<%= rdom_id(record, "progress-edit-#{field.method}") %>',
+     'afterUpdateElement': 
+    function(input, li) { 
+      table = $('relationship_widget');
+      table.appendChild($tr($td(input.value), $td($a({'href': '#', 'class': 'delete-link', 'onclick': "this.up('tr').remove(); return false;"}, 'x'), 
+        $input({'type': 'hidden', 'value': li.id.match(/([0-9]*)$/)[1], 'name': '<%= "#{model_symbol}[#{field.method}_list][]" %>'}))
+      ));
+      input.clear();
+    }});
+  </script>
+  <table id="relationship_widget">
+    <% record.send(field.method).each do |has| %>
+    <tr>
+      <td><%= field.callback.call(has) %></td><td><%= link_to_function "x", "this.up('tr').remove()", :class=>"delete-link" %>
+      <input type="hidden" value="<%= has.id %>" name='<%= "#{model_symbol}[#{field.method}_list][]" %>' />
+      </td>
+    </tr>
+    <% end %>
+  </table>
+<% end %>

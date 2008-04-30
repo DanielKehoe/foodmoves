@@ -1,0 +1,14 @@
+<div id="recent" class="modo">
+    <h1 class="mh">See Other Current Auctions</h1>
+    <ul id="recent_list">
+		<% unless @auctions.size == 0 %> 
+			<%= render :partial => 'auction', :collection => @auctions -%>
+		<% else %>
+			<li>
+				<div class="title">
+					No current auctions.
+				</div>
+			</li>
+		<% end %>		    
+	</ul>
+</div><!-- id="recent" -->

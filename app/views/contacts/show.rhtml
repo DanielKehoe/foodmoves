@@ -1,0 +1,77 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), contacts_path %>&nbsp;Contacts</h1>
+
+<h2><%= link_to image_tag('user_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_contact_path(@contact) -%>&nbsp;<%=h @contact.name_with_title %></h2>
+
+<% content_for(:secondary) do -%>
+	<div class="show-secondary">
+
+		<label>Created by</label>
+			<span>
+				<%= @contact.created_by %>
+			</span>
+		<br />
+				
+		<label>Created at</label>
+			<span>
+				<%= local_time @contact.created_at -%>
+			</span>
+		<br />
+
+		<label>Updated at</label>
+			<span>
+				<%= local_time @contact.updated_at -%>
+			</span>
+		<br />
+		
+	</div>	
+<% end -%>
+
+<div class="show">
+
+	<% unless @contact.organization.nil? %>	
+		<label>Works for</label>
+		<span>
+			<%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), organization_path(@contact.organization) %>&nbsp;<%= @contact.organization.name %>
+		</span>
+	<% end -%>
+	<br />
+	
+	<% unless @contact.organization.nil? %>	
+		<label>Phone</label>
+		<span>
+			<% unless @contact.organization.phones.first.nil? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => 'call with Skype'), "skype:#{@contact.organization.phones.first.skype}" -%>&nbsp;<%= @contact.organization.phones.first.number %><% end -%>
+		</span>
+	<% end -%>
+	<br />
+	
+	<label>Email</label>
+		<span>
+			<% unless @contact.email.blank? -%><%= mail_to @contact.email, image_tag('email.png', :alt => 'send email', :title => @contact.email), :subject => "Message from Foodmoves.com" -%><% end -%>&nbsp;<%= @contact.email %>
+		</span>
+	<br />
+		
+	<label>Industry role</label>
+		<span>
+			<%= @contact.industry_role %>
+		</span>
+	<br />
+
+	<label>Starts as</label>
+		<span>
+			<%= @contact.starts_as %>
+		</span>
+	<br />
+
+	<label>Country</label>
+		<span>
+			<%= @contact.country_name %>
+		</span>
+	<br />
+	
+	<label>Time zone</label>
+		<span>
+			<%= @contact.time_zone %>
+		</span>
+	<br />
+
+</div>

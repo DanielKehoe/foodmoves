@@ -1,0 +1,10 @@
+User: <%= @user.name %> 
+Company: <%= @company.name %>
+Company Phone Number: <%= @company.phones.first.number %>
+Foodmoves Staff Only: http://www.foodmoves.com/affiliations/edit/<%= @affiliation.id %>
+
+Great news! <%= @user.name %> has requested authorization to buy or sell produce on behalf of <%= @company.name %>. By authorizing <%= @user.name %> to trade for the company, <%= @company.name %> agrees to pay the Foodmoves commissions incurred by <%= @user.name %> for any produce sales. Buyers pay no fees at Foodmoves but must be verified as authorized traders for the sellers' protection.
+
+We've promised to call <%= @company.name %> at the phone number <%= @company.phones.first.number %> within the next business day to verify that <%= @user.name %> is authorized to buy or sell produce on behalf of <%= @company.name %>. When we call, we will ask if <%= @user.name %> works for <%= @company.name %>. We will ask if <%= @user.name %> buys or sells produce on behalf of <%= @company.name %>. We will ask for the name of a company manager or executive who can verify this information.
+
+Click the link in this message to see our verification form (support staff only!), make the call, and let's get <%= @user.name %> trading today!

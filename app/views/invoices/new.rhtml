@@ -1,0 +1,13 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), invoices_path %>&nbsp;Invoices</h1>
+
+<h2>New Invoice</h2>
+
+<% form_for :invoice, :url => invoices_path, :html => { :class => 'baseform' } do |form| -%>
+
+  <%= render :partial => 'form', :object => form -%>
+
+	<p>
+		<%= submit_tag 'Create' -%>
+	</p>
+	
+<% end -%>

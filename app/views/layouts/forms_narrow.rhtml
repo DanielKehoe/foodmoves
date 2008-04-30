@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Foodmoves: <%= if @title then h @title else h controller.controller_name.titlecase end -%></title>
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.0/build/reset-fonts-grids/reset-fonts-grids.css" />
+<%= stylesheet_link_tag 'common', 'forms_narrow' %>
+<%= javascript_include_tag :defaults, 'control_tabs.js' %>
+<%= javascript_include_tag 'http://www.google-analytics.com/urchin.js' %>
+</head>
+<body>
+<div class="yui-t7" id="custom-doc">
+<!--Header-->
+<div id="hd">
+	<%= link_to '', home_path, :class => 'logo' -%>
+	<div class="menu">
+		<%= link_to 'news', news_path -%> <%= link_to 'chat', 'http://foodmoves.campfirenow.com/e08e3', {:popup => ['Chat', 'width=650,height=1000']} %> <% if logged_in? -%><%= highlight_current_link_to 'logout', session_path, {:method => :delete} -%><% else -%><%= highlight_current_link_to 'login', new_session_path -%><% end -%><% if logged_in? -%><% restrict_to 'support' do -%><%= highlight_current_link_to 'admin', admin_path, {:title => 'GOT ADMIN?'} %><% end -%><% end -%>  			
+	</div>		
+</div><!-- id="hd" -->
+<!--Header END-->
+<!--Body-->
+<div id="bd">
+	<% if flash[:notice] or flash[:error] %>
+		<div class="bubble" id="bubble_alert">
+			<div class="bubble_content">
+				<div class="bubble_close"><a href="#" onclick="Element.toggle('bubble_alert'); return false;">close</a></div>
+				<br />
+				<b><%= flash[:notice] %></b>
+				<b><%= flash[:error] %></b>
+			</div><!-- bubble_content -->
+		</div><!-- bubble -->
+	<% end -%>
+	<%= yield %>
+	<div id="indicator" style="display:none; background-color:#FE7A22; text-align:center;">
+		<p>
+		<%= image_tag('live_tree_loading_spinner.gif', :alt=>'Loading', :title=>'Loading') %>
+		</p>
+	</div>
+</div><!-- id="bd" -->
+<!--Body END-->
+<!--Footer-->
+<%= render :partial => '/layouts/footer' -%>
+<!--Footer END-->
+</div><!-- id="doc2" -->
+</body>
+</html>

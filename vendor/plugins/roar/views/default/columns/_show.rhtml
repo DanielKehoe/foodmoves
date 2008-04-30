@@ -1,0 +1,9 @@
+<% classes = if column.options[:type] == :modalbox then
+	"modalbox"
+	elsif column.options[:type] == :single then
+		"rshow single"
+	else
+		"rshow"
+	end
+%>
+<%= link_to(h(column.data(record, self) || "Show"), h(model_path(record)), {:class=>classes, :id=>rdom_id(record, 'show_link')}) %>

@@ -1,0 +1,15 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), contacts_path %>&nbsp;Contacts</h1>
+
+<h2><%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'), contact_path(@contact) -%>&nbsp;<%=h @contact.name -%></h2>
+
+<%= error_messages_for :contact -%>
+
+<% form_for :contact, :url => contact_path(@contact), :html => { :method => :put, :class => 'baseform' } do |form| -%>
+
+	<%= render :partial => 'form', :object => form -%>
+	
+	<p>
+		<%= submit_tag "Update" -%>
+	</p>
+	
+<% end -%>

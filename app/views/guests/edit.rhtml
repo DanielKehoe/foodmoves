@@ -1,0 +1,134 @@
+<div class="yui-g">
+	<div class="middle_content">
+		<% unless @guest.nil? -%>
+			<% if @guest.email_confirmed -%>
+				<div id="details_font">Your email address has been confirmed:  <%= @guest.email %></div>
+			<% end -%>
+
+
+		<%= error_messages_for :guest %>
+
+		<% form_for :guest, :url => guest_path(@guest), :html => { :method => :put, :class => 'baseform' } do |form| -%>
+		
+		<div id="details_font">GET STARTED</div>
+				
+		<p class="explain">You're here to complete the sign up process to browse auctions on the web site.</p>
+			
+		<div class="indent_radio"><%= form.radio_button :set_up_trading, false %>&nbsp;<span class="orange">I just want to look around.</span></div>
+		
+		<p class="explain">If you want to buy or sell, we'll ask for some information here. Then we'll ask for additional information about your company to set up trading. Do you want to to SET UP TRADING?</p>
+	
+		<div class="indent_radio"><%= form.radio_button :set_up_trading, true %>&nbsp;<span class="orange">I want to set up trading so I can buy or sell.</span></div>
+		<br />
+		<br />
+		<ul class="details">
+			
+			<li class="line">
+			<div class="text_font">
+				Just to start, we need to know your name.
+			</div>
+			<div id="li_font">Your First Name</div>
+			<div class="left">
+				<%= form.text_field :first_name %>
+			</div>
+			<br />
+			<div id="li_font_1">Your Last Name</div>
+			<div class="left">
+				<%= form.text_field :last_name %>
+			</div>
+			</li>
+			<li class="line">
+			<div class="text_font">
+				Do you work in the produce business?
+			</div>
+			<div id="li_font_6">Industry Role</div>
+				<div class="left">
+			 		<%= form.collection_select :industry_role,
+										IndustryRole.find(:all, :order => 'sort_order'), 
+										:answer, 
+										:answer,
+										{:prompt => "– Please choose –"} %>
+				</div>
+			</li>
+			<li class="line">
+			<div class="text_font">
+				To display times correctly, we need to know your location and time zone.
+			</div>
+			<div id="li_font_7">World Region</div>
+				<div class="left">
+			 		<%= form.collection_select :region_id, 
+						Geographies::Region.find(:all, :order => 'sort_order'), 
+						:id, 
+						:name %>
+			</div>
+			<br />
+			<div id="li_font_8">Your Country</div>
+				<div class="left">
+			 		<%= related_collection_select :guest, 
+						:country_id, 
+						[:guest, :region_id], 
+						Geographies::Country.find(:all, :order => 'sort_order'), 
+						:id, 
+						:name, 
+						:parent_id,
+						{:selected=>@guest.country_id} %>
+			</div>
+			<br />
+			<div id="li_font_9">Your Time Zone</div>
+				<div class="left">
+			 		<%= related_collection_select :guest, 
+						:time_zone, 
+						[:guest, :country_id], 
+						Geographies::CountryTimeZone.find(:all, :order => 'sort_order'),  
+						:name, 
+						:name, 
+						:parent_id %>
+			</div>
+			</li>
+			<li class="line">
+			<div class="text_font">
+				You've been given a temporary password. It might be difficult to remember. Here's your chance to give yourself a new password that you like better.
+			</div>
+			<div id="li_font_4">Make Up a New Password</div>
+			<div class="left">
+				<%= form.password_field :password %>
+			</div>
+			<br />
+			<div id="li_font_5">Type It Again</div>
+			<div class="left">
+				<%= form.password_field :password_confirmation %>
+			</div>
+			</li>
+			
+			<li class="line">
+			<div class="text_font">
+			Our user agreement <%= link_to '(read it here)', legal_path, {:popup => ['Legal', 'width=650,height=1000']} -%> sets the rules for use of the web site. Please click the checkbox to agree to the rules if you want to continue.
+			</div>		
+			<div id="li_font_2">Agree to web site rules?</div>
+			<div class="left">
+				<%= form.check_box :accept_terms %>
+			</div>
+			</li>
+		</ul>
+		<div class="fm_submit">
+			<div class="submit_button">
+				<%= button_submit_tag 'Get Started', :class => 'foodmoves', :onclick => "javascript:urchinTracker('/welcome/guest');" -%>
+			</div>
+		</div><!-- fm_submit -->
+		<% end -%>
+	<% else -%>
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+	<% end -%>
+	</div><!-- middle_content -->
+</div><!-- yui-g -->

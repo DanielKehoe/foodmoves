@@ -1,0 +1,6 @@
+<% options = {:id=>rdom_id(record, column.method.to_s.singularize)} %>
+<% options.merge!({:class=>"rhas_many"}) if column.options[:inline] %>
+<%= link_to(pluralize(record.send(column.method).count,
+                      column.method.to_s.humanize.singularize).gsub(/ /, '&nbsp;'),
+            h(collection_path_for(column.method, :record => record)),
+            options) %>

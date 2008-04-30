@@ -1,0 +1,5 @@
+page.visual_effect :blind_up, rdom_id(@record, 'row')
+page.remove rdom_id(@record, 'row')
+page << "Roar.removeEdit('#{rdom_id(@record)}')"
+page.call 'Flash.notice', "#{model_name} was successfully deleted."
+page << "Progress.removeAll()"

@@ -1,0 +1,5 @@
+<tr id='<%=h rdom_id(@record, "row") %>' class="rrow" >
+	<% roar.table.columns.each do |c| %>
+	  <td><%= roar_column(c, @record) %></td>
+	<% end %>
+</tr>

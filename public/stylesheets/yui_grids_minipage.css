@@ -1,0 +1,50 @@
+/* yui_grids_minipage.css */
+
+body {
+padding-top:15%;
+}
+
+/* YUI Grids page layout tweaks */
+
+#bd{
+background-color:#ffffff;
+margin:auto;text-align:left; /* leave unchanged */
+width:25.23em;
+*width:24.62em;
+min-width:328px;
+*width:328px;
+}
+
+#hd {
+background:url(/images/mini_forms_header.gif) 0 0 no-repeat;
+height:54px;
+margin:auto;text-align:left; /* leave unchanged */
+width:25.23em;
+*width:24.62em;
+min-width:328px;
+*width:328px;
+}
+
+#custom-doc
+{width:25.23em;
+ *width:24.62em;
+ min-width:328px;
+ margin:auto;
+ text-align:left; 
+}  
+
+#ft{
+background:url(/images/mini_forms_footer.gif) no-repeat;
+height:12px;
+margin:auto;text-align:left; /* leave unchanged */
+width:25.23em;
+*width:24.62em;
+min-width:328px;
+*width:328px;
+}
+
+#footer_content{
+padding:55px 0 0 25px;
+}
+
+/* yui_grids_override.css END */

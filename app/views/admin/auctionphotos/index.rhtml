@@ -1,0 +1,23 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), admin_auctionphotos_path %>&nbsp;All Auction Photos</h1>
+
+<table>
+  <tr>
+	<th>&nbsp;</th>
+	<th>&nbsp;</th>
+    <th>W</th>
+    <th>H</th>
+    <th>Size</th>
+  </tr>
+  
+<% for asset in @assets %>
+  <tr>
+	<td><%= link_to image_tag(asset.public_filename(:size120), :alt=>"\"Auction ##{asset.attachable_id}\"", :title=>"\"Auction ##{asset.attachable_id}\""), auction_asset_path(asset.attachable_id, asset) -%></td>
+	<td><%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Image'), auction_asset_path(asset.attachable_id, asset) %></td>
+    <td><%=h asset.width %> px</td>
+    <td><%=h asset.height %> px</td>
+    <td><%=h asset.size %> bytes</td>
+  </tr>
+<% end %>
+</table>
+
+<%= will_paginate @assets %>

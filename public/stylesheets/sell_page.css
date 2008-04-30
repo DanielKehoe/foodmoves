@@ -1,0 +1,147 @@
+/* sell_page.css */
+
+/* YUI Grids page layout tweaks */
+
+#bd{
+background:url(/images/bck_edit.png) 0 0 repeat-y ;
+margin:0;
+margin:auto;text-align:left; /* leave unchanged */
+width:73.07em;/* non-IE */
+*width:71.31em;/* IE */
+min-width:950px;/* optional but recommended */
+*width:950px;
+}
+
+#hd {
+background:url(/images/top_header.png) 0 0 no-repeat;
+height:54px;
+margin:auto;text-align:left; /* leave unchanged */
+width:73.07em;/* non-IE */
+*width:71.31em;/* IE */
+min-width:950px;/* optional but recommended */
+*width:950px;
+}
+
+#ft{
+background:url(/images/sell_footer.gif) no-repeat;
+height:12px;
+margin:auto;text-align:left; /* leave unchanged */
+width:73.07em;/* non-IE */
+*width:71.31em;/* IE */
+min-width:950px;/* optional but recommended */
+*width:950px;
+}
+
+#footer_content{
+padding:55px 0 0 25px;
+}
+
+/* used on various pages */
+/* Sell_Index */
+/* Members_Show */
+
+ul.sidenav_list
+{line-height:200%;
+ color:#666666;
+ padding-left:10px;
+ font-family:arial narrow;
+ font-size:100%;
+ list-style-type:disc;
+}
+
+ul.sidenav_list li.underline
+{text-decoration:underline;
+}
+
+dl.side_list
+{font-family:arial narrow;
+}
+
+dl.side_list dt
+{color:#FE7A22;
+ height:100%;
+}
+
+dl.side_list dd
+{color:#717171;
+ margin-left:10px;
+ height:100%;
+}
+
+div.side_text
+{color:#717171;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div.side_text_orange
+{color:#FE7A22;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div.ca_image
+{margin-left:-10px;
+ padding-bottom:10px;
+}
+
+.content_txt {
+padding:10px 0 10px 0;
+}
+
+.content_txt2 {
+background-image:url(/images/sell_sidenav2.jpg);
+background-repeat:repeat-y;
+width:161px;
+float:right;
+font-size:100%;
+height:350px;
+padding-right:10px;
+}
+
+div.sales_summary
+{width:352px;
+ padding-top:10px;
+ float:left;
+ height:100%;
+}
+
+ul.sales_summary
+{line-height:100%;
+ height:100%;
+ list-style-type:none;
+ float:left;
+ margin:0px;
+ padding:0px;
+}
+
+ul.sales_summary li
+{background-image:url(/images/sell_table2.jpg);
+ width:352px;
+ height:28px;
+}
+
+.line_1{
+border:1px solid #666666;
+margin:5px 0 5px 0;
+}
+
+div#li_font
+{font-size:100%;
+ color:#FE7A22;
+ width:131px;
+
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+/* pop ups */
+
+.popup_for_seller_detail{
+position:absolute;
+margin-top:-110px;
+margin-left:100px;
+background:url(/images/popup1.jpg);
+width:194px;
+height:153px;
+}

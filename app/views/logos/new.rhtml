@@ -1,0 +1,17 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), organization_logos_path(@owner) %>&nbsp;Logos for <%= @owner.name %></h1>
+
+<h2><%= link_to image_tag('group.png', :alt=>'Organization', :title=>'Organization Details'), organization_path(@owner) -%>&nbsp;<%= @owner.name %></h2>
+
+<br />
+<br />
+
+<%= error_messages_for :asset %>
+
+<% form_for(:asset, :url => organization_logos_path(@owner.id), :html => { :multipart => true }) do |f| %>
+		<span class="sidebox_small_text">Select a file from your computer:</span> 
+		<br />
+		<%= f.file_field :uploaded_data, {:size => 17} %>
+		<br />
+		<br />
+		<%= submit_tag "Upload Logo" %>
+<% end %>

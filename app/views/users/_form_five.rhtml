@@ -1,0 +1,94 @@
+<% if @on_step_five == false %>
+		<br />
+		<br />
+		<div class="errorExplanation">
+			<% if flash.any? %>
+				<p>
+					<b><%= flash[:notice] %></b>
+					<div class="red"><b><%= flash[:error] %></b></div>
+				</p>
+			<% else %>
+				<h2><b>We don't have enough information.</b></h2>
+		    	<p>It seems you did not click the &quot;Next&quot; button.</p>
+			<% end %>
+				<p>Please select the &quot;Step 4&quot; tab (above), enter the required information, and click the button at the bottom of the form.</p>
+	  </div>
+<% else %>
+	<% unless @mailing_address.nil? %>
+		<% fields_for :mailing_address do |form| %>
+			<br />
+			<h2>Mailing Address</h2>
+			<br />
+			<label>Region</label>
+			<span><%= form.collection_select :region_id, 
+				Geographies::Region.find(:all, :order => 'sort_order'), 
+				:id, 
+				:name %></span><br />
+	
+			<label>Country</label>
+			<span><%= related_collection_select :mailing_address, 
+				:country_id, 
+				[:mailing_address, :region_id], 
+				Geographies::Country.find(:all, :order => 'sort_order'), 
+				:id, 
+				:name, 
+				:parent_id,
+				{:selected=>@mailing_address.country_id} %></span><br />
+
+			<label>State</label>
+			<span><%= related_collection_select :mailing_address, 
+				:admin_area_id, 
+				[:mailing_address, :country_id], 
+				Geographies::AdminArea.find(:all, :order => 'sort_order'),  
+				:id, 
+				:name, 
+				:parent_id,
+				{:selected=>@mailing_address.admin_area_id} %></span><br />																		
+
+		    <label>City</label>
+		    <span><%= form.text_field :locality -%></span><br />
+
+		    <label>Address</label>
+		    <span><%= form.text_field :thoroughfare -%></span><br />
+
+		    <label>Postal Code</label>
+		    <span><%= form.text_field :postal_code -%></span><br />
+
+		<% end %>
+	<% end %>
+	<% fields_for :organization do |form| %>
+		<br />
+		<h2>License and Liability</h2>
+		<br />
+	    <label>PACA License</label>
+	    <span><%= form.text_field :paca_license -%></span><br />
+		<br />
+		<label>Product Liability Insurance</label>
+		<span><%= form.collection_select :liability_limits_id, 
+			@liability_limits, 
+			:id, 
+			:description %></span><br />	
+		<br />
+		<h2>Financial Condition and Trading Reputation</h2>
+		<br />
+		<label>Credit Worth</label>
+		<span><%= form.collection_select :creditworth_id, 
+			@creditworth, 
+			:id, 
+			:description %></span><br />
+
+		<label>Timeliness of Payment</label>
+		<span><%= form.collection_select :timeliness_id, 
+			@timeliness, 
+			:id, 
+			:description %></span><br />
+
+		<label>Risk Factor</label>
+		<span><%= form.collection_select :integrity_id, 
+			@integrity, 
+			:id, 
+			:description %></span><br />
+	<% end %>
+<% end %>
+
+

@@ -1,0 +1,21 @@
+
+Your auction has concluded. No bids were offered.
+<% if @auction.test_only? -%>
+
+Your auction was only with TEST DATA.
+
+<% end -%>
+AUCTION DETAILS
+============================================================
+<%=h @auction.description %>
+shipping from <%=h @auction.shipping_from %>
+Date to Start: <%= @auction.date_to_start %>
+Date to End: <%= @auction.date_to_end %>
+Minimum Bid: <%= number_to_currency @auction.minimum_bid %>
+"It's Yours" Price: <%= number_to_currency @auction.buy_now_price %>
+Required Bid Increment: <%= number_to_currency @auction.bid_increment %>
+============================================================
+
+Thanks for using our service!
+
+-- Foodmoves.com

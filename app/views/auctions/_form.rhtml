@@ -1,0 +1,138 @@
+<!--[form:auction]-->
+<% if @food.parent.nil? %>
+	<p>
+	&nbsp;It seems you did not click the &quot;Go To Step Two&quot; button. Please select the &quot;Step One&quot; tab, enter the required information, and click the button at the bottom of the form.
+	</p>
+<% else %>
+
+<% fields_for :auction do |form| %>
+	<div id="flashes">
+	  <div id="flash-notice" class="notice" style="display: <%= flash[:notice] ? 'block' : 'none' %>;"><%= flash[:notice] %></div>
+	  <div id="flash-errors" class="errors" style="display: <%= flash[:error] ? 'block' : 'none' %>;"><%= flash[:error] %></div>
+	</div>
+	<div class="baseform">
+		<%= form.hidden_field :description -%>
+		<%= form.hidden_field :food_id -%>
+		<br />
+		<span class="auction_form"><b><%= @auction.description %></b></span>
+	<br />
+		<% unless @auction.address.nil? %>
+			<span class="auction_form"><b><%= @auction.address.location %></b></span>
+		<% else %>
+			<span class="auction_form"><b>YOU MUST PROVIDE A LOCATION!</b></span>
+		<% end %>
+	
+	<br />
+	<br />
+	<label>Pickup Number</label>
+	<span><%= form.text_field :pickup_number -%></span><br />
+
+	<% unless @growns.size == 0 %>
+		<label>Grown</label><span><%= form.collection_select :grown_id,
+							@growns, 
+							:id, 
+							:name, 
+							{:prompt => "– Select How Grown –", :selected=>@auction.grown_id} %>
+							</span><br />
+	<% end %>
+	<% unless @packs.size == 0 %>
+		<label>Packed</label><span><%= form.collection_select :pack_id,
+							@packs, 
+							:id, 
+							:name, 
+							{:prompt => "– Select Pack –"} %>
+							</span><br />
+	<% end %>
+	<% unless @per_cases.size == 0 %>
+		<label>Case Count</label><span><%= form.collection_select :per_case_id,
+							@per_cases, 
+							:id, 
+							:name, 
+							{:prompt => "– Select Count Per Case –"} %>
+							</span><br />
+	<% end %>
+
+	<label>Quantity (Cases)</label>
+	<span><%= form.text_field :quantity, :size => 6 -%></span><br />
+
+	<% if @auction.allow_partial == true -%>
+		<label>Minimum quantity for partial purchase</label>
+		<span><%= form.text_field :min_quantity, :size => 6 -%></span><br />
+	<% end -%>
+
+	<label>Cases Per Pallet</label>
+	<span><%= form.text_field :cases_per_pallet, :size => 6 -%></span><br />
+	</div>
+	<div class="auction_form">
+
+		<label><b>Product has a barcode?</b></label>
+		<span><%= form.radio_button :barcoded, true %>&nbsp;Yes&nbsp;<%= form.radio_button :barcoded, false  %>&nbsp;No</span><br />
+
+		<label><b>Product has a PLU sticker?</b></label>
+		<span><%= form.radio_button :plu_stickered, true %>&nbsp;Yes&nbsp;<%= form.radio_button :plu_stickered, false  %>&nbsp;No</span><br />
+
+		<br />
+	</div>
+	<div class="baseform">
+	<label>PLU</label>
+	<span><%= form.text_field :plu, :size => 6 -%></span><br />
+
+		<% unless @qualities.nil? %>
+			<label>Quality</label><span><%= form.collection_select :quality_id,
+								@qualities, 
+								:id, 
+								:name, 
+								{:prompt => "– Select Quality –"} %>
+			</span><br />
+		<% end %>
+
+		<% unless @conditions.nil? %>
+			<label>Condition</label><span><%= form.collection_select :condition_id,
+								@conditions, 
+								:id, 
+								:name, 
+								{:prompt => "– Select Condition –"} %>
+			</span><br />
+		<% end %>
+		<% unless @colors.size.nil? %>
+			<label>Color</label><span><%= form.collection_select :color_id,
+								@colors, 
+								:id, 
+								:name, 
+								{:prompt => "– Select Color –"} %>
+								</span><br />
+		<% end %>						
+		<% unless @sizes.size.nil? %>
+			<label>Size</label><span><%= form.collection_select :size_id,
+								@sizes, 
+								:id, 
+								:name, 
+								{:prompt => "– Select Size –"} %>
+								</span><br />
+		<% end %>
+		<% unless @weights.size.nil? %>
+			<label>Weight</label><span><%= form.collection_select :weight_id,
+								@weights, 
+								:id, 
+								:name, 
+								{:prompt => "– Select Weight –"} %>
+								</span><br />
+		<% end %>
+		</div>
+		<div class="auction_form">		
+			<label><b>Product is iced?</b></label>
+			<span><%= form.radio_button :iced, true %>&nbsp;Iced&nbsp;<%= form.radio_button :iced, false  %>&nbsp;Not Iced</span><br />
+		</div>
+		<br />
+		<label class="long_label"><b>Current Pulp Temperature</b></label><br />
+		<span class="small_field"><%= form.text_field :temperature, :size => 6 -%>&nbsp;<%= form.radio_button :celsius, true %>&nbsp;Celsius&nbsp;<%= form.radio_button :celsius, false  %>&nbsp;Fahrenheit</span><br />
+		<br />
+		<div class="right">
+			<%= button_to_function 'Go To Step 3',
+					"tabs.setActiveTab('three');" %>
+		</div>
+		<br />
+<% end %>	
+<% end %>
+<!--[eoform:auction]-->
+

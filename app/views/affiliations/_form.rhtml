@@ -1,0 +1,73 @@
+<!--[form:affiliation]-->
+
+	<label>Company Phone</label>
+	<span><% unless @affiliation.organization.phones.first.blank? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => 'call with Skype'), "skype:#{@affiliation.organization.phones.first.skype}" -%>&nbsp;<%= @affiliation.organization.phones.first.localized(@current_user) %><% end -%></span><br />
+
+	<br />
+
+	<% if @affiliation.organization.phones.first.blank? -%>
+		<label>&nbsp;</label>
+		<span style="color:red;">The user did not provide a company phone number!</span><br />
+	<% end -%>
+
+	<% if @affiliation.user.first_name.blank? -%>
+		<label>&nbsp;</label>
+		<span style="color:red;">The user did not provide a first name!</span><br />
+	<% end -%>
+
+	<% if @affiliation.user.last_name.blank? -%>
+		<label>&nbsp;</label>
+		<span style="color:red;">The user did not provide a last name!</span><br />
+	<% end -%>
+
+	<label>Created</label>
+	<span><%= distance_of_time_in_words(Time.now, @affiliation.created_at) %> ago </span><br />
+
+	<label>Last reviewed</label>
+	<span><% unless @affiliation.reviewed_at.nil? -%><%= distance_of_time_in_words(Time.now, @affiliation.reviewed_at) %> ago<% end -%></span><br />
+	
+    <label>Called by</label>
+    <span><%= @affiliation.called_by %></span><br />
+
+	<br />
+
+    <label>Talked to</label>
+    <span><%= form.text_field :talked_to %></span><br />
+
+	<br />
+
+    <label>Approved</label>
+    <span><%= form.check_box :approved %></span><br />
+
+	<br />
+	
+	<label>Be sure to ask:</label>
+	<span>Does <%=h @affiliation.user.name %> work for <%=h @affiliation.organization.name -%>?</span><br />
+
+	<label>&nbsp;</label>
+	<span>Is <%=h @affiliation.user.name %> authorized to buy or sell produce for <%=h @affiliation.organization.name -%>?</span><br />	
+	<label>&nbsp;</label>
+	<span>Who is the manager or executive who has the authority to approve <%=h @affiliation.user.name %> trading for <%=h @affiliation.organization.name -%>?</span><br />
+	<label>&nbsp;</label>
+		<br />
+	<label>Also:</label>
+	<span>Be sure you have the full name of the person (no abbreviations like &quot;Billy W.&quot;) and update the user record if necessary.</span><br />
+	<br />
+	<label>&nbsp;</label>
+	<span>Get the company's mailing and physical addresses and check and update the company address record if necessary.</span><br />
+	<br />
+	<label>&nbsp;</label>
+	<span style="color:red;">If the company name is in ALL CAPS or all lowercase, please fix it.</span><br />
+	<br />
+    <label>Notes</label>
+    <span><%= form.text_area :notes %></span><br />
+
+	<br />
+
+	<label>&nbsp;</label>
+	<span>Be polite and tactful! These notes may be seen by the user.</span><br />
+
+	<br />
+	
+<!--[eoform:affiliation]-->
+

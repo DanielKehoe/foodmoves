@@ -1,0 +1,5 @@
+<select id="filter_<%= name %>" name='<%=h name %>'>
+<%= "<option></option>" if filter.options[:include_blank] %>
+<%= "<option value="">#{filter.options[:prompt]}</option>" if filter.options[:prompt] %>
+<%= options_for_select(filter.options.delete(:choices), roar.filters.params[name]) %>
+</select>

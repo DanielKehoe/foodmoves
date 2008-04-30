@@ -1,0 +1,145 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), accounts_path %>&nbsp;Accounts</h1>
+
+<h2><%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_organization_path(@account) -%>&nbsp;<%=h @account.name %></h2>
+
+<% content_for(:secondary) do -%>
+	<div class="show-secondary">
+
+		<label>Industry role</label>
+			<span>
+				<%= @account.industry_role %>
+			</span>
+		<br />
+
+		<label>Source</label>
+			<span>
+				<%= @account.source %>
+			</span>
+		<br />
+		
+		<label>Assigned to</label>
+			<span>
+				<% if @account.acct_exec_id.class.to_s == 'Fixnum' -%>
+					<%= @account.administrator.name %>
+				<% else -%>
+					unassigned
+				<% end -%>
+			</span>
+		<br />
+
+		<label>Created by</label>
+			<span>
+				<% if @account.created_by.class.to_s == 'Fixnum' -%>
+					<%= @account.user.name %>
+				<% else -%>
+					<% unless @account.created_by_name.nil? -%>
+						<%= @account.created_by_name %>
+					<% else -%>
+						no record
+					<% end -%>
+				<% end -%>
+			</span>
+		<br />
+				
+		<label>Created at</label>
+			<span>
+				<%= local_time @account.created_at -%>
+			</span>
+		<br />
+
+		<label>Updated at</label>
+			<span>
+				<%= local_time @account.updated_at -%>
+			</span>
+		<br />
+
+		<label>Updated by</label>
+			<span>
+				<%= @account.updated_by -%>
+			</span>
+		<br />
+				
+		<label>Outcome</label>
+			<span>
+				<%= @account.call_result %>
+			</span>
+		<br />
+		
+	</div>	
+<% end -%>
+
+<div class="show">
+
+	<label>Person</label>
+		<span>
+			<%= @account.person %>
+		</span>
+	<br />
+
+	<label>Phone</label>
+		<span>
+			<%= @account.phone %>
+		</span>
+	<br />
+
+	<label>Address</label>
+		<span>
+			<%= @account.thoroughfare %>
+		</span>
+	<br />
+
+	<label>City</label>
+		<span>
+			<%= @account.locality %>
+		</span>
+	<br />
+
+	<label>State</label>
+		<span>
+			<%= @account.admin_area_abbr %>
+		</span>
+	<br />
+
+	<label>Country</label>
+		<span>
+			<%= @account.country_name %>
+		</span>
+	<br />
+	
+	<label>Postal code</label>
+		<span>
+			<%= @account.postal_code %>
+		</span>
+	<br />
+	
+	<label>Email</label>
+		<span>
+			<%= @account.email %>
+		</span>
+	<br />
+
+	<label>Website</label>
+		<span>
+			<%= @account.website %>
+		</span>
+	<br />
+
+	<label>PACA License</label>
+		<span>
+			<%= @account.paca_license %>
+		</span>
+	<br />
+	
+	<label>Financial Profile</label>
+	<ul>
+		<li>
+			<table border="0" cellspacing="15" cellpadding="15">  
+			<tr><td>Credit Worth:</td><td><% unless @account.creditworth.nil? %><%= @account.creditworth.description %><% end -%></td></tr>   
+			<tr><td>Timeliness:</td><td><% unless @account.timeliness.nil? %><%= @account.timeliness.description %><% end -%></td></tr>  
+			<tr><td>Risk Factor:</td><td><% unless @account.integrity.nil? %><%= @account.integrity.description %><% end -%></td></tr>
+			</table>
+		</li>
+	</ul>
+
+
+</div>

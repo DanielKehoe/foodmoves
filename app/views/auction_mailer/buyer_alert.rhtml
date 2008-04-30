@@ -1,0 +1,27 @@
+Hi, 
+
+This is a buyers' alert from Foodmoves.com.
+
+The following item was just posted for sale.
+
+AUCTION DETAILS
+============================================================
+
+<%= @auction.description %>
+shipping from <%=h @auction.shipping_from %>
+Quantity: <%= @auction.quantity %>
+Minimum auction bid: <%= number_to_currency @auction.minimum_bid %>
+
+See all the details for this auction at
+http://www.foodmoves.com/auctions/<%= @auction.id %>
+
+============================================================
+
+You can stop future alerts by changing your email alerts at
+http://www.foodmoves.com/buy
+
+Thanks for using our service!
+
+-- Foodmoves.com
+
+

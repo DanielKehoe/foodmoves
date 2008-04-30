@@ -1,0 +1,7 @@
+<div  id="<%= rdom_class(model_class, "list") %>">
+<% table.records.each_with_index do |record,i| %>
+	<div id='<%= rdom_id(record, 'row') %>' class='rrow'>
+		<%= render :roar_partial => "#{rsingular_class_name(record)}_summary", :locals => {rsingular_class_name(record).to_sym => record} %>
+	</div>
+<% end %>
+</div>

@@ -1,0 +1,97 @@
+<h1><% restrict_to 'support' do -%><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), addresses_path %>&nbsp;<% end %>Addresses</h1>
+
+<h2><%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_address_path(@address) -%>&nbsp;<%=h @address.address %></h2>
+
+<% content_for(:secondary) do %>
+	<div class="show-secondary">
+		
+		<label>Created at</label>
+			<span>
+				<%= local_time @address.created_at %>
+			</span>
+		<br />
+
+		<label>Updated at</label>
+			<span>
+				<%= local_time @address.updated_at %>
+			</span>
+		<br />
+		
+	</div>
+<% end %>
+
+<div class="show">
+	
+	<% if permit?('support') then -%>
+		<% if @address.addressable_type == 'User' -%>	
+			<label><%=h @address.tag_for_address.capitalize %> for</label>
+			<span>
+				<%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show User'), user_path(@address.addressable) -%> <%= link_to @address.addressable.name, user_path(@address.addressable) -%><br />
+			</span>
+		<% end -%>
+	<% else -%>
+		<% if @address.addressable_type == 'User' -%>	
+			<label><%=h @address.tag_for_address.capitalize %> for</label>
+			<span>
+				<%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show User'), member_path(@current_user) -%> <%= link_to @address.addressable.name, member_path(@current_user) -%><br />
+			</span>
+		<% end -%>	
+	<% end -%>
+	<br />
+	<% if @address.addressable_type == 'Organization' -%>	
+		<label><%=h @address.tag_for_address.capitalize %> for</label>
+		<span>
+			<%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Organization'), organization_path(@address.addressable) -%> <%= link_to @address.addressable.name, organization_path(@address.addressable) -%><br />
+		</span>
+	<% end -%>
+	<br />
+
+	<label>Latitude</label>
+		<span>
+			<%= number_with_precision(@address.lat, 2) %>
+		</span>
+	<br />
+
+	<label>Longitude</label>
+		<span>
+			<%= number_with_precision(@address.lng, 2) %>
+		</span>
+	<br />
+
+	<label>Country</label>
+		<span>
+			<%= @address.country %>
+		</span>
+	<br />
+
+	<label><%= @address.label_for_admin_area -%></label>
+		<span>
+			<%= @address.admin_area_name %>
+		</span>
+	<br />
+
+	<label><%= @address.label_for_locality -%></label>
+		<span>
+			<%= @address.locality %>
+		</span>
+	<br />
+
+	<label><%= @address.label_for_thoroughfare -%></label>
+		<span>
+			<%= @address.thoroughfare %>
+		</span>
+	<br />
+
+	<label><%= @address.label_for_postal_code -%></label>
+		<span>
+			<%= @address.postal_code %>
+		</span>
+	<br />
+
+</div>
+
+<% unless @map == nil -%>
+	<div align="center">
+		<%= @map.div(:width => 400,:height => 300) %>
+	</div>
+<% end -%>

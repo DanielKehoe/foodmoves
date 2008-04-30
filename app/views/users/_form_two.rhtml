@@ -1,0 +1,115 @@
+<% if @on_step_two == false %>
+		<br />
+		<br />
+		<div class="errorExplanation">
+			<% if flash.any? %>
+				<p>
+					<b><%= flash[:notice] %></b>
+					<div class="red"><b><%= flash[:error] %></b></div>
+				</p>
+			<% else %>
+				<h2><b>We don't have enough information.</b></h2>
+		    	<p>It seems you did not enter a user email address and click the &quot;Next&quot; button.</p>
+			<% end %>
+				<p>Please select the &quot;Step 1&quot; tab (above), enter the required email address, and click the button at the bottom of the form.</p>
+		</div>
+<% else %>
+
+	<br />
+	<br />
+	<% if @exists %>
+		<h2><b>We already have a record for that user.</b> <%= link_to "Sorry, not working yet." , :action => "edit", :id => @member %></h2>
+	<% else %>
+
+		<br />
+		<% fields_for :member do |form| %>
+			<br />
+			<br />
+			<br />
+			<h2>Set Up Trader</h2>
+	
+			<label>Serves as</label>
+			<span><%= form.collection_select :industry_role,
+								IndustryRole.find(:all, :order => 'sort_order'), 
+								:answer, 
+								:answer %>
+			</span><br />
+
+			<label>Set Warning Flag?</label>
+			<span><%= form.collection_select :flag_for_user_id, 
+				@flags, 
+				:id, 
+				:name %>
+			</span><br />
+	
+			<label>How They Heard About Us</label>
+			<span><%= form.collection_select :how_heard,
+				HowHeard.find(:all, :order => 'sort_order'), 
+				:answer, 
+				:answer,
+				{:prompt => "– unknown –"} %>
+			</span><br />
+
+			<label>First name</label>
+			<span><%= form.text_field :first_name %></span><br />
+
+			<label>Last name</label>
+			<span><%= form.text_field :last_name %></span><br />
+
+			<label for="email">Email</label>
+			<span><%= form.text_field :email %></span><br />
+
+			<label for="password">Password</label>
+			<span><%= form.password_field :password %></span><br />
+	
+			<label for="password_confirmation">Confirm Password</label>
+			<span><%= form.password_field :password_confirmation %></span><br />
+
+			<fieldset>
+				<label>Region</label>
+				<span><%= form.collection_select :region_id, 
+					Geographies::Region.find(:all, :order => 'sort_order'), 
+					:id, 
+					:name %></span><br />
+			
+				<label>Country</label>
+				<span><%= related_collection_select :member, 
+					:country_id, 
+					[:member, :region_id], 
+					Geographies::Country.find(:all, :order => 'sort_order'), 
+					:id, 
+					:name, 
+					:parent_id,
+					{:selected=>@member.country_id} %></span><br />
+
+				<label>Time Zone</label>
+				<span><%= related_collection_select :member, 
+					:time_zone, 
+					[:member, :country_id], 
+					Geographies::CountryTimeZone.find(:all, :order => 'sort_order'),  
+					:name, 
+					:name, 
+					:parent_id %></span><br />																					
+			</fieldset>
+
+			<% fields_for :organization do |form| %>
+				<h2>Organization</h2>
+			    <label>Company Name</label>
+			    <span><%= form.text_field :name, :size => 80 -%></span><br />
+			<% end %>	
+		<% end %>
+		<br />
+		<br />
+		<p>
+		<%= submit_to_remote 'submit', 'Next',
+				:update => 'dynamic_form_three',
+				:url => { :action => 'step_three_for_new' },
+				:before => "$('indicator').show();",
+				:success => "tabs.setActiveTab('three');",
+				:failure => "alert('There was an error.')",
+				:complete => "$('indicator').hide();" 
+				%>
+		</p>
+		
+	<% end %>
+<% end %>

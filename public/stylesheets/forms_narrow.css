@@ -1,0 +1,269 @@
+/* YUI Grids page layout tweaks */
+
+#bd{
+background:url(/images/bck_edit.png) 0 0 repeat-y ;
+margin:0;
+margin:auto;text-align:left; /* leave unchanged */
+width:42.31em;
+ *width:41.29em;
+ min-width:550px;
+*width:550px;
+}
+
+#hd {
+background:url(/images/forms_thankyou_header.jpg) 0 0 no-repeat;
+height:56px;
+margin:auto;text-align:left; /* leave unchanged */
+width:42.31em;
+ *width:41.29em;
+ min-width:550px;
+*width:550px;
+}
+
+#custom-doc 
+{width:42.31em;
+ *width:41.29em;
+ min-width:550px;
+ margin:auto; 
+ text-align:left; 
+}  
+
+#ft{
+background:url(/images/forms_thankyou_footer.gif) no-repeat;
+height:13px;
+margin:auto;text-align:left; /* leave unchanged */
+width:42.31em;
+ *width:41.29em;
+ min-width:550px;
+*width:550px;
+}
+
+#footer_content{
+padding:55px 0 0 25px;
+}
+
+/* common.css END */
+
+/* rest of content */
+
+.explain
+{color:#999999;
+ font-family:arial;
+ text-align:left;
+ margin-bottom:10px;
+}
+
+.side
+{float:right;
+ padding-left:10px;
+ position:relative;
+ *position:absolute;
+ padding-top:10px;
+ width:130px;
+}
+
+div#details_font
+{font-size:150%;
+ color:#A1A1A1;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div#red_font
+{font-size:100%;
+ color:red;
+ display:inline;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div#basket_font
+{font-size:100%;
+ color:red;
+ float:right;
+ padding:5px;
+ padding-top:15px;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div#submit_font
+{font-size:100%;
+ color:red;
+ float:right;
+ padding:5px;
+ padding-top:17px;
+ font-family:arial;
+ font-weight:bold;
+}
+
+
+div.middle_content
+{width:510px; 
+ height:100%;
+ float:left;
+ padding-left:20px;
+ margin-top:10px;
+ margin-bottom:10px;
+ *padding-bottom:10px;
+}
+
+div.middle_content hr
+{border-top:1px solid #D6D6D6;
+}
+
+div.middle_content h1
+{font-size:153.9%;
+ color:black;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div.middle_content h2
+{font-size:123.1%;
+ color:black;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div.middle_content p
+{color:#999999;
+ font-size:100%;
+ font-family:arial narrow;
+ font-weight:bold;
+ margin-top:10px;
+ margin-bottom:10px;
+}
+
+div.middle_content blockquote
+{margin-left:20px;
+	color:#999999;
+	font-size:93%;
+	font-family:arial narrow;
+	font-weight:bold;
+}
+
+div#admin
+{background-color:white;
+}
+
+div.left_content
+{width:200px; 
+ padding-left:40px;
+ margin-top:10px;
+ padding-right:10px;
+ height:100%;
+ float:left;
+}
+
+ul.details
+{width:500px; 
+ font-size:100%;
+ color:#717171;
+ display:inline;
+ font-family:arial narrow;
+ font-weight:bold;
+ float:left;
+ text-align:left;
+ border-bottom:1px solid #D6D6D6;
+}
+
+ul.details li
+{border-top:1px solid #D6D6D6;
+ text-align:left;
+ float:left;
+ width:500px; 
+ padding-bottom:14px;
+}
+
+ul.details li.line
+{line-height:200%;
+}
+
+div#li_font,div#li_font_1,div#li_font_2,div#li_font_3,div#li_font_4,div#li_font_5,div#li_font_6,div#li_font_7,div#li_font_8,div#li_font_9,div#li_font_10,div#li_font_11,div#li_font_12,div#li_font_13,div#li_font_14,div#li_font_15,div#li_font_16,div#li_font_17,div#li_font_18,div#li_font_19,div#li_font_20
+{font-size:100%;
+ color:#FE7A22;
+ width:200px;
+ float:left;
+ margin:0px;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div#li_font2
+{font-size:100%;
+ color:#FE7A22;
+ width:200px;
+ float:left;
+ margin:0px;
+ padding-left:200px;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div#li_font3
+{font-size:100%;
+ color:#FE7A22;
+ width:200px;
+ float:left;
+ margin:0px;
+ padding-left:200px;
+ margin-top:-23px;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div.fm_submit
+{padding:10px;
+ float:right;
+}
+
+div.submit_button
+{float:right;
+ padding-top:10px;
+}
+
+#crust,#crust_1,#crust_2,#crust_3,#crust_4,#crust_5,#crust_6,#crust_7,#crust_8,#crust_9,#crust_10,#crust_11
+{width:140px;
+ font-size:90%;
+ height:18px;
+ color:#999999;
+}
+
+#number
+{width:45px;
+ font-size:90%;
+ height:18px;
+ color:#999999;
+}
+
+.right_side
+{padding-left:10px;
+ padding-right:2px;
+ float:left;
+}
+
+.right_side2
+{float:right;
+}
+
+.text_font
+{color:#999999;
+ font-size:90%;
+ padding-bottom:14px;
+}
+
+#field,#field_1,#field_2,#field_3,#field_4,#field_5,#field_6,#field_7,#field_8,#field_9
+{width:250px;
+}
+
+#industry,#industry_1,#industry_2,#industry_3,#industry_4,#industry_5,#industry_6
+{width:250px;
+ font-size:90%;
+ height:18px;
+ color:#999999;
+}
+
+.indent_radio input[type="radio"] {
+	margin-left: 40px;
+}

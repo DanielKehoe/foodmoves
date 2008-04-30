@@ -1,0 +1,7 @@
+if params[:page].nil?
+  page.replace_html rdom_class(model_class, "embedded"), :roar_partial => "embedded"
+else
+  page.replace_html rdom_class(model_class, "rpage"), :roar_partial => "page"
+end
+page << "Progress.removeAll()"
+

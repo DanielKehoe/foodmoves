@@ -1,0 +1,84 @@
+<!-- Members/New -->
+<!-- using layout "forms_narrow" -->
+<div class="yui-g">
+	<div class="middle_content">
+		<div id="details_font">SET UP TRADING</div>		
+		<p class="explain">To buy or sell produce on Foodmoves, you must be affiliated with an established company in the produce industry.</p>
+		<p class="explain">Each time you buy, or sell, you are entering into a legally binding contract on behalf of your company. So, for everyone's protection, we call to verify that you are authorized to trade for your company. Often, you can begin trading within a few minutes to several hours after submitting this information.</p>
+		<br />
+		<div id="tabbed">
+		<% form_for :organization, :url => members_path, :html => { :class => 'baseform' } do |form| -%>		
+		<%= error_messages_for :organization %>		
+			<ul id="tab_group_one" class="subsection_tabs">
+			    <li><a href="#one">Step 1</a></li>
+			    <li><a href="#two">Step 2</a></li>
+			    <li><a href="#three">Step 3</a></li>
+			    <li><a href="#four">Step 4</a></li>
+			</ul>
+			<div id="one">					
+		  		<%= render :partial => 'form_one' -%>
+					<br />
+					<br />
+					<div class="right">
+					<%= submit_to_remote 'submit', 'Go To Step 2',
+							:update => 'dynamic_form_two',
+							:url => { :action => 'step_two_for_new' },
+							:before => "$('indicator').show();",
+							# :before => "tabs.setActiveTab('two')",
+							:success => "tabs.setActiveTab('two');",
+							:failure => "alert('There was an error.')",
+							:complete => "$('indicator').hide();javascript:urchinTracker('/set_up_trading/step_two');" 
+							%>
+					</div>
+			</div><!-- id="one" -->
+			<div id="two">
+				<div id="dynamic_form_two">
+					<%= render :partial => 'form_two' -%>
+				</div>
+				<br />
+				<br />
+				<div class="right">
+				<%= submit_to_remote 'submit', 'Go To Step 3',
+						:update => 'dynamic_form_three',
+						:url => { :action => 'step_three_for_new' },
+						:before => "$('indicator').show();",
+						# :before => "tabs.setActiveTab('two')",
+						:success => "tabs.setActiveTab('three');",
+						:failure => "alert('There was an error.')",
+						:complete => "$('indicator').hide();javascript:urchinTracker('/set_up_trading/step_three');" 
+						%>
+				</div>
+			</div><!-- id="two" -->
+			<div id="three">
+				<div id="dynamic_form_three">
+					<%= render :partial => 'form_three' -%>
+				</div>
+				<br />
+				<br />
+				<div class="right">
+				<%= submit_to_remote 'submit', 'Go To Step 4',
+						:update => 'dynamic_form_four',
+						:url => { :action => 'step_four_for_new' },
+						:before => "$('indicator').show();",
+						# :before => "tabs.setActiveTab('two')",
+						:success => "tabs.setActiveTab('four');",
+						:failure => "alert('There was an error.')",
+						:complete => "$('indicator').hide();javascript:urchinTracker('/set_up_trading/step_four');" 
+						%>
+				</div>
+			</div><!-- id="three" -->
+			<div id="four">
+				<div id="dynamic_form_four">
+					<%= render :partial => 'form_four' -%>
+				</div>
+				<br />
+				<div class="right">
+					<%= submit_tag 'Submit to Authorize', :onclick => "javascript:urchinTracker('/welcome/member');"  %>
+				</div>
+				<div class="clear" />
+			</div><!-- id="four" -->
+		<script type="text/javascript"> var tabs = new Control.Tabs('tab_group_one'); </script>	
+	<% end %>
+	</div><!-- id="tabbed" -->
+	</div><!-- middle_content -->
+</div><!-- yui-g -->

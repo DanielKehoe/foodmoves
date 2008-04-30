@@ -1,0 +1,35 @@
+<!-- COMPLETED AUCTIONS -->
+<div class="rows_heading">
+	<div class="hd_cell_1 red bold">RECENT SALES</div>
+	<div class="baker_hd_cell_3">Ended</div>
+</div><!-- rows_heading -->
+<div class="clear"></div>
+<div class="rows_container">
+	<% unless @sales.size == 0 %>   
+		<% for auction in @sales %>
+			<div class="row_listing">
+				<div class="row_description"><% if auction.test_only -%><%= link_to image_tag('products/test.gif', :alt=>"\"#{auction.description}\"", :title=>"See details for \"#{auction.description}\"", :class => 'thumb'), auction_path(auction) -%><% else -%>
+					<% unless auction.assets.first.nil? -%>
+						<%= link_to image_tag(auction.assets.first.public_filename(:size44), :alt=>"\"#{auction.description}\"", :title=>"See details for \"#{auction.description}\"", :class => 'thumb'), auction_path(auction) -%>
+					<% else -%>
+						<%= link_to image_tag('products/generic.gif', :alt=>"\"#{auction.description}\"", :title=>"See details for \"#{auction.description}\"", :class => 'thumb'), auction_path(auction) -%>
+					<% end -%>
+					<% end -%>&nbsp;<%= auction.shipping_from -%><br />&nbsp;<%= auction.description -%>
+				</div><!-- id="row_description" -->
+				<div class="baker_cell_3"><%= distance_of_time_in_words(Time.now, auction.date_to_end) -%> ago</div>
+				<div class="baker_cell_8">
+					<%= button_to "Quick Copy", quickcopy_auction_path(auction), :method => :get %>
+				</div>
+			</div><!-- id="row_listing" -->
+			<div class="line_style_1"></div>
+		<% end -%>
+	<% else -%>
+		<div class="row_listing">
+			<div class="row_description">
+				You have no recent sales.
+			</div><!-- id="row_description" -->
+		</div><!-- id="row_listing" -->
+		<div class="line_style_1"></div>
+	<% end -%>
+</div><!-- rows_container -->
+<!-- COMPLETED AUCTIONS (END) -->

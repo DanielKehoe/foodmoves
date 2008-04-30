@@ -1,0 +1,13 @@
+RealButtons
+===========
+
+A mixin to allow you to use the <button> tag in forms rather than the 
+non-stylable <input>-base dsubmits we're all used to!
+
+Consists of two methods
+
+real_button_to      replaces    button_to
+button_submit_tag   replaces    submit_tag
+
+To use simply replace the call to the helper in your view. The arguments 
+are the same.

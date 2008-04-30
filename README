@@ -1,0 +1,82 @@
+<<<<<<< .mine
+TEST FROM MEMO AFTER USER NAME CHANGE
+
+Caboose SSL Sample App
+=======
+DANIEL'S LATEST TEST
+>>>>>>> .r1504
+==================
+
+This is a sample application containing a bunch of useful plugins and code to help you get started quicker.  
+It is intended to be an example of "better practices", but with the intention of ultimately being
+"best practice" through collaboration and iterative improvement.
+
+The application implements many of the basic and advanced features I find myself using in every new project.
+These are the same as the base sample app:
+
+  - a user model with a few extra fields (last login, timezones)
+  - restful authentication.
+  - full timezone support
+  - basic views implemented with Yahoo! YUI CSS grids.
+  - behavioral testing with rspec, including good example of mocking in controller specs.
+  - exception notification
+  - nested resources (user/assets)
+  - polymorphic asset model
+  - basic authorization
+  - around_filters
+
+Please note, however, that much of the code is targeted at an intermediate/advanced level, so if you
+don't understand the code, don't fret.
+
+
+SSL Features
+============
+
+In addition to the base features, this branch also includes:
+
+  - SSL encryption
+  - lighttpd config
+  - SSL requirements on user editing and login.
+
+This branch will pretty much stay current with the features from other sample apps.
+
+INSTALL:
+
+  Quickstart: 
+    Please note, this probably will not work on Windows systems. Please send patches.
+  
+    Install Ruby, RubyGems, Rails with all its dependencies, a database package (MySQL, Postgresql, sqlite etc) and the appropriate bindings.
+      You will need the latest versions of all of these.  If you already have a working stack you might try
+        gem update --system
+        gem update rails
+
+    Install a few required gems: tzinfo, rspec
+    Create config/database.yml; if you don't know how to do this, then you probably won't learn anything from this app.
+    Import the database with rake db:migrate
+    
+    Buy yourself an SSL certificate, or jfgi a self-signed cert.
+    Recompile your webserver with SSL if requred. (or, install the SSL-enabled package where available)
+      You may need to install openssl-devel package.
+      For example; on MacOSX
+        # sudo port install lighttpd +ssl
+        
+    Configure your webserver with the certificate. A sample lighttpd config is provided as is a sample self-signed certificate.
+    A self-signed certificate is really just a fake cert that you can use to test your website. You will ultimately need
+    to purchase a certificate from someone like GoDaddy for anywhere between $15 (for one hostname) up to $300 (for a wildcard
+    cert that allows *.yourdomain.com).    
+
+
+  It's strongly advised that you check out the stable version of any caboose sample app (it will have tags/v00x where x is a number).
+  You can do this with piston (jfgi) if you want to keep up to date.  Once a version is released, we aim to back-port bugfixes to
+  stable, but new features will go into the next version.
+
+TODO:
+
+  Sample controllers and models
+  More useful plugins
+  Good examples of ajax
+  Better list of requirements
+  
+TODONE:
+
+  x Polymorphic Image model using attachment_fu

@@ -1,0 +1,13 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), watched_locations_path %>&nbsp;Watched Locations</h1>
+
+<h2>New Watched Location</h2>
+
+<% form_for :watched_location, :url => watched_locations_path, :html => { :class => 'baseform' } do |form| -%>
+
+  <%= render :partial => 'form', :object => form -%>
+
+	<p>
+		<%= submit_tag 'Create' -%>
+	</p>
+	
+<% end -%>

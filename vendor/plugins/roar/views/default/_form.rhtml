@@ -1,0 +1,20 @@
+
+<% 
+html_options = if record.new_record?
+  { :class  => rdom_class(record, :new),  :id => rdom_id(record, :new_form), :method => :post }
+else
+  { :class  => rdom_class(record, :edit), :id => rdom_id(record, :edit_form), :method => :put }
+end
+html_options[:class] += " roar"
+url = record.new_record? ? collection_path(rsingular_class_name(record)) : model_path(record)
+html_options.merge!(:multipart => true) if form.has_file_field?
+ %>
+
+<% form_for(rsingular_class_name(record), record, :url=>url, :html=>html_options) do |f| %>
+  <%= error_messages_for('record') %>
+  <% form.fields.each do |field| %>
+    <%= roar_field(field, f, record) %>
+  <% end %>
+
+  <%= render(:roar_partial=>"form_actions", :view=>form.view, :locals=>{:form=>form,:record=>record}) %>
+<% end %>

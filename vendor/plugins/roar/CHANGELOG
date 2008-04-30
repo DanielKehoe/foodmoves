@@ -1,0 +1,152 @@
+= Roar Changelog
+
+== svn trunk (not yet released)
+
+* Renames -- this should only affect anyone doing customization:
+    * table -> collection   (note: table is there as an alias, it will likely be removed sometime in the future)
+    * Roar::Rails::AdminHelper -> Roar::Rails::Helper
+		* Roar::Admin -> Roar::Base
+		
+* Abstract the dynamic has_many association creations out into an active record class method, roar_crud_association -- it takes two arguments, the has_many association, and an optional key that must be present for the associated model to be created:
+
+   roar_crud_association :poll_options, :option
+
+* Override the model name with:
+   roar :model_name=>"MyFunkyModel" do
+
+* Add a show link that mimics the behavior of edit.  You must implement a partial of _show.rhtml
+	
+	table do
+	  show     				# Adds a link with link text 'show' that defaults to inline
+	  show "View"     # Adds a link link text "View"
+	  show :title     # Adds a link with link text being: record.title
+	  show :type=>:single  # hide the table
+	  show :type=>:modalbox # Use a modalbox popup
+	end
+		
+* Add before_filter to the roar api: (thanks Diego)
+
+		roar do
+		  before_filter :login_required
+		end
+	
+	Will execute before_filter only if that roar block is applied.  Note that no other rails filters amenities are provided (filter conditions, block filters). 
+	
+* expose roar_enabled? as public, so filters can be written and applied only to roar actions:
+
+  login_required if roar_enabled?
+
+* columns now inherit their table's view
+* link column -- the required param is the link text, and the block returns the url.  If the :url_from option is specified, the link helper will pull the url from the record.
+	link :"category.name" do "#{edit_category_path(@record.category)}"; end
+	link "homepage", :from => :homepage_url  == <%= link_to "homepage", @user.homepage_url %>
+	
+* Execute column blocks in the view context.  @column_attribute and @record are set for the block.  Note that no block parameter is specified.
+	column :body do truncate(@column_attribute, 20); end
+	
+	The old way still works: if a block parameter is given, then it is executed in the context in which it is defined:
+	column :body do |body| "This is the #{body}"; end  # works, but
+	column :body do |body| truncate(body, 20); end     # does not work, since truncate is not defined 
+	
+	The old way may be deprecated or removed shortly.
+
+* Column parameter now dispatches based on type -- if it is a symbol it uses the column attribute:
+   column :name   					# displays @post.name
+   column "name"  					# displays "name"
+   column :"category.name"  # displays @post.category.name
+
+* Edit link -- can work in three ways:
+   edit :title                     # Default is inline editing (should this be the default?  configurable?)
+	 edit :title, :type => :single   # Hides the table to provide a focused editing view
+	 edit :title, :type => :modalbox # Opens the edit view in a modalbox popup
+	The syntax for this may change, and it doesn't work for anything other than the save action right now.
+* Fix detection of file fields
+* Internet Explorer 7 support
+
+== Version 0.5, The Peter Gunn Edition
+
+* Switch to modalbox for js popups
+* Reworked the admin, so it can be defined multiple times in one controller:
+
+	class PostsController < ApplicationController
+		roar :prefix => "admin" do
+			# Admin definition here
+		end
+		
+		roar :view => "show" do
+			# public view here
+		end
+	end
+	
+* Added map.roar to simplify scoped admin resources, with a path_prefix of /admin by default:
+
+	# These two lines are the same
+	map.roar :users 
+	map.resources :users, :path_prefix => "/admin", :name_prefix => "roar_", :member => { :delete => :get }
+	
+* Added prefix option, so roar actions can be scoped via the path prefix
+
+	class PostsController < ApplicationController
+		# this will activate with a path of "/admin/resources"
+		roar :prefix => "admin" do
+		end
+	end
+	
+* Added has_many field that deprecates relationship.  Allows you to specify complex has_many relationships that 
+are created in one form via javascript.  Example:
+
+	form do
+	  text_area :description
+	  has_many :poll_options, :model=>PollOption, :number_blank => 0 do
+	    text_field :option
+	  end
+	end
+
+* Fields can now take blocks, to allow more complicated fields
+* Add html escaping
+* Cancel works for non xhr forms
+* Eliminate the requirement for patched prototype, use rails defaults
+* Eliminated the edit/edit_inline split in favor of edit which edits inplace.  Also, stopped hiding the table view for the new form.  This simplifies the js code, and makes it much more flexible (hopefully, anyway)
+* Reworked the html (ids/classes) and the admin js in a continuing effort to be namespaced, so that the admin js may be dropped into any app, and so that that with a little care, the form ajax capabilities can be dropped into a non roar controller or frontend.
+* Broke out actions into separate rjs files (eg actions/create_save_and_add_another.rjs)
+* Added form_table view for displaying forms as tables
+* form can take a view option, for customizable form view
+* Added new_form/edit_form, for separate new/edit views
+* Added boolean column, to display scannable true/false values as easily scannable images
+* Added sortable as a custom action to the list view.  Providing a sortable list view, is as easy as:
+
+	table :view => "list" do
+		edit :name
+		actions [ :sortable ]
+	end
+	
+	roar_order
+	
+* Added actions to the table view, so that you can perform actions on multiple items at one time.
+
+  Example for Item:
+	table do
+		edit :title
+		action
+		actions [:delete, :mark_as_read]
+	end
+	
+	In routes:
+	map.resources :items, :collection => { :delete => :post, :mark_as_read => :post }
+	
+	Then, define the action for delete and mark_as_read in your controller.
+	
+* Added a list view that renders the data in an unordered list, instead of a table
+* Multiple table definitions allowed.  A name option is used, which defaults to the
+  view if no name has been given.
+* Parameters: per_page, include, and order can be defined at the table level:
+
+	table(:per_page => 20, :include => "user", :order => "created_at") do ... end
+	
+* Rename the style parameter to view, to better document what it is
+* Add redbox based javascript window, in place of prototype js window
+* Added select_and_add component
+
+== Version 0.2
+
+First public release

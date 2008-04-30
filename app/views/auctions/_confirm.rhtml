@@ -1,0 +1,188 @@
+<% if @auction.date_to_end.nil? %>
+	<p>
+		&nbsp;It seems you have not entered all the information we need to create a new auction. Please enter all the required information, starting with the &quot;Step One&quot; tab.
+	</p>
+<% else %>
+	<div id="flashes">
+	  <div id="flash-notice" class="notice" style="display: <%= flash[:notice] ? 'block' : 'none' %>;"><%= flash[:notice] %></div>
+	  <div id="flash-errors" class="errors" style="display: <%= flash[:error] ? 'block' : 'none' %>;"><%= flash[:error] %></div>
+	</div>
+	<% if @allow %>	
+		<p>
+			Please confirm auction details before clicking the button to create a new auction. After an auction is created, it cannot be changed or deleted.
+		</p>
+	<% else %>
+		<p>
+			Some information is missing. Please select tabs for &quot;Step One,&quot; &quot;Step Two,&quot; or &quot;Step Three&quot; to provide the missing information.
+		</p>
+	<% end %>
+	<br />
+	<table border="0" cellspacing="15" cellpadding="15">
+	<tr><td>Seller</td><td><%= @auction.user.name %></td></tr>
+	<tr><td>Date to start</td><td><%= local_time @auction.date_to_start %></td></tr>     
+	<tr><td>Date to end</td><td><%= local_time @auction.date_to_end %></td></tr>
+	<tr><td style="vertical-align:top;">Shipping from</td><td><% unless @auction.address.nil? %><%= @auction.address.address_block %><br />(<%= @auction.address.tag_for_address %>)<% else %><b>MISSING LOCATION</b><% end %></td></tr>  
+	<tr><td>Quantity</td><td><%= @auction.quantity %></td></tr>     
+	<tr><td>Minimum quantity</td><td>
+		<% if @auction.allow_partial == true -%>
+			<%= @auction.min_quantity %> (purchase of partial quantity allowed)
+		<% else -%>
+			<%= @auction.quantity %> (full quantity bids only)
+		<% end -%>
+	</td></tr>
+	<tr><td>How packed</td><td>
+		<% unless @auction.pack.nil? %>
+			<%= @auction.pack.name.titlecase %>
+		<% end %>
+	</td></tr>
+	<tr><td>Cases Per Pallet</td><td><%= @auction.cases_per_pallet %></td></tr>
+	<tr><td>Total Pallets</td><td><%= @auction.pallets %></td></tr>		
+	<tr><td>Description</td><td><%= @auction.description %></td></tr>
+	<tr><td>Size</td><td>
+		<% unless @auction.size.nil? %>
+			<%= @auction.size.name %>
+		<% end %>
+	</td></tr>
+	<tr><td>Per case count</td><td>
+		<% unless @auction.per_case.nil? %>
+			<%= @auction.per_case.name %>
+		<% end %>
+	</td></tr>
+	</table>
+	<br />
+	<br />
+	<table border="0" cellspacing="15" cellpadding="15">
+	<tr><td>Country of origin</td><td><%= @auction.country.name -%>
+		<% if @auction.for_export == true -%>
+			(for export)
+		<% else -%>
+			(for domestic use)
+		<% end -%></td></tr>
+	<tr><td>Organic Certified?</td><td>
+		<% if @auction.organic == true -%>
+			Yes
+		<% else -%>
+			No
+		<% end -%>
+	</td></tr>
+	<tr><td>Fair Trade Certified?</td><td>
+		<% if @auction.fair_trade == true -%>
+			Yes
+		<% else -%>
+			No
+		<% end -%>
+	</td></tr>		
+	<tr><td>Kosher Certified?</td><td>
+		<% if @auction.kosher == true -%>
+			Yes
+		<% else -%>
+			No
+		<% end -%>
+	</td></tr>	
+ 	<tr><td style="vertical-align:top;">Certifications</td><td>
+		<% for certification in @auction.certifications %>
+		  <%=h certification.name %><br />
+		<% end %>
+	</td></tr>
+	<tr><td style="vertical-align:top;">Treatments</td><td>
+		<% for treatment in @auction.treatments %>
+		  <%=h treatment.name %><br />
+		<% end %>
+	</td></tr>		
+	<tr><td>Grown</td><td>
+		<% unless @auction.grown.nil? %>
+			<%= @auction.grown.name %>
+		<% end %>
+	</td></tr>
+	<tr><td>Weight</td><td>
+		<% unless @auction.weight.nil? %>
+			<%= @auction.weight.name %>
+		<% end %>
+	</td></tr>	
+	<tr><td>Color</td><td>
+		<% unless @auction.color.nil? %>
+			<%= @auction.color.name %>
+		<% end %>
+	</td></tr>
+	<tr><td>Quality</td><td>
+		<% unless @auction.quality.nil? %>
+			<%= @auction.quality.name %>
+		<% end %>
+	</td></tr>
+	<tr><td>Condition</td><td>
+		<% unless @auction.condition.nil? %>
+			<%= @auction.condition.name %>
+		<% end %>
+	</td></tr>	 	  
+	<tr><td>PLU sticker?</td><td>
+		<% if @auction.plu_stickered == true -%>
+			Yes
+		<% else -%>
+			No
+		<% end -%>
+	</td></tr>
+	<tr><td>PLU</td><td><%= @auction.plu %></td></tr>
+	</table>
+	<br />
+	<br />
+	<table border="0" cellspacing="15" cellpadding="15">  
+	<tr><td>Req'd Credit Worth</td><td><%= @auction.creditworth.description %></td></tr>   
+	<tr><td>Req'd Timeliness</td><td><%= @auction.timeliness.description %></td></tr>  
+	<tr><td>Req'd Risk Factor</td><td><%= @auction.integrity.description %></td></tr>
+	<tr><td>Date to pickup</td><td><%= local_time @auction.date_to_pickup %> (<%= @auction.pickup_limit %> hours after sale ends)</td></tr>
+	<tr><td>Current Pulp Temp.&nbsp;&nbsp;</td><td><%= @auction.temperature %>&deg;
+		<% if @auction.celsius == true -%>
+			C
+		<% else -%>
+			F
+		<% end -%>
+	</td></tr>
+	<tr><td>Iced?</td><td>
+		<% if @auction.iced == true -%>
+			Yes
+		<% else -%>
+			No
+		<% end -%>
+	</td></tr>
+	<tr><td>Barcoded?</td><td>
+		<% if @auction.barcoded == true -%>
+			Yes
+		<% else -%>
+			No
+		<% end -%>
+	</td></tr>
+	<tr><td>Minimum bid</td><td><%= number_to_currency @auction.minimum_bid %></td></tr>
+	<tr><td>It's Yours<sup>&trade;</sup> price</td><td><%= number_to_currency @auction.buy_now_price %></td></tr>
+	<tr><td>Bid increment</td><td><%= number_to_currency @auction.bid_increment %></td></tr>
+	</table>
+	<br />
+	<br />
+	<table border="0" cellspacing="15" cellpadding="15">
+	<tr><td>Lot Identification #</td><td><%= @auction.lot_number %></td></tr>
+	</table>
+	<table border="0" cellspacing="15" cellpadding="15">
+	<tr><td>Pickup #</td><td><%= @auction.pickup_number %></td></tr>
+	</table>
+	<br />
+	<% if @allow %>
+		<% fields_for :auction do |form| %>
+			<%= form.hidden_field :pallets %>
+			<%= form.hidden_field :date_to_pickup %>
+			<%= form.hidden_field :minimum_bid %>
+			<%= form.hidden_field :buy_now_price %>
+		<% end %>
+		<% restrict_to 'member' do -%>
+			<p>
+				<%= submit_tag "Confirm New Auction" %>
+			</p>
+		<% end %>	
+		<% restrict_to 'guest' do -%>
+			<div id="upgrade_guest">
+				<p>Your account is not affiliated with a company. You cannot list products for sale. Would you like to affiliate your account with an organization?</p>
+				<p>
+					<%= button_to 'Set Up Trading', new_member_path -%>
+				</p>
+			</div><!-- id="upgrade_guest" -->	
+		<% end %>
+	<% end %>
+<% end %>

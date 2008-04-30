@@ -1,0 +1,26 @@
+<li><div class="title">
+	<%= link_to "#{auction.description}", auction_path(auction) -%>
+	<br />
+	<% if auction.allow_partial -%>
+		<span class="auction_detail"><%= auction.min_quantity -%> to <%= auction.quantity -%>
+	<% else -%>
+		<span class="auction_detail"><%= auction.quantity -%>
+	<% end -%>
+	units 
+	<% unless auction.size.nil? -%>
+		<% if auction.size.name.downcase.include?('sold by count') -%>
+			(<%= auction.per_case.name -%>)
+		<% else -%>
+			(<%= auction.size.name -%>)
+		<% end -%>
+	<% end -%>
+	at
+	<% unless auction.how_many_bids -%>
+		<%= number_to_currency auction.current_bid -%>
+	<% else -%>
+		<%= number_to_currency auction.minimum_bid -%>
+	<% end -%>
+	</span>
+	<br />
+	<span class="auction_detail"><%= auction.shipping_from -%></span>
+</div></li>

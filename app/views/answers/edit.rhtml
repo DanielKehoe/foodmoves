@@ -1,0 +1,39 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), answers_path %>&nbsp;FAQs</h1>
+
+<h2><%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), answer_path(@answer) -%>&nbsp;Show</h2>
+
+<h2><%= link_to image_tag('table_delete.png', :alt=>'Delete', :title=>'Delete Item'), answer_path(@answer), :confirm => 'Are you sure?', :method => :delete %>&nbsp;Delete?</h2>
+
+<%= error_messages_for :answer -%>
+
+<% form_for :answer, :url => answer_path(@answer), :html => { :method => :put, :class => 'baseform' } do |form| -%>
+
+	<label>Sort order</label>
+	<span><%= form.text_field :sort_order %></span><br />
+
+	<br />
+
+    <label>Approved for Publication?</label>
+    <span><%= form.check_box :approved %></span><br />
+
+	<br />
+	
+	<label>Asked by</label>
+	<span><%= form.text_field :created_by %></span><br />
+
+	<label>Topic</label>
+	<span><%= form.text_field :topic %></span><br />
+
+	<label>The Question</label>
+	<br />
+	<span><%= form.text_area :question, :size => "60x5" %></span><br />
+
+	<label>The Answer</label>
+	<br />
+	<span><%= form.text_area :answer, :size => "60x15" %></span><br />
+	
+	<p>
+		<%= submit_tag "Update" -%>
+	</p>
+	
+<% end -%>

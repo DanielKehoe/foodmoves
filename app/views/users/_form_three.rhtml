@@ -1,0 +1,85 @@
+<!--[form:contact]-->
+<% if @on_step_three == false %>
+		<br />
+		<br />
+		<div class="errorExplanation">
+			<% if flash.any? %>
+				<p>
+					<b><%= flash[:notice] %></b>
+					<div class="red"><b><%= flash[:error] %></b></div>
+				</p>
+			<% else %>
+				<h2><b>We don't have enough information.</b></h2>
+		    	<p>It seems you did not enter a Company Name and click the &quot;Next&quot; button.</p>
+			<% end %>
+				<p>Please select the &quot;Step 2&quot; tab (above), enter the required information, and click the button at the bottom of the form.</p>
+		</div>
+<% else %>
+	<br />
+	<% fields_for :organization do |form| %>
+		<% if flash.any? %>
+			<div class="errorExplanation">
+				<p>
+					<b><%= flash[:notice] %></b>
+					<div class="red"><b><%= flash[:error] %></b></div>
+				</p>
+			</div>
+		<% end %>	  
+		<ul class="details">		
+			<li class="line">
+				<div class="text_font_1">
+					You entered&hellip;
+				</div>
+				<div class="left">
+					<span class="orange">Company&nbsp;Name:</span> <%=h @organization.name %>
+				</div>
+			</li>
+		<li class="line">	
+		<% unless @organizations.empty? %>
+			<% if @organizations.size == 1 %>
+				<%= form.hidden_field :id %>
+				<%= form.hidden_field :name,  :value => @organizations.first.name %>
+				<div class="text_font_1">
+					We found the following close match:
+				</div>
+				<div class="left">
+					<span class="orange">Company Name:</span>&nbsp;<%=h @organizations.first.name %>
+				</div>
+				<br />
+				<div class="text_font_1">
+					If this is correct, click &quot;Next.&quot;
+				</div>
+				<br />
+			<% else %>
+				<div class="text_font_1">
+					We found the following close matches (choose one):
+				</div>
+				<br />
+				<%= form.collection_select :id, 
+					@organizations, 
+					:id, 
+					:name_plus_location %>
+			<% end %>
+		<% else %>
+			<div class="text_font">
+				We don't have any record for this company.
+			</div>
+			<div id="text_font_1">
+				Please enter the full legal name of the company
+			</div>
+			<div id="li_font">
+				Company Name
+			</div>
+			<div class="left">
+				<%= form.text_field :name, :size => 60 %>
+			</div>
+			<br />
+			<br />
+		<% end %>
+		</li>	
+		</ul>
+
+	<% end %>
+<% end %>
+<!--[eoform:contact]-->
+

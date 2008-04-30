@@ -1,0 +1,5 @@
+page.replace_html rdom_id(@record, 'row'), :roar_partial => "row"
+page << "$('#{rdom_id(@record, 'row')}').hide()"
+page.replace_html rdom_id(@record, 'edit'), :roar_partial => "edit"
+page << "Roar.resetSubmits('#{rdom_id(@record, 'edit')}')"
+page.call 'Flash.notice', "#{model_name} was successfully updated"

@@ -1,0 +1,42 @@
+<!--[form:prospect]-->
+<% fields_for :prospect do |form| %>
+	<br />
+    <label>Last Updated By</label>
+    <span><%= @prospect.updated_by %></span><br />
+	<br />
+	
+	<label>Assign To</label>
+	<span><%= form.collection_select :acct_exec_id, 
+		@administrators, 
+		:id, 
+		:name, 
+		{:prompt => "– unassigned –"} %></span><br />
+		
+	<label>Call Result</label>
+	<span><%= form.collection_select :call_result, 
+		CallResult.find(:all, :order => 'sort_order'), 
+		:name, 
+		:name %></span><br />
+
+    <label>Company Name</label>
+    <span><%= form.text_field :name %></span><br />
+
+	<label>Industry role</label>
+	<span><%= form.collection_select :industry_role,
+						IndustryRole.find(:all, :order => 'sort_order'), 
+						:answer, 
+						:answer %>
+	</span><br />
+
+    <label>Source</label>
+    <span><%= form.select :source, %w{070924_PMA 070924_Bluebook 07_PMA_show PMA bluebook referral research other Sept_2007_sales_trip} %></span><br />
+
+    <label>&nbsp;</label>
+    <span><b><%= link_to 'Email an Invitation', new_guest_path, {:popup => ['Invitation', 'width=400,height=500']}  -%></b>
+	</span><br />
+	
+<% end %>
+	<br />
+	<br />
+<!--[eoform:prospect]-->
+

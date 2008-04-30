@@ -1,0 +1,240 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), users_path %>&nbsp;<%=h @user.of_type %></h1>
+<h2><%= link_to image_tag('user_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_user_path(@user) -%>&nbsp;<%=h @user.name %></h2>
+
+<p><% if @user.email_confirmed -%><%= mail_to @user.email, image_tag('email.png', :alt=>"Confirmed email address"), :subject => "Message from Foodmoves.com" -%><% else -%><%= mail_to @user.email, image_tag('email_error.png', :alt=>"Unconfirmed email address"), :subject => "Message from Foodmoves.com" -%><% end -%>&nbsp;<b><%=h @user.email -%></b></p>
+
+<h2><% unless @user.last_login_at.nil? %><%=h @user.last_login_at.to_date.to_s(:long) %><% else %>never visited<% end %></h2>
+<h2><% if @user.of_type == 'Administrator'  %>
+		on at <%= local_time @user.last_login_at %>
+	<% elsif @user.of_type == 'Member' and @user.last_login_at.nil? -%>set up for trading but never visited!
+	<% elsif @user.of_type == 'Member' and !@user.last_login_at.nil? -%>
+		<% if @user.starts_as.nil? %>member<% else -%><%= @user.starts_as %><% end -%> on <%= distance_of_time_in_words(Time.now, @user.last_login_at) -%> ago
+	<% elsif @user.of_type == 'Guest' and !@user.last_login_at.nil? -%>
+		guest (potential <% if @user.starts_as.nil? %>?<% else -%><%= @user.starts_as %><% end -%>) on <%= distance_of_time_in_words(Time.now, @user.last_login_at) -%> ago
+	<% elsif @user.last_login_at.nil? and @user.invited_again_at.nil? -%>
+		invited <%= distance_of_time_in_words(Time.now, @user.created_at) -%> ago
+	<% elsif @user.last_login_at.nil? and !@user.invited_again_at.nil? -%>
+			RE-INVITED <%= distance_of_time_in_words(Time.now, @user.created_at) -%> ago
+	<% end -%>
+</h2>
+<h2>
+	<% if @user.last_login_at.nil? %>
+		<%= button_to "Invite Again", :controller => 'guests', :action => 'invite_again', :id => @user %>
+	<% end %>
+</h2>
+
+<% content_for(:secondary) do %>
+	<div class="show-secondary">
+
+		<label>Referred by</label>
+			<span>
+				<% unless @user.parent_id.nil? %>
+					<%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'), user_path(@user.parent_id) -%>&nbsp;<%=h @user.referred_by %>
+				<% else -%>
+					Unknown
+				<% end -%>
+			</span>
+		<br />
+
+		<label>Invitation code</label>
+			<span>
+				<% unless @user.invitation_code.nil? %>
+					<%= @user.invitation_code %>
+				<% else -%>
+					None
+				<% end -%>
+			</span>
+		<br />
+				
+		<label>Created at</label>
+			<span>
+				<%= local_time @user.created_at %>
+			</span>
+		<br />
+
+		<label>Updated at</label>
+			<span>
+				<%= local_time @user.updated_at %>
+			</span>
+		<br />
+		<br />
+		<% unless @user.roles.size == 0 %>	
+			<label>Allowed to access pages for</label>
+			<ul>
+				<% for role in @user.roles %>
+					<li><%=h role.title %></li>
+				<% end %>
+			</ul>
+		<% end %>	
+		<label><%= link_to image_tag('shield_add.png ', :alt=>'Update Permissions', :title=>'Change Permissions'), edit_user_permission_path(@user) %>&nbsp;<%= link_to 'Update Permissions', edit_user_permission_path(@user) %></label>
+		<br />		
+
+
+	<label>Organization</label>
+		<span>
+			<% unless @user.organizations.first.nil? -%>
+				<%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), organization_path(@user.organizations.first) %>&nbsp;<%= @user.organizations.first.name %>
+			<% else -%>
+				no organization
+			<% end -%>
+		</span>
+	<br />
+		
+	<label>Assigned to</label>
+		<span>
+			<% unless @user.organizations.first.nil? -%>
+				<% unless @user.organizations.first.acct_exec_id.nil? -%>
+					<% unless @user.organizations.first.administrator.nil? -%>
+						<%= @user.organizations.first.administrator.name %>
+					<% end -%>
+				<% else -%>
+					unassigned
+				<% end -%>
+			<% end -%>
+		</span>
+	<br />
+
+	<br />
+	<label>&nbsp;</label>
+		<span>
+			<%= link_to('Add Image', new_user_mugshot_path(@user), :class=>"rnew new-link") %>
+		</span>
+	<br />
+	
+	<% unless @user.assets.empty? %>	
+		<label><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), user_mugshots_path(@user) %>&nbsp;Images</label>
+				<% for asset in @user.assets %>
+					<%= link_to image_tag('table_delete.png', :alt=>'Delete', :title=>'Delete Item'), user_mugshot_path(@user, asset), :confirm => 'Are you sure?', :method => :delete %>&nbsp;<i>Delete image?</i>
+					<br />
+					<img src="<%= asset.public_filename(:size120) %>" title="<%= asset.public_filename(:size120) %>" alt="image should appear here" />
+					<br />
+				<% end %>
+		<br />
+		<br />
+	<% end -%>
+		
+	</div>		
+<% end %>
+
+<div class="show">
+	
+	<% unless @user.first_phone.blank? -%>
+		<label>Phone Number (unconfirmed)</label>
+			<span>
+				<%= link_to image_tag('phone.png', :alt => 'call', :title => @user.first_phone), "skype:#{@user.first_phone}" -%>&nbsp;<%= @user.first_phone %>
+			</span>
+		<br />
+	<% end -%>
+		
+	<% unless @user.phones.empty? %>	
+		<label>Phone Numbers</label>
+		<ul>
+			<li>
+				<% for phone in @user.phones %>
+				  <%= link_to image_tag('phone.png', :alt=>'Show', :title=>'Show Item'), phone_path(phone) %><%=h phone.localized(@current_user) %>&nbsp;<% unless phone.skype.blank? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => 'call with Skype'), "skype:#{phone.skype}" -%><% end -%>&nbsp;(<%=h phone.tag_for_phone %>)<br />
+				<% end %>
+			</li>
+		</ul>
+	<% end -%>
+	
+	<br />
+	<label>&nbsp;</label>
+		<span>
+			<%= link_to('Add Phone Number', new_user_phone_path(@user), :class=>"rnew new-link") %>
+		</span>
+	<br />
+
+	<% unless @user.addresses.empty? %>	
+		<label>Addresses</label>
+		<ul>
+			<li>
+				<% for address in @user.addresses %>
+				  <%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), address_path(address) %>&nbsp;<%=h address.tag_for_address %>:<br /><%= address.address_block %><br /><br />
+				<% end %>
+			</li>
+		</ul>
+	<% end -%>
+
+	<br />
+	<label>&nbsp;</label>
+		<span>
+			<%= link_to('Add Address', new_user_address_path(@user), :class=>"rnew new-link") %>
+		</span>
+	<br />
+
+	<% unless @user.watched_products.size == 0 %>	
+		<label>Email Alerts</label>
+		<ul>
+			<li>
+				<% for product in @user.watched_products %>
+				  <%= link_to image_tag('ico_1.gif', :alt=>'Delete', :title=>"Delete \"#{product.description}\" from email alerts"), {:action => 'delete_from_watchlist', :id => product.id}, :confirm => "Really delete \"#{product.description}\" from email alerts?", :method => :delete %>&nbsp;<%= product.description %><br />
+				<% end %>
+			</li>
+		</ul>
+	<% end -%>
+				
+	<% unless @user.affiliations.empty? %>	
+		<label>Trading For</label>
+		<ul>
+			<li>
+				<% for affiliation in @user.affiliations %>
+				  <% restrict_to 'manager' do -%><% unless affiliation.organization.nil? -%><%= link_to image_tag('ico_6.gif', :alt=>'Delete', :title=>"Remove #{@user.name} from authorization for trading for  #{affiliation.organization.name}"), affiliation_path(affiliation), :confirm => "Are you sure you want to remove #{@user.name} from authorization for trading for  #{affiliation.organization.name}?", :method => :delete %>&nbsp;<%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), organization_path(affiliation.organization) %>&nbsp;<%=h affiliation.organization.name_plus_location %>,<% else -%><span style="color:red;">COMPANY MISSING!</span><% end -%><% end -%>
+				<% if affiliation.approved %>
+					<i>authorization <%= link_to 'approved', affiliation_path(affiliation) %> <%= local_time affiliation.reviewed_at %> by <%=h affiliation.called_by %>. 
+						<% if affiliation.approved_to_sell -%>
+							Authorized to sell. 
+						<% end -%>
+						<% if affiliation.approved_to_buy -%>
+							Authorized to buy. 
+						<% end -%>	
+						</i>
+				<% else -%>
+					<i>authorization <%= link_to 'pending', affiliation_path(affiliation) %> since <%= distance_of_time_in_words(Time.now, affiliation.created_at) %></i>
+				<% end -%>
+				<br />
+				<% end %>
+			</li>
+		</ul>
+	<% end -%>
+	
+	<br />
+	
+	<label>Industry Role</label>
+		<span>
+			<%=h @user.industry_role %>
+		</span>
+	<br />
+
+	<label>Buyer or seller?</label>
+		<span>
+			<%=h @user.starts_as %>
+		</span>
+	<br />
+	
+	<label>Region</label>
+		<span>
+			<%= @user.region %>
+		</span>
+	<br />
+	
+	<label>Country</label>
+		<span>
+			<%= @user.country_name %>
+		</span>
+	<br />	
+	
+	<label>Time zone</label>
+		<span>
+			<%= @user.time_zone %>
+		</span>
+	<br />
+	
+	<% unless @user.children.size == 0 %>	
+		<label>Invited</label>
+		<ul>
+			<% for referral in @user.children %>
+				<li><% if referral.email_confirmed -%><%= mail_to referral.email, image_tag('email.png', :alt=>"Confirmed email address"), :subject => "Message from Foodmoves.com" -%><% else -%><%= mail_to referral.email, image_tag('email_error.png', :alt=>"Unconfirmed email address"), :subject => "Message from Foodmoves.com" -%><% end -%>&nbsp;<%= link_to referral.name, user_path(referral.id) %>&nbsp;<i>on <%=h referral.created_at.to_date.to_s(:long) %></i></li>
+			<% end %>
+		</ul>		
+	<% end %>
+</div>

@@ -1,0 +1,6 @@
+<% form_tag(model_path(@record), :class => "#{rdom_class(@record, :delete)} roar", :id => rdom_id(@record, :delete), :method => :delete) do |f| %>
+  <p>Delete <strong><%=h @record.to_roar_s %></strong>? 
+    <%= submit_tag("Yes, Delete", :name=>'delete', :class=>'rsubmit') %> or  
+    <%= link_to("Cancel", h(collection_path), {:class=>"rcancel", :id=>rdom_id(@record, "cancel-edit")}) %>
+  </p>
+<% end %>

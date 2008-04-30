@@ -1,0 +1,72 @@
+<!--[form:member]-->
+<% if @on_step_two == false %>
+		<br />
+		<br />
+		<div class="errorExplanation">
+			<% if flash.any? %>
+				<p>
+					<b><%= flash[:notice] %></b>
+					<div class="red"><b><%= flash[:error] %></b></div>
+				</p>
+			<% else %>
+				<h2><b>We don't have enough information.</b></h2>
+		    	<p>It seems you did not click the &quot;Go To Step 2&quot; button.</p>
+			<% end %>
+				<p>Please select the &quot;Step 1&quot; tab (above), enter the required information, and click the button at the bottom of the form.</p>
+	  </div>
+<% else %>
+	<br />
+	<% fields_for :organization do |form| %>
+		<% if flash.any? %>
+			<div class="errorExplanation">
+				<p>
+					<b><%= flash[:notice] %></b>
+					<div class="red"><b><%= flash[:error] %></b></div>
+				</p>
+			</div>
+		<% end -%>
+
+		<ul class="details">
+			<li class="line">
+				<div id="text_font">
+					<%= @organization.name %> has reported the following financial condition
+                    and trading reputation.
+				</div>
+				<br />
+				<table border="0" cellspacing="15" cellpadding="15">  
+				<tr><td>Credit Worth</td><td><% unless @organization.creditworth.nil? %><%= @organization.creditworth.description %><% end -%></td></tr>   
+				<tr><td>Timeliness</td><td><% unless @organization.timeliness.nil? %><%= @organization.timeliness.description %><% end -%></td></tr>  
+				<tr><td>Risk Factor</td><td><% unless @organization.integrity.nil? %><%= @organization.integrity.description %><% end -%></td></tr>
+				</table>
+			</li>
+		</ul>		
+		<ul class="details">
+			<li class="line">
+				<div class="text_font">
+					We need to verify this information through D&amp;B or Redbook credit reporting services. If there is a discrepancy, you must note it and ask the company to clarify.
+				</div>
+				<div id="text_font_1">
+					Financial Condition and Trading Reputation
+				</div>
+				<div id="li_font">Credit Worth</div>
+				<%= form.collection_select :creditworth_id, 
+					@creditworth, 
+					:id, 
+					:description %>
+				<br />
+				<div id="li_font">Timeliness of Payment</div>
+				<%= form.collection_select :timeliness_id, 
+					@timeliness, 
+					:id, 
+					:description %>
+				<br />
+				<div id="li_font">Risk Factor</div>
+				<%= form.collection_select :integrity_id, 
+					@integrity, 
+					:id, 
+					:description %>
+			</li>
+		</ul>
+	<% end %>
+<% end %>
+<!--[eoform:member]-->

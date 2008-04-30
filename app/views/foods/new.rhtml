@@ -1,0 +1,31 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), foods_path %>&nbsp;Foods</h1>
+
+<h2>New Food</h2>
+
+<% content_for(:secondary) do %>
+	<p><label>Choose New Parent Category:</label></p>
+	<div style="width:180px;height:415px">
+	    <%= live_tree(:food_tree, {
+	        :initial_data_root => @root,
+			:initial_data => "{id:1,name:'Foods'}",
+			:depth => 4,
+	        :on_click_item => remote_function(
+				:url => {:action => :specify_food}, 
+				:with => "'id=' + item.id"),
+	    }) %>
+	</div>
+<% end %>
+
+<%= error_messages_for :food %>
+
+<% form_for(:food, :url => foods_path) do |form| %>
+	<p>
+		<%= submit_tag "Create" %>
+	</p>
+	<p>
+		<label>Currently a Subcategory of:</label><br/>		
+		<%= render :partial => 'parent', :object => @food, :object => form %>
+	</p>	
+		<%= render :partial => 'form', :object => @food, :object => form %>
+<% end %>
+

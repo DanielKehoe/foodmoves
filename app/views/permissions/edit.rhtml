@@ -1,0 +1,19 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), users_path %>&nbsp;Users</h1>
+
+<h2><%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'), user_path(@user) -%>&nbsp;Permissions for <%=h @user.name %></h2>
+
+<%= error_messages_for :user %>
+
+<% form_for(:user, :url => user_permission_path(@user), :html => { :method => :put, :class => 'baseform' }) do |f| %>
+	
+	<fieldset class="baseform checks">
+		<h2>Give access to pages for</h2>
+		<% for role in Role.find(:all) %>
+		  <%= check_box_tag 'user[role_ids][]', role.id, @user.roles.include?(role) %>
+		  <label for="user[role_ids][]"><%=h role.title %></label><br />
+		<% end %>
+	</fieldset>
+
+		<%= submit_tag "Update" %>
+	
+<% end %>

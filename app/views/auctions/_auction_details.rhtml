@@ -1,0 +1,199 @@
+		<div id="details_font">Auction&nbsp;Details</div>
+		<dl class="detail_list_alt">	
+			<% if @auction.how_many_bids == 0  %>
+				<dt>How many bids</dt><dd><b>none
+			<% elsif @auction.how_many_bids == 1 %>
+				<dt>How many bids</dt><dd><b><%= @auction.how_many_bids -%> bid
+			<% else %>
+				<dt>How many bids</dt><dd><b><%= @auction.how_many_bids -%> bids
+			<% end %>
+			<% if @auction.buyer_id.nil?  %>
+				<% if logged_in? -%><% unless @auction.consignment %>
+					<% unless @current_user.id == @auction.seller_id %>
+						<% restrict_to 'member' do -%>
+							&nbsp;<a href="#" onclick="Element.toggle('bid_form_<%= @auction.id.to_s %>'); return false;"><%= image_tag('ico_10.gif', :alt=>'Enter Bid', :title=>"Enter Bid") -%>	</a>
+						<% end %>
+					<% end %><% end %>
+				<% end %>
+			<% end %></b></dd>		
+			<% if logged_in? -%>
+				<% if @auction.how_many_bids == 0  %>
+					<dt>Date last bid</dt><dd>&nbsp;</dd>
+				<% else %>
+					<dt>Date last bid</dt><dd><% unless @auction.date_last_bid.nil? -%><%= local_time @auction.date_last_bid -%><% end -%></dd>
+				<% end %>
+			<% else -%>
+				<dt>Date last bid</dt><dd><% unless @auction.date_last_bid.nil? -%><%= @auction.date_last_bid -%><% end -%></dd>
+			<% end -%>
+			<% if @auction.buyer_id.nil?  %>
+				<% if @auction.how_many_bids == 0  %>
+					<dt>Current bid</dt><dd>&nbsp;</dd>
+				<% else %>
+					<dt>Current bid</dt><dd><%= number_to_currency @auction.current_bid -%></dd>
+				<% end %>				
+			<% else -%>
+				<dt>Closing bid</dt><dd><%= number_to_currency @auction.current_bid -%></dd>				
+			<% end -%>
+			</dl>
+			<dl class="detail_list">
+			<% unless @auction.current_bid > @auction.minimum_bid  %>
+				<dt>Minimum bid</dt><dd><%= number_to_currency @auction.minimum_bid %></dd>			
+			<% else -%>
+				<dt>Minimum bid</dt><dd><span class="gray"><%= number_to_currency @auction.minimum_bid %>&nbsp;(bidding started)</span></dd>					
+			<% end -%>		
+			<% if @auction.date_last_bid.nil? -%>
+				<dt>It's Yours<sup>&trade;</sup> price</dt><dd><%= number_to_currency @auction.buy_now_price %>&nbsp;<% if logged_in? -%><% unless @auction.consignment %><% if @auction.current_bid == 0 and @auction.buy_now_price > 0 -%><% unless @current_user.id == @auction.seller_id %><% restrict_to 'member' do -%><a href="#" onclick="Element.toggle('buy_now_form_<%= @auction.id.to_s %>'); return false;"><%= image_tag('ico_3.gif', :alt=>"It's Yours", :title=>"It's Yours") -%></a><% end %><% end -%><% end -%><% end -%><% end %></dd>
+			<% else -%>
+				<dt>It's Yours<sup>&trade;</sup> price</dt><dd><span class="gray"><%= number_to_currency @auction.buy_now_price %>&nbsp;(bidding started)</span></dd>			
+			<% end -%>
+			<dt>Bid increment</dt><dd><%= number_to_currency @auction.bid_increment %></dd>
+			</dl>
+			<dl class="detail_list_alt">
+			<dt>Req'd Credit Worth</dt><dd><% if @auction.creditworth %><%= @auction.creditworth.description %><% end %></dd>
+			<dt>Req'd Timeliness </dt><dd><% if @auction.timeliness %><%= @auction.timeliness.description %><% end %></dd>
+			<dt>Req'd Risk Level</dt><dd><% if @auction.integrity %><%= @auction.integrity.description %><% end %></dd>
+		</dl>
+		<dl class="detail_list">
+			<dt>Time zone displayed</dt><dd><%= TzTime.zone %></dd>
+			<% if @auction.date_to_start > Time.now -%>
+				<dt>Auction start</dt><dd><%= local_time @auction.date_to_start %></dd>
+			<% else -%>
+				<dt>Auction start</dt><dd><span class="gray"><%= local_time @auction.date_to_start %></span></dd>		
+			<% end -%>		
+			<dt>Current time</dt><dd><%= local_time Time.now %></dd>
+			<% if @auction.date_to_end > Time.now -%>
+				<dt>Auction end</dt><dd><%= local_time @auction.date_to_end %></dd>
+			<% else -%>
+				<dt>Auction end</dt><dd><span class="gray"><%= local_time @auction.date_to_end %></span></dd>		
+			<% end -%>
+			<% if @auction.date_to_pickup > Time.now -%>
+				<dt>Pick up within</dt><dd><% unless @auction.date_to_pickup.nil? %><%= @auction.pickup_limit %> hours<% end -%></dd>
+			<% else -%>
+				<dt>Pick up within</dt><dd><span class="gray"><% unless @auction.date_to_pickup.nil? %><%= @auction.pickup_limit %> hours<% end -%></span></dd>		
+			<% end -%>			
+			<% if @auction.date_to_pickup > Time.now -%>
+				<dt>Deadline to pickup</dt><dd><% unless @auction.date_to_pickup.nil? %><%= local_time @auction.date_to_pickup %><% end -%></dd>
+			<% else -%>
+				<dt>Deadline to pickup</dt><dd><span class="gray"><% unless @auction.date_to_pickup.nil? %><%= local_time @auction.date_to_pickup %><% end -%></span></dd>		
+			<% end -%>
+			</dl>
+			<dl class="detail_list_alt">
+			<% if @auction.date_to_pickup > Time.now -%>
+				<dt>Shipping from</dt><dd><%= @auction.address.city_state %></dd>
+			<% else -%>
+				<dt>Shipped from</dt><dd><%= @auction.address.city_state %></dd>		
+			<% end -%>
+			<dt>Quantity</dt><dd><%= @auction.quantity %></dd>
+			<dt>Cases Per Pallet</dt><dd><%= @auction.cases_per_pallet %></dd>
+			<dt>Total Pallets</dt><dd><%= @auction.pallets %></dd>
+			<dt>Minimum quantity</dt><dd><% if @auction.allow_partial == true -%>
+				<%= @auction.min_quantity %>
+			<% else -%>
+				<%= @auction.quantity %>
+			<% end -%></dd>
+			<dt>Bid on partial?</dt><dd><% if @auction.allow_partial == true -%>
+				partial quantities ok
+			<% else -%>
+				full quantity only
+			<% end -%></dd>
+			<dt>How packed</dt><dd><% unless @auction.pack.nil? %><%= @auction.pack.name.titlecase %><% end %></dd>
+			<dt>Size</dt><dd><% unless @auction.size.nil? %><%= @auction.size.name %><% end %></dd>
+			<dt>Per case count</dt><dd><% unless @auction.per_case.nil? %><%= @auction.per_case.name %><% end %></dd>
+		</dl>
+		<dl class="detail_list">	
+			<dt>Country of origin</dt><dd><%= @auction.country.name -%></dd>
+			<dt>Export or domestic</dt><dd><% if @auction.for_export == true -%>
+				for export
+			<% else -%>
+				domestic only
+			<% end -%></dd>
+			<dt>Lot Identification #</dt><dd><%= @auction.lot_number %></dd>
+			<dt>Pickup #</dt><dd><%= @auction.pickup_number %></dd>
+			<dt>Buyer PO #</dt><dd><%= @auction.po_number %></dd>
+		</dl>
+		<dl class="detail_list_alt">
+			<dt>Grown</dt><dd><% unless @auction.grown.nil? %>
+				<%= @auction.grown.name %>
+			<% end %></dd>
+			<dt>Weight</dt><dd><% unless @auction.weight.nil? %>
+				<%= @auction.weight.name %>
+			<% end %></dd>
+			<dt>Color</dt><dd><% unless @auction.color.nil? %>
+				<%= @auction.color.name %>
+			<% end %></dd>
+			<dt>Quality</dt><dd><% unless @auction.quality.nil? %>
+				<%= @auction.quality.name %>
+			<% end %></dd>
+			<dt>Condition</dt><dd><% unless @auction.condition.nil? %>
+				<%= @auction.condition.name %>
+			<% end %></dd>
+			<dt>PLU sticker</dt><dd><% if @auction.plu_stickered == true -%>
+				PLU sticker
+			<% else -%>
+				<span class="gray">no PLU sticker</span>
+			<% end -%></dd>
+			<% unless @auction.plu.nil? %>
+				<% if @auction.plu > 0 -%>
+					<dt>PLU number</dt><dd><%= @auction.plu %></dd>
+				<% else -%>
+					<dt>PLU number</dt><dd><span class="gray">no PLU number</span></dd>
+				<% end -%>
+			<% else -%>
+				<dt>PLU number</dt><dd><span class="gray">no PLU number</span></dd>
+			<% end -%>
+			<dt>Current Pulp Temp.</dt><dd>
+				<% if @auction.temperature > 0 -%>
+					<%= @auction.temperature %>&deg;
+					<% if @auction.celsius == true -%>
+						C
+					<% else -%>
+						F
+					<% end -%>
+				<% else -%>
+					<span class="gray">no info</span>
+				<% end -%>
+				</dd>
+			<dt>Iced</dt><dd>	<% if @auction.iced == true -%>
+					iced
+				<% else -%>
+					<span class="gray">not iced</span>
+				<% end -%></dd>
+			<dt>Barcoded</dt><dd>	<% if @auction.barcoded == true -%>
+					barcoded
+				<% else -%>
+					<span class="gray">not barcoded</span>
+				<% end -%></dd>
+		</dl>
+		<dl class="detail_list">
+			<dt>Organic certified</dt><dd><% if @auction.organic == true -%>
+				organic
+			<% else -%>
+				<span class="gray">not organic</span>
+			<% end -%></dd>
+			<dt>Fair Trade certified</dt><dd><% if @auction.fair_trade == true -%>
+				Fair Trade
+			<% else -%>
+				<span class="gray">not Fair Trade</span>
+			<% end -%></dd>
+			<dt>Kosher certified</dt><dd><% if @auction.kosher == true -%>
+				Kosher
+			<% else -%>
+				<span class="gray">not Kosher</span>
+			<% end -%></dd>
+		</dl>
+		<dl class="detail_list"> 
+		<dt>Certifications</dt>
+			<dd>
+				<% for certification in @auction.certifications %>
+					<%=h certification.name %>
+					<br />
+				<% end %>
+			</dd>
+			<dt>Treatments</dt>
+			<dd>
+				<% for treatment in @auction.treatments %>
+					<%=h treatment.name %>
+					<br />
+				<% end %>
+			</dd>
+		</dl>

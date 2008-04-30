@@ -1,0 +1,98 @@
+<h1>Invite New Buyer</h1>
+
+<%= error_messages_for :user %>
+
+<% form_for :user, :url => users_path, :html => { :class => 'baseform' } do |form| -%>
+
+<br />
+<br />
+
+<fieldset id="food">
+
+	<label>Set email alert for</label>
+	<span><%= form.collection_select :food_root_id, 
+		@food_root_children, 
+		:id, 
+		:name,
+		{:prompt => "– none –"} %></span>
+
+		<%= related_collection_select :user, 
+			:food_grandparent_id, 
+			[:user, :food_root_id], 
+			@foods,
+			:id, 
+			:name, 
+			:parent_id %>
+		<span>	
+
+</fieldset>
+<br />
+<br />
+
+<label for="email">Email</label>
+<span><%= form.text_field :email %></span><br />
+
+<label>First name</label>
+<span><%= form.text_field :first_name %></span><br />
+
+<label>Last name</label>
+<span><%= form.text_field :last_name %></span><br />
+
+<label>Phone number</label>
+<span><%= form.text_field :first_phone %></span><br />
+
+<label>Industry Role</label>
+<span><%= form.collection_select :industry_role,
+					IndustryRole.find(:all, :order => 'sort_order'), 
+					:answer, 
+					:answer,
+					{:selected=>@user.industry_role} %>
+</span><br />
+
+<label>Set Special Flag?</label>
+<span><%= form.collection_select :flag_for_user_id, 
+	@flags, 
+	:id, 
+	:name %>
+</span><br />
+
+<label>How They Heard About Us</label>
+<span><%= form.collection_select :how_heard,
+	HowHeard.find(:all, :order => 'sort_order'), 
+	:answer, 
+	:answer,
+	{:prompt => "– unknown –", :selected=>@user.how_heard} %>
+</span><br />
+
+<fieldset>
+	<label>Region</label>
+	<span><%= form.collection_select :region_id, 
+		Geographies::Region.find(:all, :order => 'sort_order'), 
+		:id, 
+		:name %></span><br />
+
+	<label>Country</label>
+	<span><%= related_collection_select :user, 
+		:country_id, 
+		[:user, :region_id], 
+		Geographies::Country.find(:all, :order => 'sort_order'), 
+		:id, 
+		:name, 
+		:parent_id,
+		{:selected=>@user.country_id} %></span><br />
+
+	<label>Time Zone</label>
+	<span><%= related_collection_select :user, 
+		:time_zone, 
+		[:user, :country_id], 
+		Geographies::CountryTimeZone.find(:all, :order => 'sort_order'),  
+		:name, 
+		:name, 
+		:parent_id %></span><br />																					
+</fieldset>
+
+<p>
+	<%= submit_tag 'Invite New Buyer' -%>
+</p>
+
+<% end %>

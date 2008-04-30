@@ -1,0 +1,105 @@
+<!-- Guests/New -->
+<!-- using layout "yui_t7_custom" -->
+<div class="yui-g">
+	<div class="middle_content">	
+		<% unless logged_in? -%>
+		  	<% form_for(:guest, :url => guests_path) do |f| %>
+				<div id="details_font">REGISTER FOR FREE!</div>
+				<div class="text_font">
+					It's your first step to free buying and low-cost selling at Foodmoves.com.
+				</div>
+				<div class="text_font">
+					Enter an email address and we'll send an invitation immediately.
+				</div>
+				<% if flash[:notice] -%>
+					<b><%= flash[:notice] %></b>
+				<% elsif flash[:error] -%>
+					<div class="red"><b><%= flash[:error] %></b></div>	
+				<% else -%>
+					<br />
+				<% end -%>
+				<% if @sent_already -%>
+					<br />
+					<div id="li_font">
+						<%= check_box_tag :send_again, :true, :false %> Okay to send another invitation?
+					</div>
+					<div class="clear">
+					<br />
+				<% end -%>
+				<%= error_messages_for :guest %>
+				<div id="li_font">Email</div>
+				<div class="left">		    	
+					<%= f.text_field :email, :size => 38 %>
+				</div>
+				<div class="clear">
+				<br />
+				<div class="text_font">
+					It helps to provide a phone number<br />
+					because email can get lost!
+				</div>
+				<div id="li_font">Phone (optional)</div>
+				<div class="left">	   	
+					<%= f.text_field :first_phone, :size => 38 %>
+				</div>
+				<div class="submit_button">
+					<%= button_submit_tag 'Send Invitation', :class => 'foodmoves', :onclick => "javascript:urchinTracker('/welcome/nixie');" -%>
+				</div>					
+			<% end -%>
+		<% else -%>
+		  	<% form_for(:guest, :url => guests_path) do |f| %>
+				<div id="details_font">Invite a Friend!</div>
+				<div class="text_font">
+					Enter an email address and we'll send an invitation immediately.
+				</div>
+				<% if flash[:notice] -%>
+					<b><%= flash[:notice] %></b>
+				<% elsif flash[:error] -%>
+					<div class="red"><b><%= flash[:error] %></b></div>	
+				<% else -%>
+					<br />
+				<% end -%>
+				<% if @sent_already -%>
+					<br />
+					<div id="li_font">
+						<%= check_box_tag :send_again, :true, :false %> Okay to send another invitation?
+					</div>
+					<div class="clear">
+					<br />
+				<% end -%>
+				<% restrict_to 'support' do -%>
+					<% if @visited_already -%>
+						<br />
+						<div id="li_font">
+							<%= check_box_tag :replace_password, :true, :false %> STAFF ONLY: Okay to REPLACE the existing password and send another invitation?
+						</div>
+						<div class="clear">
+						<br />
+					<% end -%>
+				<% end -%>
+				<%= error_messages_for :guest %>
+				<div id="li_font">Email</div>
+				<div class="left">		    	
+					<%= f.text_field :email, :size => 38 %>
+					<%= f.hidden_field :invitation_code %>
+				</div>
+				<div id="li_font">Include a Message</div>
+				<div class="left">		    	
+					<%= text_area_tag :message, @message, :size => "38x5" %>
+				</div>
+				<% restrict_to 'support' do -%>			
+					<div id="li_font">First Name and Last Name</div>
+					<div class="left">		    	
+						<%= f.text_field :first_name, :size => 17 %>&nbsp;<%= f.text_field :last_name, :size => 20 %>
+					</div>
+					<div id="li_font">Phone</div>
+					<div class="left">		    	
+						<%= f.text_field :first_phone, :size => 38 %>
+					</div>
+				<% end -%>
+				<div class="submit_button">
+					<%= button_submit_tag 'Send Invitation', :class => 'foodmoves', :onclick => "javascript:urchinTracker('/invite/friend');" -%>
+				</div>					
+			<% end -%>
+		<% end -%>
+	</div><!-- middle_content -->
+</div><!-- yui-g -->

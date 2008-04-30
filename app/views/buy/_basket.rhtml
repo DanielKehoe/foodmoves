@@ -1,0 +1,59 @@
+<div id="basket_content">
+	<% if flash[:bubble]%>
+		<div class="bubble" id="bubble_alert">
+			<div class="bubble_content">
+				<div class="bubble_close"><a href="#" onclick="Element.toggle('bubble_alert'); return false;">close</a></div>
+				<br />
+				<b><%= flash[:bubble] %></b>
+			</div><!-- bubble_content -->
+		</div><!-- bubble -->
+	<% end -%>
+	<% unless @basket.size == 0 %> 
+		<% @basket.each do |bid,auction| %>
+			<div class="basket_cell">
+				<% if auction.test_only -%><%= link_to image_tag('products/test.gif', :alt=>"\"#{auction.description}\"", :title=>"See details for \"#{auction.description}\"", :class => 'thumb'), auction_path(auction) -%><% else -%>
+					<% unless auction.assets.first.nil? -%>
+						<%= link_to image_tag(auction.assets.first.public_filename(:size44), :alt=>"\"#{auction.description}\"", :title=>"See details for \"#{auction.description}\"", :class => 'thumb'), auction_path(auction) -%>
+					<% else -%>
+					<%= link_to image_tag('products/generic.gif', :alt=>"\"#{auction.description}\"", :title=>"See details for \"#{auction.description}\"", :class => 'thumb'), auction_path(auction) -%>
+					<% end -%>
+					<% end -%><br /><%= link_to image_tag('ico_1.gif', :alt=>'Delete', :title=>"Delete \"#{auction.description}\" from bid basket"), bid_path(bid.auction), :method => :delete %>&nbsp;<a href="#" onclick="Element.toggle('bid_form_<%= auction.id.to_s %>'); return false;"><%= image_tag('ico_10.gif', :alt=>'Enter Bid', :title=>"Enter Bid") -%>	</a><div id="bid_form_<%= auction.id.to_s %>" class="popup_for_new_bid" style="display:none;">
+				<div class="popup_header">
+					enter bid <div class="bubble_close"><a href="#" onclick="Element.toggle('bid_form_<%= auction.id.to_s %>'); return false;">close</a></div>
+				 </div><!-- class="popup_header" -->
+				 <div class="popup_content">		
+			You are entering into a 
+			legally binding agreement 
+			for the purchase of 
+			<%= link_to auction.description, auction_path(auction) -%>.
+			<% if auction.current_bid == 0 -%>
+				The minimum bid is <%= number_to_currency auction.minimum_bid -%>.
+			<% else -%>
+				You must bid more than <%= number_to_currency ( auction.current_bid + auction.bid_increment ) -%>.
+			<% end -%>
+					<br />
+				 </div><!-- class="popup_content" -->
+				 <div class="popup_footer">
+					<% form_for :bid, 
+							:url => bid_path(bid), 
+							:html => { :method => :put } do |form| -%>
+						<b>$</b>&nbsp;<%= form.text_field :amount, :size => 6 %>
+						<br />
+						<%= submit_tag 'Enter Bid' -%>
+					<% end -%>
+				</div><!-- class="popup_footer" -->
+				</div><!-- id="bid_form" -->
+				<br />
+				<div class="bskt_txt"><%= auction.shipping_from -%></div>
+				<div class="bskt_txt"><%= auction.description -%></div>
+			</div><!-- id="basket_cell" -->
+		<% end -%>
+	<% else -%>
+		<div class="basket_cell">
+			<div class="red">
+				No auctions in your bid basket.
+			</div>
+		</div><!-- id="basket_cell" -->
+	<% end -%>
+	<div class="clear"></div>
+</div><!-- id="basket_content" -->

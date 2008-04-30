@@ -1,0 +1,46 @@
+
+<!--[form:phone]-->
+<% fields_for :phone do |form| %>
+
+	<br />
+	<br />
+
+	<h2>Phone Number</h2>
+
+	<br />
+	<br />
+
+	<label>Region</label>
+	<span><%= form.collection_select :region_id, 
+		Geographies::Region.find(:all, :order => 'sort_order'), 
+		:id, 
+		:name %></span><br />
+
+	<label>Country</label>
+	<span><%= related_collection_select :phone, 
+		:country_id, 
+		[:phone, :region_id], 
+		Geographies::Country.find(:all, :order => 'sort_order'), 
+		:id, 
+		:name, 
+		:parent_id,
+		{:selected=>@phone.country_id} %></span><br />
+
+    <label>Area (or City) code</label>
+    <span><%= form.text_field :locality_code %></span><br />
+
+    <label>Local number</label>
+    <span><%= form.text_field :local_number %></span><br />
+
+	<% unless @phone_tags.nil? %>
+		<label>Location</label><span><%= form.collection_select :tag_for_phone,
+							@phone_tags, 
+							:name, 
+							:name,
+							{},
+							{:onchange => "changed(this, 'other', 'You chose \"other\". Please enter a name for this location:')"} %></span><br />
+	<% end %>
+<% end %>
+<!--[eoform:phone]-->
+
+

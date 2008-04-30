@@ -1,0 +1,102 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), users_path %>&nbsp;All Users</h1>
+
+<% content_for(:secondary) do %>
+	<h4><%= link_to 'Invite New User', invitation_codes_path, :class=>"rnew new-link" %></h4>
+	<h4><%= link_to 'Invite New Buyer', new_user_path, :class=>"rnew new-link" %></h4>
+	
+	<h2>Search By Email Address</h2>
+	<% form_tag users_path, :method => 'get' do %>
+		<%= text_field_with_auto_complete :user,
+				:email,
+				{ :size => 20 }, :skip_style => true -%>
+		&nbsp;<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+	<br />
+	<br />
+	<h2>Search By Last Name</h2>
+	<% form_tag users_path, :method => 'get' do %>
+		<%= text_field_tag :last_name,
+				params[:last_name],
+				:size => 20 -%>
+		&nbsp;<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+	<br />
+	<br />
+	<h2>Search By First Name</h2>
+	<% form_tag users_path, :method => 'get' do %>
+		<%= text_field_tag :first_name,
+				params[:first_name],
+				:size => 20 -%>
+		&nbsp;<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+	<br />
+	<br />
+	<h2>Search By User ID</h2>
+	<% form_tag users_path, :method => 'get' do %>
+		<%= text_field_tag :id,
+				params[:id],
+				:size => 20 -%>
+		&nbsp;<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+	<br />
+	<br />
+	<h2>Show Only</h2>
+	<% form_tag users_path, :method => 'get' do %>
+		<%= select_tag 'type', options_for_select([['buyers', 'buyers'], ['sellers', 'sellers'], ['others', 'others'], ['all members', 'members'], ['guests', 'guests'], ['nixies', 'nixies'], ['VIPs', 'VIPs'], ['red flagged', 'redflagged'], ['yellow flagged', 'yellowflagged'], ['unflagged', 'unflagged'], ['staff', 'staff'], ['do not contact', 'do_not_contact']], [params[:type]]) %>
+		&nbsp;<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+<% end %>
+
+<table class="admin">
+<thead>
+  <tr>
+	<th colspan='9'>&nbsp;</th>
+  </tr>
+</thead>
+<% for user in @users %>
+  <tr>
+	<td><%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'), user_path(user) %></td>
+    <td><%= link_to image_tag('user_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_user_path(user) %></td>
+    <td><% restrict_to 'admin' do -%><%= link_to image_tag('user_delete.png', :alt=>'Delete', :title=>'Delete Item'), user_path(user), :confirm => 'Are you sure?', :method => :delete %><% end -%></td>
+    <td><%= link_to image_tag('shield_add.png ', :alt=>'Update Permissions', :title=>'Change Permissions'), edit_user_permission_path(user, user) %></td>
+    <td><% unless user.phones.first.nil? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => user.phones.first.number), "skype:#{user.phones.first.skype}" -%><% else -%><% unless user.first_phone.blank? -%><%= link_to image_tag('phone.png', :alt => 'call', :title => user.first_phone), "skype:#{user.first_phone}" -%><% end -%><% end -%></td>
+	<td><% if user.email_confirmed -%><%= mail_to user.email, image_tag('email.png', :alt=>"Confirmed email address", :title => user.email), :subject => "Message from Foodmoves.com" -%><% else -%><%= mail_to user.email, image_tag('email_error.png', :alt=>"Unconfirmed email address", :title => user.email), :subject => "Message from Foodmoves.com" -%><% end -%></td>
+	    <td><% unless user.flag_for_user.nil? -%><a href="#" onclick="Element.toggle('flag_form_<%= user.id.to_s %>'); return false;"><%= image_tag("flag_#{user.flag_for_user.color}.png", :alt=>'Flag', :title=>"#{user.flag_for_user.name} user") -%></a><% else -%><a href="#" onclick="Element.toggle('flag_form_<%= user.id.to_s %>'); return false;"><%= image_tag("flag_blue.png", :alt=>'Flag', :title=>"no flag set") -%></a><% end -%></td>
+	<td><% if user.flag_for_user.nil? -%><span><% else -%><span class="<%= user.flag_for_user.color -%>"><% end -%><%=h user.name -%></span><div id="flag_form_<%= user.id.to_s %>" class="popup_for_set_flag" style="display:none;">
+		<div class="popup_header">set flag<div class="bubble_close"><a href="#" onclick="Element.toggle('flag_form_<%= user.id.to_s %>'); return false;">close</a></div>
+		 </div><!-- class="popup_header" -->
+		 <div class="popup_content">		
+			You can set a warning flag for this user.
+			<br />
+			<br />
+		 </div><!-- class="popup_content" -->
+		 <div class="popup_footer">
+			<% form_tag :action => 'set_flag', :id => user do -%>
+				<%= collection_select :user, :flag_for_user_id, 
+					@flags, 
+					:id, 
+					:name,
+					{:selected=>user.flag_for_user_id} %>
+				<br />
+				<br />
+				<%= submit_tag 'Set Flag' -%>
+			<% end -%>
+		</div><!-- class="popup_footer" -->
+		</div><!-- id="flag_form" --></td>
+	<td>
+		<% if user.of_type == 'Administrator'  %>
+			on at <%= local_time user.last_login_at %>
+		<% elsif user.of_type == 'Member' and !user.last_login_at.nil? -%>
+			<% if user.starts_as.nil? %>member<% else -%><%= user.starts_as %><% end -%> on <%= distance_of_time_in_words(Time.now, user.last_login_at) -%> ago
+		<% elsif user.of_type == 'Guest' and !user.last_login_at.nil? -%>
+			guest (potential <% if user.starts_as.nil? %>?<% else -%><%= user.starts_as %><% end -%>) on <%= distance_of_time_in_words(Time.now, user.last_login_at) -%> ago
+		<% elsif user.of_type == 'Guest' and user.last_login_at.nil? -%>
+			nixie invited <%= distance_of_time_in_words(Time.now, user.created_at) -%> ago
+		<% end -%>
+	</td>
+  </tr>
+<% end %>
+</table>
+<% content_for(:footer) do %>
+	<%= will_paginate @users %>
+<% end %>

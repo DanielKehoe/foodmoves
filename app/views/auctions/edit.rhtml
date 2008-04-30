@@ -1,0 +1,85 @@
+<!-- Auctions/Edit -->
+<!-- using layout "forms_wide" -->
+<div class="yui-gb">
+	<div class="yui-u first" id="left_content">
+		<div id="headline"><%= @auction.description %></div>
+		<% unless @auction.user.organizations.first.assets.empty? %>
+			<div class="tomato_image">	
+				<% for asset in @auction.user.organizations.first.assets %>
+					<% if @current_user.id == @auction.seller_id %>
+						<span class="sidebox_small_text right"><%= link_to 'delete your logo?', organization_logo_path(@auction.user.organizations.first.id, asset), :confirm => 'Are you sure? This will DELETE your logo from ALL auctions!', :method => :delete %></span>
+					<% else -%>
+						<% restrict_to 'support' do -%>
+							<span class="sidebox_small_text"><%= link_to "delete seller's logo?", organization_logo_path(@auction.user.organizations.first.id, asset), :confirm => 'Are you sure? This will DELETE the logo from ALL auctions!', :method => :delete %></span>
+						<% end -%>
+					<% end -%>
+					<%= image_tag(asset.public_filename(:size200)) %>
+				<% end %>	
+			</div>
+		<% else -%>
+			<% if @auction.buyer_id.nil? %>
+				<% if @current_user.id == @auction.seller_id %>
+					<div id="details_font">Add a Company Logo?</div>
+					<% form_for(:asset, :url => organization_logos_path(@auction.user.organizations.first.id), :html => { :multipart => true }) do |f| %>
+							<span class="sidebox_small_text">Select a file from your computer:</span> 
+							<br />
+							<%= f.file_field :uploaded_data, {:size => 17} %>
+							<br />
+							<br />
+							<%= submit_tag "Upload Logo" %>
+					<% end %>
+					<br />
+				<% else -%>
+					<% if logged_in? -%>
+						<% restrict_to 'support' do -%>
+							<div id="details_font">Add a Company Logo?</div>
+							<% form_for(:asset, :url => organization_logos_path(@auction.user.organizations.first.id), :html => { :multipart => true }) do |f| %>
+									<span class="sidebox_small_text">Select a file from your computer:</span>  
+									<br />
+									<%= f.file_field :uploaded_data, {:size => 17} %>
+									<br />
+									<br />
+									<%= submit_tag "Upload Logo" %>
+							<% end %>
+							<br />			
+						<% end -%>
+					<% end -%>
+				<% end -%>
+			<% end -%>
+		<% end -%>
+		<dl class="sidebox_list">
+			<dt><b>Seller</b></dt><dd><% if logged_in? -%><% restrict_to 'support' do -%><%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show User'), member_path(@auction.user.id) -%>&nbsp;<% end -%><% end -%><%= @auction.user.name %>
+			<br />
+			<% if logged_in? -%><% restrict_to 'support' do -%><%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Company'), organization_path(@auction.user.organizations.first.id) -%>&nbsp;<% end -%><% end -%><%= @auction.user.organizations.first.name %>
+			</dd>
+		</dl>
+		<% if @procedure == 'ok_to_edit' %>
+			<% form_for :auction, :url => auction_path(@auction), :html => { :method => :put } do |form| -%>
+				<%= render :partial => 'form_for_edit', :object => form -%>
+			<% end -%><!-- form tag end -->
+		<% else -%>
+			<% form_for :auction, :url => auctions_path do |form| -%>
+				<%= render :partial => 'form_for_edit', :object => form -%>
+			<% end -%><!-- form tag end -->
+		<% end -%>
+<% if @edit %>
+	<br />
+	<div class="tomato_image">
+		<% unless @auction.assets.empty? %>	
+			<% for asset in @auction.assets %>
+				<%= link_to(image_tag(asset.public_filename(:size200)), auction_asset_path(@auction, asset)) %>
+				<br />
+				<% if @current_user.id == @auction.seller_id %>
+					<span class="sidebox_small_text right"><%= link_to 'delete photo above?', auction_asset_path(@auction, asset), :confirm => 'Are you sure?', :method => :delete %></span>
+				<% else -%>
+					<% restrict_to 'support' do -%>
+						<span class="sidebox_small_text"><%= link_to 'delete photo above?', auction_asset_path(@auction, asset), :confirm => 'Are you sure?', :method => :delete %></span>
+					<% end -%>
+				<% end -%>
+				
+			<% end %>
+		<% end -%>
+	</div>
+<% end -%>
+</div><!-- class="yui-u" id="side-content" -->
+</div><!-- yui-gb -->

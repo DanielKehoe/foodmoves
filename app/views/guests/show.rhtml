@@ -1,0 +1,48 @@
+<h1><%=h @guest.name %></h1>
+
+<p>Here are the details for your guest account.</p>
+
+<div class="show">
+
+	<label>Industry Role</label>
+		<span>
+			<%=h @guest.industry_role %>
+		</span>
+	<br />
+
+	<label>Region</label>
+		<span>
+			<%= @guest.region %>
+		</span>
+	<br />
+	
+	<label>Country</label>
+		<span>
+			<%= @guest.country_name %>
+		</span>
+	<br />	
+	
+	<label>Time zone</label>
+		<span>
+			<%= @guest.time_zone %>
+		</span>
+	<br />
+	
+	<label>Referred by</label>
+		<span>
+			<% unless @guest.parent_id.nil? %>
+				<%=h @guest.referred_by %>
+			<% end -%>
+		</span>
+	<br />
+	
+	<% unless @guest.children.size == 0 %>	
+		<label>Invited</label>
+		<ul>
+			<% for referral in @guest.children %>
+				<li><%= referral.name %>&nbsp;<i>on <%=h referral.created_at.to_date.to_s(:long) %></i></li>
+			<% end %>
+		</ul>		
+	<% end %>
+				
+</div>

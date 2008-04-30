@@ -1,0 +1,4 @@
+page.replace_html rdom_class(model_class, "rpage"), :roar_partial => "page"
+page.visual_effect :highlight, rdom_class(model_class, "rpage")
+page << "Progress.removeAll();"
+page << "TableActions.reset('#{model_symbol}');"

@@ -1,0 +1,39 @@
+
+<% 
+html_options = if record.new_record?
+  { :class  => rdom_class(record, :new),  :id => rdom_id(record, :new_form), :method => :post }
+else
+  { :class  => rdom_class(record, :edit), :id => rdom_id(record, :edit_form), :method => :put }
+end
+url = record.new_record? ? collection_path : model_path(record)
+html_options.merge!(:multipart => true) if form.has_file_field?
+ %>
+
+<% form_for(model_symbol, record, :url=>url, :html=>html_options) do |f| %>
+	<div> <%= error_messages_for('record') %></div>
+	<table width="100%">
+  <% form.fields.each do |field| %>
+		<tr>
+    <%= roar_field(field, f, record) %>
+		</tr>
+  <% end %>
+  
+	<tr class="buttonrow">
+	  <% if form.actions.has_delete? && !record.new_record? %>
+  	  <div style="float: right;">
+  	  <%= link_to("x", member_path(record, "delete"), {:class=>"rdelete delete-link", :id=>rdom_id(record, 'delete_link')}) %>
+  	  </div>
+	  <% end %>
+	  <% if form.actions.has_destroy? && !record.new_record? %>
+  	  <div style="float: right;">
+				<%= link_to("x", model_path(record), :class=>"rdestroy delete-link", :id=>rdom_id(record, 'destroy_link'), :confirmation=>"Really delete this #{model_name}: #{record.to_roar_s}?") %>
+  	  </div>
+  	<% end %>
+	  <% form.actions.each do |action| %>
+    <% cssclass = (!request.xhr? || form.has_file_field?) ? "" : "rsubmit" %>
+	  <input class='<%= cssclass %>' type="submit" value='<%= action.name %>' name='<%= action.symbol %>' />
+    <% end %>
+    or <%= link_to("Cancel", "#", {:class=>"rcancel", :id=>rdom_id(record, "cancel-edit")}) %>
+	</tr>
+</table>
+<% end %>

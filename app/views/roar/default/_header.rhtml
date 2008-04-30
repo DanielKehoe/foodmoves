@@ -1,0 +1,25 @@
+<ul id="mainnav">
+	<% if logged_in? %>				
+		<% restrict_to 'support' do -%>
+		<li style="margin-left: 1em;">
+			<a href="/admin/home">Admin</a>
+		</li>
+		<% end %>
+	<% end %>      
+</ul>
+
+<ul id="secondarynav">
+	<% restrict_to 'support' do -%>
+	<li style="margin-left: 1em;">
+	  <%= link_to 'Team Chat', 'http://foodmoves.campfirenow.com/a6948', :popup => ['Chat', 'width=650,height=1000'] %>
+	</li>
+	<% end -%>
+	<li style="margin-left: 1em;">
+	  <%= link_to 'Chat', 'http://foodmoves.campfirenow.com/e08e3', :popup => ['Chat', 'width=650,height=1000'] %>
+	</li>
+	<% if logged_in? -%>
+		<li style="margin-left: 1em;"><%= link_to 'Logout', session_path, :method => :delete %></li>
+	<% else -%>
+		<li style="margin-left: 1em;"><%= link_to 'Login', new_session_path %></li>
+	<% end -%>
+</ul>

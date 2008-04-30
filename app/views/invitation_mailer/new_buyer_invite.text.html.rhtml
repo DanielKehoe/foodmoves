@@ -1,0 +1,25 @@
+<html><head></head><body lang="EN-US" link="blue" vlink="purple"><div style="width:640px; border:1px solid #C0C0C0;padding:5px;font-family:Arial">
+<p><span>
+YOUR TEMPORARY PASSWORD: 
+</span><span color="red">
+<%= @guest.password %>
+</span>
+<span>
+for http://www.foodmoves.com/
+</span></p>
+<p><span>
+You've been invited to visit Foodmoves.com by <%= @current_user.name %>.
+</span></p>
+<p><span>
+You've been set up to receive buyers' alerts for <%= @watched_item.description %>.
+</span></p>
+<p><span>
+Foodmoves.com is the new auction web site for buying and selling produce.
+</span></p>
+<p><span>
+If you'd like to browse auctions or set up trading, you can log in 
+with your email address: <%= @guest.email %>
+and temporary password: <%= @guest.password %>
+</span></p>
+</div>
+</body></html>

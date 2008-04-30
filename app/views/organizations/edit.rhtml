@@ -1,0 +1,55 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), organizations_path %>&nbsp;Organizations</h1>
+
+<h2><%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), organization_path(@organization) -%>&nbsp;<%=h @organization.name -%></h2>
+
+<%= error_messages_for :organization -%>
+
+<div class="show">
+	
+	<% unless @organization.phones.size == 0 %>	
+		<label>Phone Numbers</label>
+		<ul>
+			<li>
+				<% for phone in @organization.phones %>
+				  <%= link_to image_tag('phone.png', :alt=>'Show', :title=>'Show Item'), phone_path(phone) %><%=h phone.localized(@current_user) %> (<%=h phone.tag_for_phone %>)<br />
+				<% end %>
+			</li>
+		</ul>
+	<% end -%>
+	
+	<br />
+	<label>&nbsp;</label>
+		<span>
+			<%= link_to('Add Phone Number', new_organization_phone_path(@organization.id), :class=>"rnew new-link") %>
+		</span>
+	<br />
+
+	<% unless @organization.addresses.size == 0 %>	
+		<label>Addresses</label>
+		<ul>
+			<li>
+				<% for address in @organization.addresses %>
+				  <%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), address_path(address) %>&nbsp;<%=h address.tag_for_address %>:<br /><%= address.address_block %><br /><br />
+				<% end %>
+			</li>
+		</ul>
+	<% end -%>
+
+	<br />
+	<label>&nbsp;</label>
+		<span>
+			<%= link_to('Add Address', new_organization_address_path(@organization.id), :class=>"rnew new-link") %>
+		</span>
+	<br />
+		
+</div>
+
+<% form_for :organization, :url => organization_path(@organization), :html => { :method => :put, :class => 'baseform' } do |form| -%>
+
+	<%= render :partial => 'form', :object => form -%>
+	
+	<p>
+		<%= submit_tag "Update" -%>
+	</p>
+	
+<% end -%>

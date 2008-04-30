@@ -1,0 +1,18 @@
+<% select_id = "#{rdom_class(model_class, 'actions')}" %>
+<%# form_for(model_symbol, nil, :url=>collection_path, :html=>{:class=>"silent"}) do |f| %>
+	<%= table_output %>
+	<p class="abut">
+		<select id='<%= select_id %>'>
+			<option value="">Select Action</option>
+		<% table.actions.each do |action| %>
+			<option value="<%= action.symbol %>" <%= action.options[:confirm] ? "confirm='#{action.options[:confirm]}'" : "" %>><%= action.to_s %></option>
+		<% end %>
+		</select>
+		<%= link_to_function "Select All", "TableActions.toggleAll(this)", :id=>"#{rdom_class(model_class, 'actions_toggle')}" %>
+	</p>
+	<script>
+	 Event.addBehavior({
+	  '#<%= select_id %>': TableAction('<%=h collection_path %>') 
+	  }) 
+	</script>
+<%# end %>

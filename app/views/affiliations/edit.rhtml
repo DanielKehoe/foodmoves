@@ -1,0 +1,107 @@
+<!-- Members/New -->
+<!-- using layout "forms_narrow" -->
+<div class="yui-g" id="admin">
+<div class="middle_content">
+		
+<h1>AUTHORIZE TRADING?</h1>
+<h2><%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'), user_path(@affiliation.user) -%>&nbsp;<%=h @affiliation.user.name %> <i>wants to trade for</i></h2>
+
+<h2><%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), organization_path(@affiliation.organization) -%>&nbsp;<%=h @affiliation.organization.name -%></h2>
+
+<h2><i>(requested <%= distance_of_time_in_words(Time.now, @affiliation.created_at) %> ago)</i></h2>
+
+<p>
+Your job is to protect the system by making sure every authorized member is a legitimate trader.
+</p>
+	<%= error_messages_for :affiliation %>
+	<%= error_messages_for :organization %>		
+	<div id="tabbed">
+		<ul id="tab_group_one" class="subsection_tabs">
+		    <li><a href="#one">Step 1</a></li>
+		    <li><a href="#two">Step 2</a></li>
+		    <li><a href="#three">Step 3</a></li>
+		    <li><a href="#four">Step 4</a></li>
+		</ul>
+		<div id="one">
+			<% form_for :organization do |form| -%>
+				<% fields_for :affiliation do |form| %>
+					<%= form.hidden_field :id, :value => @affiliation.id %>
+				<% end %>			
+	  			<%= render :partial => 'form_one' -%>
+				<br />
+				<br />
+				<div class="right">
+				<%= submit_to_remote 'submit', 'Go To Step 2',
+						:update => 'dynamic_form_two',
+						:url => { :action => 'step_two_for_new' },
+						:before => "$('indicator').show();",
+						# :before => "tabs.setActiveTab('two')",
+						:success => "tabs.setActiveTab('two');",
+						:failure => "alert('There was an error.')",
+						:complete => "$('indicator').hide();" 
+						%>
+				</div>
+			<% end %>
+		</div><!-- id="one" -->
+		<div id="two">
+			<% form_for :organization do |form| -%>
+				<% fields_for :affiliation do |form| %>
+					<%= form.hidden_field :id, :value => @affiliation.id %>
+				<% end %>
+				<div id="dynamic_form_two">
+					<%= render :partial => 'form_two' -%>
+				</div>
+				<br />
+				<br />
+				<div class="right">
+				<%= submit_to_remote 'submit', 'Go To Step 3',
+						:update => 'dynamic_form_three',
+						:url => { :action => 'step_three_for_new' },
+						:before => "$('indicator').show();",
+						# :before => "tabs.setActiveTab('two')",
+						:success => "tabs.setActiveTab('three');",
+						:failure => "alert('There was an error.')",
+						:complete => "$('indicator').hide();" 
+						%>
+				</div>
+			<% end %>
+		</div><!-- id="two" -->
+		<div id="three">
+			<% form_for :organization do |form| -%>
+				<% fields_for :affiliation do |form| %>
+					<%= form.hidden_field :id, :value => @affiliation.id %>
+				<% end %>
+				<div id="dynamic_form_three">
+					<%= render :partial => 'form_three' -%>
+				</div>
+				<br />
+				<br />
+				<div class="right">
+				<%= submit_to_remote 'submit', 'Go To Step 4',
+						:update => 'dynamic_form_four',
+						:url => { :action => 'step_four_for_new' },
+						:before => "$('indicator').show();",
+						# :before => "tabs.setActiveTab('two')",
+						:success => "tabs.setActiveTab('four');",
+						:failure => "alert('There was an error.')",
+						:complete => "$('indicator').hide();" 
+						%>
+				</div>
+			<% end %>
+		</div><!-- id="three" -->
+		<div id="four">
+			<% form_for :affiliation, :url => affiliation_path(@affiliation), :html => { :method => :put } do |form| -%>
+				<div id="dynamic_form_four">
+					<%= render :partial => 'form_four' -%>
+				</div>
+				<br />
+				<div class="right">
+					<%= submit_tag 'Submit' %>
+				</div>
+			<% end %>
+			<div class="clear">
+		</div><!-- id="four" -->
+	<script> var tabs = new Control.Tabs('tab_group_one'); </script>
+</div><!-- id="tabbed" -->
+</div><!-- middle_content -->
+</div><!-- yui-g -->

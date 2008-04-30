@@ -1,0 +1,26 @@
+<% @table = capture do %>
+<table class="admin" id="<%= rdom_class(model_class, "table") %>">  
+	<thead>
+	  <tr>
+	    <% table.columns.each do |c| %>
+	      <th><%= c.name %></th>
+	    <% end %>
+	  </tr>
+  </thead>
+  <tbody id='<%=h rdom_class(model_class, "list") %>'>
+  <% table.records.each_with_index do |r,i| %>
+    <tr id='<%=h rdom_id(r, "row") %>' class="rrow <%= "odd" if i % 2 == 1 %>" >
+      <% table.columns.each do |c| %>
+        <td><%= roar_column(c, r) %></td>
+      <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table> 
+<% end %>
+
+<% if !table.has_actions? %>
+<%= @table %>
+<% else %>
+<%= render :roar_partial => "table_actions", :locals => {:table_output => @table, :table => table} %>
+<% end %>

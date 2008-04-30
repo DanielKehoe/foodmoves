@@ -1,0 +1,6 @@
+<% form_field(field, record) do %>
+  <% options = field.options.delete(:choices) %>
+  <% options.each do |key,value| %>
+    <%= form.radio_button(field.method, key, field.options) %><span class="radio"><%= value %></span><br />
+  <% end %>
+<% end %>

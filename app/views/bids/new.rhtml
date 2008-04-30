@@ -1,0 +1,13 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), bids_path %>&nbsp;Bids</h1>
+
+<h2>New Bid</h2>
+
+<% form_for :bid, :url => bids_path, :html => { :class => 'baseform' } do |form| -%>
+
+  <%= render :partial => 'form', :object => form -%>
+
+	<p>
+		<%= submit_tag 'Create' -%>
+	</p>
+	
+<% end -%>

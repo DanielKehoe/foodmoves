@@ -1,0 +1,2 @@
+<% date = record.send(column.method) %>
+<%= date.nil? ? "" : date.to_s(column.options[:format] || :long) %>

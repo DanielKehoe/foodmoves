@@ -1,0 +1,131 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), prospects_path %>&nbsp;Prospects</h1>
+
+<h2><%= link_to image_tag('group_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_prospect_path(@prospect) -%>&nbsp;	<% unless @prospect.website.blank? %><%= link_to @prospect.name, "http://#{@prospect.website}" %>
+<% else %>
+	<%= @prospect.name %>
+<% end %></h2>
+<h2><%=h @prospect.locality -%>, <%=h @prospect.admin_area_abbr -%> <% if @prospect.country_name != 'United States' -%><%=h @prospect.country_name -%><% end -%></h2>
+<h2><% unless @prospect.phone.blank? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => @prospect.phone), "skype:#{@prospect.phone}" -%>&nbsp;<% end -%><%=h @prospect.phone -%> (unverified)</h2>
+<h2>Contact: <% unless @prospect.person.blank? -%><%=h @prospect.person -%>  (unverified)<% else -%>unknown<% end -%></h2>
+<h2>Email: <% unless @prospect.email.blank? -%><%= mail_to @prospect.email, image_tag('email.png', :alt => 'send email', :title => @prospect.email), :subject => "Message from Foodmoves.com" -%>&nbsp;<%= @prospect.email %> (unverified)<% else -%>unknown<% end -%></h2>
+
+
+<% content_for(:secondary) do -%>
+	<div class="show-secondary">
+
+		<label>Industry role</label>
+			<span>
+				<%= @prospect.industry_role %>
+			</span>
+		<br />
+
+		<label>Source</label>
+			<span>
+				<%= @prospect.source %>
+			</span>
+		<br />
+		
+		<label>Assigned to</label>
+			<span>
+				<% if @prospect.acct_exec_id.class.to_s == 'Fixnum' -%>
+					<%= @prospect.administrator.name %>
+				<% else -%>
+					unassigned
+				<% end -%>
+			</span>
+		<br />
+
+		<label>Created by</label>
+			<span>
+				<% if @prospect.created_by.class.to_s == 'Fixnum' -%>
+					<%= @prospect.user.name %>
+				<% else -%>
+					<% unless @prospect.created_by_name.nil? -%>
+						<%= @prospect.created_by_name %>
+					<% else -%>
+						no record
+					<% end -%>
+				<% end -%>
+			</span>
+		<br />
+
+		<label>Created at</label>
+			<span>
+				<%= local_time @prospect.created_at -%>
+			</span>
+		<br />
+
+		<label>Updated at</label>
+			<span>
+				<%= local_time @prospect.updated_at -%>
+			</span>
+		<br />
+
+		<label>Updated by</label>
+			<span>
+				<%= @prospect.updated_by -%>
+			</span>
+		<br />
+				
+		<label>Outcome</label>
+			<span>
+				<%= @prospect.call_result %>
+			</span>
+		<br />
+									
+	</div>	
+<% end -%>
+
+<div class="show">
+
+
+	<label>Updated By</label>
+		<span>
+			<%= @prospect.updated_by -%>
+		</span>
+	<br />
+
+	<label>When Updated</label>
+		<span>
+			<% unless @prospect.updated_at.nil? -%><%= distance_of_time_in_words(Time.now, @prospect.updated_at) -%> ago<% else -%>never<% end -%>
+		</span>
+	<br />
+						
+	<% unless @prospect.phones.empty? %>	
+		<label>Phone Numbers</label>
+		<ul>
+			<li>
+				<% for phone in @prospect.phones %>
+				  <%= link_to image_tag('phone.png', :alt=>'Show', :title=>'Show Item'), phone_path(phone) %><%=h phone.localized(@current_user) %>&nbsp;<% unless phone.skype.blank? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => 'call with Skype'), "skype:#{phone.skype}" -%><% end -%>&nbsp;(<%=h phone.tag_for_phone %>)<br />
+				<% end %>
+			</li>
+		</ul>
+	<% end -%>
+	
+	<br />
+	
+	<% unless @prospect.addresses.empty? %>	
+		<label>Addresses</label>
+		<ul>
+			<li>
+				<% for address in @prospect.addresses %>
+				  <%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), address_path(address) %>&nbsp;<%=h address.tag_for_address %>:<br /><%= address.address_block %><br /><br />
+				<% end %>
+			</li>
+		</ul>
+	<% end -%>
+	
+	<br />
+	
+	<% unless @prospect.contacts.empty? %>	
+		<label>Contacts</label>
+		<ul>
+			<li>
+				<% for contact in @prospect.contacts %>
+				  <%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'), contact_path(contact) %>&nbsp;<% unless contact.email.blank? -%><%= mail_to contact.email, image_tag('email.png', :alt => 'send email', :title => contact.email), :subject => "Message from Foodmoves.com" -%><% end -%>&nbsp;<%= contact.name %><br /><br />
+				<% end %>
+			</li>
+		</ul>
+	<% end -%>
+	
+</div>

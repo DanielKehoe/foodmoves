@@ -1,0 +1,29 @@
+form.roar { background: #eee; border: 1px solid #ccc; padding: 10px; }
+form.silent { background: #fff; border: 0px; }
+form.roar input.text_field { width: 90%; }
+form.roar input.action { margin-right: 5px; }
+form.roar textarea { width: 90%; height: 200px; }
+
+table.admin tr td form.roar a { display: inline; }
+table.admin tr td form.roar a.delete-link  { display: block; }
+form.roar p { margin: 0 0 0.5em 0; }
+form.roar p.note { margin-left: 170px; font-size: 90%; color: #333; }
+form.roar fieldset { margin: 10px 0; padding: 10px; border: #ccc 1px solid; }
+form.roar legend { font-weight: bold; color: #666; }
+form.roar fieldset div, form div { padding: 0.25em 0; }
+form.roar span.radio { padding-left: 10px; }
+form.roar label, 
+form.roar span.label { margin-right: 10px; padding-right: 10px; color: #333; font-weight: bold; }
+form.roar label.error, 
+form.roar span.error { color: #C00; }
+form.roar label em, 
+form.roar span.label em { position: absolute; right: 0; font-size: 120%; font-style: normal; color: #C00; }
+form.roar input.line { width: 300px; }
+form.roar input.error { border-color: #C00; background-color: #FEF; }
+form.roar input:focus,
+form.roar input.error:focus, 
+form.roar textarea:focus {	background-color: #ffd; }
+form.roar .buttonrow { margin-top: 10px; }
+
+.delete-link, .destroy-link { display: block; width: 16px; text-indent: -5000px; background: url(/images/roar/12-em-cross.png); height: 16px; }
+.progress-edit { padding-left: 10px; }

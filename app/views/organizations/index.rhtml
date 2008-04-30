@@ -1,0 +1,34 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), organizations_path %>&nbsp;Organizations</h1>
+
+<% content_for(:secondary) do %>
+	<h4><%= link_to('New Organization', new_organization_path, :class=>"rnew new-link") %></h4>
+	<h2>Search By Name</h2>
+	<% form_tag organizations_path, :method => 'get' do %>
+		<%= text_field_with_auto_complete :organization,
+	        :name,
+	         { :size => 20 }, :skip_style => true -%>
+		&nbsp;<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+<% end %>
+
+<table class="admin">
+<thead>
+	<tr>
+		<th colspan='4'>&nbsp;</th>
+		<th><strong>Name</strong></th>
+	</tr>
+</thead>
+ 
+<% for organization in @organizations %>
+	<tr>
+		<td><%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), organization_path(organization) %></td>
+	    <td><%= link_to image_tag('group_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_organization_path(organization) %></td>
+	    <td><%= link_to image_tag('group_delete.png', :alt=>'Delete', :title=>'Delete Item'), organization_path(organization), :confirm => 'Are you sure?', :method => :delete %></td>
+	    <td><% unless organization.phones.first.nil? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => organization.phones.first.number), "skype:#{organization.phones.first.skype}" -%><% end -%></td>
+		<td><%= organization.name %></td>
+	</tr>
+<% end %>
+</table>
+<% content_for(:footer) do %>
+	<%= will_paginate @organizations %>
+<% end %>

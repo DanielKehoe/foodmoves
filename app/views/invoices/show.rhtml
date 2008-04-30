@@ -1,0 +1,19 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), invoices_path %>&nbsp;Invoices</h1>
+
+<h2><%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_invoice_path(@invoice) -%>&nbsp;<%=h @invoice.date_to_end %></h2>
+
+<div class="show">
+	
+	<label>Auction Ended</label>
+		<span>
+			<%= @invoice.date_to_end %>
+		</span>
+	<br />
+
+	<label>Due Foodmoves</label>
+		<span>
+			<%= number_to_currency @invoice.due_foodmoves %>
+		</span>
+	<br />
+
+</div>

@@ -1,0 +1,72 @@
+= Roar
+
+Roar is a rails plugin that adds automated admin functionality.  It provides a custom DSL that you use to describe how the admin functionality for each resource works, and the plugin takes care of the rest.  It is similar in spirit to Django's[1] admin functionality, Streamlined Framework[2]
+
+== What does it look like?
+
+  class PostsController < ApplicationController
+    roar do  
+      per_page 5
+      order "published_at DESC, created_at"
+
+      filters do
+        search :text, fields => [:title,:body]
+        recent_dates :created_at
+      end
+
+      table do
+        edit    :title
+        column  :status
+        date  :published_at
+        delete
+      end
+
+      form do
+        text_field :title
+        text_area :body
+        select_field :status, :choices=>Status.to_select
+        check_box :published, :name=>"Published?"
+      end
+    end
+  end
+
+This controller will give a complete resource based controller with ajax crud actions, and complete with pagination and  filtering (searching).
+  
+== Installation
+
+
+=== Install the plugin:
+
+    ./script/plugin install svn://rubyforge.org/var/svn/roar/trunk/roar
+
+=== Install the dependencies: 
+
+Criteria Query: http://www.muermann.org/ruby/criteria_query/ is used for building the filter queries, and for nested resources.
+
+    ./script/plugin install svn://rubyforge.org/var/svn/criteriaquery
+
+Paginator: http://paginator.rubyforge.org/ is also required:
+
+    sudo gem install paginator
+    
+
+=== Install the assets.  
+
+    rake roar:install
+    
+This copies the images, stylesheets, javascripts and layouts required for the plugin.  Note, that everything is installed into a `roar` subdirectory, in order to prevent pollution of your application's namespace.
+  
+
+* [1] - http://www.djangoproject.com/
+* [2] - http://streamlinedframework.org/
+
+=== Start writing your first interface
+
+* See the documentation at - http://roar.rubyforge.org
+* Or the homepage/blog at - http://nanoware.com/roar/
+
+And the docs for:
+* Roar::Rails::ActMethods
+* Roar::Table
+* Roar::Form
+

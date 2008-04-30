@@ -1,0 +1,24 @@
+<h4><%= link_to("New #{model_name}", h(new_path), {:id=>rdom_class(model_class, "new_link"), :class=>"rnew new-link inline"}) %></h4>
+
+<% column_headers = table.columns.collect { |c| c.name } %>
+<p class="abut"><strong><%= column_headers.join(", ") %></strong>
+<% if table.actions.delete(:sortable) %>
+<%= link_to_function "Sort List", "RoarSortable.toggle(this, '#{rdom_class(model_class, "list")}', '#{collection_path(nil, 'order')}');" %>
+<% end %>
+</p>
+
+<% @list = capture do %>
+<ul id="<%= rdom_class(model_class, "list") %>" class="admin">
+  <% table.records.each_with_index do |r,i| %>
+    <li id='row_<%= r.id %>' <%= "class='odd'" if i % 2 == 1 %> ><span id='<%= rdom_id(r, "row") %>' class="rrow">
+			<%= table.columns.collect { |c| roar_column(c, r) }.join(' ') %>
+		</li>
+  <% end %>
+</ul> 
+<% end %>
+
+<% if !table.has_actions? %>
+<%= @list %>
+<% else %>
+<%= render :roar_partial => "table_actions", :locals => {:table_output => @list, :table => table} %>
+<% end %>

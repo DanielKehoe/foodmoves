@@ -1,0 +1,19 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), tag_for_phones_path %>&nbsp;Phone Locations</h1>
+
+<h2><%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_tag_for_phone_path(@tag_for_phone) -%>&nbsp;<%=h @tag_for_phone.name %></h2>
+
+<div class="show">
+
+	<label>Sort order</label>
+		<span>
+			<%= @tag_for_phone.sort_order %>
+		</span>
+	<br />
+	
+	<label>Name</label>
+		<span>
+			<%= @tag_for_phone.name %>
+		</span>
+	<br />
+
+</div>

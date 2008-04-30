@@ -1,0 +1,310 @@
+<!-- Auctions/Edit -->
+<!-- using layout "forms_wide" -->
+<div class="yui-gb">
+	<div class="yui-u first" id="left_content">
+		<div id="headline">
+			<% unless @auction.description.nil? %>
+				<%= @auction.description %>
+			<% else -%>
+				Create a new auction
+			<% end %>	
+		</div>
+		<% unless @current_user.organizations.first.assets.empty? %>
+			<div class="tomato_image">	
+				<% for asset in @current_user.organizations.first.assets %>
+					<%= image_tag(asset.public_filename(:size200)) %>
+				<% end %>
+			</div>
+		<% else -%>
+			<% if @auction.buyer_id.nil? %>
+				<% if @current_user.id == @auction.seller_id %>
+					<div id="details_font">Add a Company Logo?</div>
+					<% form_for(:asset, :url => organization_logos_path(@current_user.organizations.first.id), :html => { :multipart => true }) do |f| %>
+							<span class="sidebox_small_text">Select a file from your computer:</span> 
+							<br />
+							<%= f.file_field :uploaded_data, {:size => 17} %>
+							<br />
+							<br />
+							<%= submit_tag "Upload Logo" %>
+					<% end %>
+					<br />
+				<% else -%>
+					<% if logged_in? -%>
+						<% restrict_to 'support' do -%>
+							<div id="details_font">Add a Company Logo?</div>
+							<% form_for(:asset, :url => organization_logos_path(@current_user.organizations.first.id), :html => { :multipart => true }) do |f| %>
+									<span class="sidebox_small_text">Select a file from your computer:</span>  
+									<br />
+									<%= f.file_field :uploaded_data, {:size => 17} %>
+									<br />
+									<br />
+									<%= submit_tag "Upload Logo" %>
+							<% end %>
+							<br />			
+						<% end -%>
+					<% end -%>
+				<% end -%>
+			<% end -%>
+		<% end -%>
+		<dl class="sidebox_list">
+			<dt><b>Seller</b></dt><dd><% if logged_in? -%><% restrict_to 'support' do -%><%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show User'), member_path(@current_user.id) -%>&nbsp;<% end -%><% end -%><%= @current_user.name %>
+			<br />
+			<% if logged_in? -%><% restrict_to 'support' do -%><%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Company'), organization_path(@current_user.organizations.first.id) -%>&nbsp;<% end -%><% end -%><%= @current_user.organizations.first.name %>
+			</dd>
+		</dl>	
+	</div><!-- class="yui-u first" id="left_content" -->
+	<div class="yui-u" id="middle_content">
+		<div id="indicator" style="display:none; background-color:#FE7A22; text-align:center;">
+			<p>
+			<%= image_tag('live_tree_loading_spinner.gif', :alt=>'Loading', :title=>'Loading') %>
+			</p>
+		</div>
+		<% form_for :auction, :url => { :action => :confirm } do |form| -%>		
+			<%= error_messages_for :auction %>	
+			<div id="tabbed">
+				<ul id="tab_group_one" class="form_tabs">
+				    <li><a href="#one">Step 1</a></li>
+				    <li><a href="#two">Step 2</a></li>
+				    <li><a href="#three">Step 3</a></li>
+				    <li><a href="#four">Step 4</a></li>
+				</ul>
+				<div id="one">					
+					<br />
+					<br />
+					
+					<div class="auction_form_indented">
+						<label>Create a real auction?</label>
+						<span><%= form.radio_button :test_only, false %>&nbsp;Yes&nbsp;<%= form.radio_button :test_only, true  %>&nbsp;No</span><br />
+						<br />
+					</div>
+					<div class="baseform">
+					<label>Shipping from</label>
+					<% unless @current_user.addresses.size == 0 %>
+						<span><%= form.collection_select :address_id,
+											@current_user.addresses, 
+											:id, 
+											:tag_plus_city %>
+						</span>
+					<% else %>
+						<span><b>YOU MUST ADD A LOCATION!</b></span>
+					<% end %>
+					</div>
+					<div class="auction_form_indented">
+						<span class="auction_form_small_text"><%= link_to('Add New Location?', new_user_address_path(@current_user), :class=>"rnew new-link") %></span>
+					</div>
+					<br />
+					<div class="baseform">
+						<label>Origin of Product</label>
+						<span><%= form.collection_select :origin_region_id, 
+							Geographies::Region.find(:all, :order => 'sort_order'), 
+							:id, 
+							:name %></span>
+
+						<label>&nbsp;</label>
+						<span><%= related_collection_select :auction, 
+							:origin_country_id, 
+							[:auction, :origin_region_id], 
+							Geographies::Country.find(:all, :order => 'sort_order'), 
+							:id, 
+							:name, 
+							:parent_id,
+							{:selected=>@auction.origin_country_id} %></span>
+						</div>
+						<div class="auction_form_indented">
+							<span><%= form.radio_button :for_export, false %>&nbsp;For domestic use&nbsp;<%= form.radio_button :for_export, true  %>&nbsp;For export</span><br />
+							<br />
+						</div>
+						<div class="baseform">
+						<fieldset id="food">
+
+							<label>Description</label>
+							<span><%= form.collection_select :food_root_id, 
+								@food_root_children, 
+								:id, 
+								:name %></span>
+
+								<%= related_collection_select :auction, 
+									:food_grandparent_id, 
+									[:auction, :food_root_id], 
+									@foods,
+									:id, 
+									:name, 
+									:parent_id %>
+								<span>
+
+								<%= related_collection_select :auction, 
+									:food_parent_id, 
+									[:auction, :food_grandparent_id], 
+									@foods,
+									:id, 
+									:name, 
+									:parent_id %>
+								<span>	
+
+								<%= related_collection_select :auction, 
+									:food_id, 
+									[:auction, :food_parent_id], 
+									@foods,
+									:id, 
+									:name, 
+									:parent_id %>
+								<span>
+
+						</fieldset>
+						<div class="auction_form_indented">
+							<span class="auction_form_small_text"><%= link_to('Reset Description?', new_auction_path, :class=>"rnew new-link") %></span>
+						</div>
+						<br />
+						<label>Lot Identification</label>
+						<span><%= form.text_field :lot_number, :size => 6 -%></span>
+					</div>
+					<br />
+					<div class="auction_form">
+						<label><b>Allow purchases of partial lots?</b></label>
+							<span><%= form.radio_button :allow_partial, true %>&nbsp;Yes&nbsp;<%= form.radio_button :allow_partial, false %>&nbsp;No</span>
+						</div>
+						<br />
+						<div class="baseform">
+						<fieldset class="baseform time">		
+						    <label>Auction Start Date</label>
+							<span><%= date_field :auction, :date_to_start, :format => '%d %b %Y', :value => (local_time @auction.date_to_start) %></span><br />
+
+							<label>Time</label>
+							<span class="auction_form_indented"><%= time_select :auction, :time_to_start, :order => [:hour, :minute, :ampm ], :minute_step => 15  %></span><br />
+
+						    <label>Auction End Date</label>
+						    <span><%= date_field :auction, :date_to_end, :format => '%d %b %Y', :value => (local_time @auction.date_to_end) %></span><br />
+
+							<label>Time</label>
+							<span class="auction_form_indented"><%= time_select :auction, :time_to_end, :order => [:hour, :minute, :ampm ], :minute_step => 15 %></span>
+						</div>
+						<div class="auction_form">
+							<label><b>Deadline for pickup?</b></label>
+							<span><%= form.radio_button :pickup_limit, '24' %>&nbsp;24 hrs&nbsp;<%= form.radio_button :pickup_limit, '48' %>&nbsp;48 hrs&nbsp;<%= form.radio_button :pickup_limit, '72' %>&nbsp;72 hrs</span><br />
+							<br />
+						</fieldset>
+							<br />
+						</div>
+					<div class="right">
+					<%= submit_to_remote 'submit', 'Go To Step 2',
+							:update => 'dynamic_form',
+							:url => { :action => 'step_two_for_new' },
+							:before => "$('indicator').show();",
+							# :before => "tabs.setActiveTab('two')",
+							:success => "tabs.setActiveTab('two');",
+							:failure => "alert('There was an error.')",
+							:complete => "$('indicator').hide();javascript:urchinTracker('/auction/step_two');" 
+							%>
+					</div>
+					<br />
+				</div><!-- id="one" -->
+				<div id="two">
+					<div id="dynamic_form">
+						<%= render :partial => 'form', :object => form -%>
+					</div>		
+				</div><!-- id="two" -->
+				<div id="three">
+					<br />
+					<div class="auction_form">
+
+						<label><b>Organic certified?</b></label>
+						<span><%= form.radio_button :organic, true %>&nbsp;Yes&nbsp;<%= form.radio_button :organic, false  %>&nbsp;No</span><br />
+
+						<label><b>Fair Trade certified?</b></label>
+						<span><%= form.radio_button :fair_trade, true %>&nbsp;Yes&nbsp;<%= form.radio_button :fair_trade, false  %>&nbsp;No</span><br />
+
+						<label><b>Kosher certified?</b></label>
+						<span><%= form.radio_button :kosher, true %>&nbsp;Yes&nbsp;<%= form.radio_button :kosher, false  %>&nbsp;No</span><br />
+
+						<br />
+					</div>
+					<div class="baseform">
+					<fieldset class="baseform checks">
+						<% unless @certifications.nil? %>
+							<h2>Product Certification</h2>	
+							<span>
+								<% for certification in @certifications %>
+								  <%= check_box_tag 'auction[certification_ids][]', certification.id, @auction.certifications.include?(certification) %>
+								  <label for="auction[certification_ids][]">&nbsp;<%=h certification.name %></label><br />
+								<% end %>
+							</span><br />
+						<% end %>
+					</fieldset>
+
+					<fieldset class="baseform checks">
+						<% unless @treatments.nil? %>
+							<h2>Product Treatment</h2>	
+							<span>
+								<% for treatment in @treatments %>
+								  <%= check_box_tag 'auction[treatment_ids][]', treatment.id, @auction.treatments.include?(treatment) %>
+								  <label for="auction[treatment_ids][]">&nbsp;<%=h treatment.name %></label><br />
+								<% end %>
+							</span><br />
+						<% end %>
+					</fieldset>
+					</div>
+					<br />
+					<div class="right">
+						<%= button_to_function 'Go To Step 4',
+								"tabs.setActiveTab('four');" %>
+					</div>
+					<br />
+				</div><!-- id="three" -->
+				<div id="four">
+					<div class="baseform">
+						<br />
+						<br />
+						<label>Minimum bid</label>
+						<span><%= text_field 'auction', 'minimum_bid', :value => number_to_currency(@auction['minimum_bid']) %></span><br />
+
+						<label>It's Yours<sup>&trade;</sup> price</label>
+						<span><%= text_field 'auction', 'buy_now_price', :value => number_to_currency(@auction['buy_now_price']) %></span><br />
+
+						<label>Bid increment</label>
+						<span><%= form.select :bid_increment, [["$0.10", 0.10], ["$0.25", 0.25], ["$0.50", 0.50], ["$1.00", 1.00]] %></span><br />
+
+						<fieldset>
+							<legend class="baseform">Minimum Requirements for Bidder</legend>
+							<label>Credit Worth</label>
+							<span><%= form.collection_select :creditworth_id, 
+								@creditworth, 
+								:id, 
+								:description %></span><br />
+							<label>Timeliness</label>
+							<span><%= form.collection_select :timeliness_id, 
+								@timeliness, 
+								:id, 
+								:description %></span><br />
+							<label>Risk Factor</label>
+							<span><%= form.collection_select :integrity_id, 
+								@integrity, 
+								:id, 
+							:description %></span><br />
+						</fieldset>
+					</div>
+					<br />
+					<div class="right">
+						<%= submit_tag "Review and Confirm New Auction" %>
+					</div>
+					<br />
+				</div><!-- id="four" -->
+			<script> var tabs = new Control.Tabs('tab_group_one'); </script>
+		</div><!-- id="tabbed" -->
+	</div><!-- class="yui-u" id="middle_content" -->
+<div class="yui-u" id="side-content">
+	<div class="sidebox_top">
+		<div class="sidebox_header">price reports</div>
+	</div>
+	<div class="sidebox_middle">
+		<div class="sidebox_content">
+			<ul class="sidebox_list">
+				<li class="sidebox_list">
+					<b><%= link_to "USDA Market News", 'http://marketnews.usda.gov/portal/fv', :popup => ['new_window', 'height=900, width=800'] %></b><br />
+				</li>
+			</ul>		
+		</div><!-- class="sidebox_content" -->
+	</div><!-- class="sidebox_middle" -->
+	<div class="sidebox_bottom"></div>	
+<% end -%>
+</div><!-- class="yui-u" id="side-content" -->
+</div><!-- yui-gb -->

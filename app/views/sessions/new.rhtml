@@ -1,0 +1,47 @@
+<!-- Session/New -->
+<!-- using layout "yui_t7_custom" -->
+<div class="yui-g">
+	<div class="middle_content">
+		<% unless logged_in? -%>
+		  	<% form_tag(session_path) do -%>
+				<div id="details_font">LOG IN</div>
+				<div class="text_font">
+					Please log in to access the site.
+				</div>
+				<div class="text_font">
+					Not yet registered? <b><%= link_to 'Sign up here.', new_guest_path -%></b>
+				</div>
+				<% if flash[:notice] -%>
+					<b><%= flash[:notice] %></b>
+				<% elsif flash[:error] -%>
+					<div class="red"><b><%= flash[:error] %></b></div>	
+				<% else -%>
+					<br />
+				<% end -%>
+				<div id="li_font">Email</div>
+				<div class="left">		    	
+					<%= text_field_tag 'email', {}, :size => 38 %>
+				</div>
+				<div id="li_font_1">Password</div>
+				<div class="left">				
+					<%= password_field_tag 'password', {}, :size => 38 %>
+				</div>
+				<div class="submit_button">
+					<%= button_submit_tag 'Log In', :class => 'foodmoves'  -%>
+				</div>					
+			<% end -%>
+			<div class="clear"></div>
+		<% else -%>
+			<div class="text_font">
+				You are logged in as <b><%= @current_user.email %></b>
+			</div>
+			<% if flash[:notice] -%>
+				<b><%= flash[:notice] %></b>
+			<% elsif flash[:error] -%>
+				<div class="red"><b><%= flash[:error] %></b></div>	
+			<% else -%>
+				<br />
+			<% end -%>		
+		<% end -%>
+	</div><!-- middle_content -->
+</div><!-- yui-g -->

@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Foodmoves: <%= 'Buy and Sell Produce'.t %></title>
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.0/build/reset-fonts-grids/reset-fonts-grids.css" />
+	<%= stylesheet_link_tag 'common', 'home' %>
+</head>
+<body>
+	<div id="doc2" class="yui-t4">
+		<div id="hd">
+			<div class="logo">
+			<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="220" height="86" alt="Foodmoves online auction" title="Foodmoves online auction">
+				<param name="movie" value="/flash/homepage.swf" />
+				<param name="quality" value="high" />
+				<embed src="/flash/homepage.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="220" height="86" alt="Foodmoves online auction" title="<%= 'Foodmoves online auction'.t %>" />
+			</object>
+			</div><!-- class="logo" -->		
+			<ul class="navlinks">
+				<li><%= highlight_current_link_to 'home'.t, home_path, :class => 'navlinks' -%></li>
+				<li><%= link_to 'sell'.t, sell_path, :class => 'navlinks' %></li>
+				<li><%= link_to 'buy'.t, buy_path, :class => 'navlinks' %></li>
+				<li><%= link_to 'chat'.t, 'http://foodmoves.campfirenow.com/e08e3', {:class => 'navlinks' , :popup => ['Chat', 'width=650,height=1000']} %></li>
+				<li><%= link_to 'faq'.t, answers_path, :class => 'navlinks' -%></li>
+				<li><%= link_to 'espa&ntilde;ol', '/espanol/flashSpanish/about.html', :class => 'navlinks' -%></li>
+				<% if logged_in? -%><li><%= link_to 'account'.t, member_path(@current_user), :class => 'navlinks' -%></li><% end -%>
+				<% if logged_in? -%><li><%= link_to 'logout'.t, session_path, {:method => :delete, :class => 'navlinks'} -%></li><% else -%><li><%= link_to 'login'.t, new_session_path, :class => 'navlinks' -%></li><% end -%><% if logged_in? -%><% restrict_to 'support' do -%><li><%= link_to 'team chat', 'http://foodmoves.campfirenow.com/', {:class => 'navlinks', :popup => ['TeamChat', 'width=650,height=1000']} %></li><li><%= link_to 'admin', admin_path, :class => 'navlinks' %></li><% end -%><% end -%>
+			</ul><!-- class="navlinks" -->		
+		</div><!-- id="hd" -->
+		<div id="bd">
+			<div id="yui-main">
+				<div class="yui-b">
+					<div class="yui-g">
+						<div class="foodmoves_image">
+							<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="770" height="394" alt="Flash movie" title="<%= 'Play our three minute Flash presentation'.t %>">
+								<param name="movie" value="<%= '/flash_home/flash_home.swf'.t %>" />
+								<param name="quality" value="high" />
+								<embed src="<%= '/flash_home/flash_home.swf'.t %>" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="770" height="394" alt="Flash movie" title="<%= 'Play our three minute Flash presentation'.t %>" />
+							</object>
+							<br />
+							<div id="movie_caption"><%= 'Play the Flash movie and learn all about Foodmoves!'.t %></div>
+						</div><!-- class="foodmoves_image" -->
+					</div><!-- id="yui-g" -->
+					<div class="yui-g">
+						<div class="yui-u first"  id="home_col_1">
+							<div class="foodmoves_content">
+								<div id="foodmoves"><%= 'This is foodmoves.com,'.t %></div>
+								<div id="foodmoves_block"><%= 'the auction marketplace for the produce industry.  
+								Sellers offer your produce to buyers instantly. Buyers
+								find your best deals.'.t %>
+								</div>
+
+								<div id="foodmoves_block"><b><%= 'Always FREE for buyers, &amp; low fees for sellers!'.t %></b></div>
+							</div><!-- class="foodmoves_content" -->
+							<div id="recent" class="modo">
+							    <h1 class="mh"><%= 'How To Get Started'.t %></h1>
+							    <ul id="recent_list">
+									<li>
+										<div class="title">
+											<% if logged_in? -%>
+												You've already signed up. You can <%= link_to 'send an invitation to a friend.'.t, new_guest_path -%>
+											<% else %>
+												You need to sign up to see all auctions in detail. Send yourself an <%= link_to 'invitation'.t, new_guest_path -%> to sign up. It's FREE!
+												<% form_tag(new_guest_path) do -%>
+													<div class="right"><%= button_submit_tag 'Sign Up'.t, :class => 'foodmoves'  -%></div>
+												<% end -%>
+											<% end %>
+										</div>
+									</li>
+									<li>
+										<div class="title">
+											You can learn more about <%= link_to 'getting started.', start_path -%>
+										</div>
+									</li>
+								</ul>
+							</div><!-- id="recent" -->
+						</div><!-- id="yui-u first" -->
+						<div class="yui-u" id="home_col_2">
+							<div id="featured">
+							    <h1 class="mh"><%= 'Featured Auction'.t %></h1>
+								<% unless @featured.nil? -%>
+									<div class="left">
+										<% unless @featured.assets.nil? or @featured.assets.first.nil? -%>
+											<%= link_to image_tag(@featured.assets.first.public_filename(:size120), :alt=>"\"#{@featured.description.t}\"", :title=>"See details for \"#{@featured.description}\"", :class => 'thumb'), auction_path(@featured) -%>
+										<% else -%>
+											<%= link_to image_tag('products/generic.gif', :alt=>"\"#{@featured.description}\"", :title=>"See details for \"#{@featured.description.t}\"", :class => 'thumb'), auction_path(@featured) -%>
+										<% end -%>
+									</div><!-- class="left" -->			
+									<b><%= link_to @featured.description.t, auction_path(@featured) -%></b>
+									<br />
+									<%= @featured.shipping_from -%>
+								<% else -%>
+									<i><%= 'no current auctions'.t %></i>
+								<% end -%>
+								<div class="clear"></div>
+							</div><!-- id="featured" -->
+							<div id="recent" class="modo">
+								<% if logged_in? -%>
+								    <h1 class="mh"><%= 'All Current Auctions'.t %></h1>
+								    <ul id="recent_list">
+										<% unless @auctions.size == 0 %> 
+											<%= render :partial => 'auction', :collection => @auctions -%>
+										<% else %>
+											<li>
+												<div class="title">
+													<%= 'No products currently listed for auction.'.t %>
+												</div>
+											</li>
+										<% end %>		    
+									</ul>
+								<% else -%>
+									<h1 class="mh"><%= 'Log In'.t %></h1>
+									<br />
+									<% form_tag(session_path) do -%>
+										<div class="form">
+											<div id="form"><%= 'EMAIL ADDRESS'.t %></div>
+											<p><%= text_field_tag 'email' %></p>
+										</div><!-- class="form" -->
+										<div class="form">
+											<div id="form2"><%= 'PASSWORD'.t %></div>
+											<p><%= password_field_tag 'password' %></p>			
+										</div><!-- class="form" -->
+										<div><%= button_submit_tag 'Log In'.t, :class => 'foodmoves'  -%></div>
+
+									<% end -%>
+								<% end -%>
+							</div><!-- id="recent" -->
+						</div><!-- id="yui-u" -->
+					</div><!-- id="yui-g" -->
+				</div><!-- id="yui-b" -->
+			</div><!-- id="yui-main" -->
+			<div class="yui-b">
+				<div id="side_content">
+					<div class="buy_sell_buttons_home">
+						<div class="<%= 'sell_padding'.t %>">
+							<%= link_to 'SELL'.t, sell_path, { :class => 'buy_sell_link'.t} %>
+						</div>
+						<br />
+						<div class="<%= 'buy_padding'.t %>">
+							<%= link_to 'BUY'.t, buy_path, { :class => 'buy_sell_link'.t} %>
+						</div>
+					</div><!-- class="buy_sell_buttons_home" -->
+					<br />
+					<div id="ads">
+						<span class="sidebox_small_text"><%= 'Confidence in trading by'.t %></span>
+						<br />
+						<%= image_tag('badge_redbook-120x60.gif', :alt=>'RBCS logo', :title=>'Credit services provided by Redbook'.t, :size => "120x60") -%>
+						<br />
+						<img alt="D&amp;B logo" height="60" src="<%= '/images/badge_dnb-120x60.jpg'.t %>" title="Ad" width="120" />
+						<span class="sidebox_small_text"><%= 'Foodmoves Top Seller'.t %></span>
+						<br />
+						<img alt="Ad" height="60" src="<%= '/images/ad_cimino-120x60.jpg'.t %>" title="Ad" width="120" />
+						<br />
+						<span class="sidebox_small_text"><%= 'Transportation Sponsor'.t %></span>
+						<br />
+						<img alt="Ad" height="60" src="<%= '/images/aviva_ad-120x60.gif'.t %>" title="Ad" width="120" />
+						<br />
+					</div><!-- class="ads" -->
+				</div><!-- id="side_content" -->
+			</div><!-- id="yui-b" -->
+		</div><!-- id="bd" -->
+		<div id="ft">
+			<div class="ft_content">
+				<%= link_to 'about'.t, about_path, :class => 'ft_content' -%> l <%= link_to 'contact'.t, contact_us_path, :class => 'ft_content' -%> l <%= link_to 'terms of use'.t, legal_path, :class => 'ft_content' -%> l <%= link_to 'privacy'.t, privacy_path, :class => 'ft_content' -%> l &copy; <%= Time.now.year %> Foodmoves.com l <%= 'All rights reserved'.t %>.
+			</div><!-- class="ft_content" -->
+		</div><!-- id="ft" -->
+		<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+		_uacct = "UA-2745770-1";
+		urchinTracker();
+		</script>
+	</div><!-- id="doc2" -->
+</body><!-- id="" -->
+</html>
+	

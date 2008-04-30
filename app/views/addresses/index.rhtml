@@ -1,0 +1,105 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), addresses_path %>&nbsp;All Addresses</h1>
+
+<% content_for(:secondary) do %>
+	
+	<br />
+	<br />
+	<br />
+	<h4><%= link_to 'Download CSV File', formatted_addresses_path(:csv), :class=>"cvs-link" %></h4>
+	<br />
+	<br />
+		
+	<h2>Find By Region</h2>
+	<% form_tag addresses_path, :method => 'get' do %>
+		<%= collection_select :address, :region_id, 
+			Geographies::Region.find(:all, :order => 'sort_order'), 
+			:id, 
+			:name,
+			{:selected=>@address.region_id} %>
+		<br />
+		<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+	
+	<br />
+	<br />
+	
+	<h2>Find By Country</h2>
+	<% form_tag addresses_path, :method => 'get' do %>	
+		<%= related_collection_select :address, 
+			:country_id, 
+			[:address, :region_id], 
+			Geographies::Country.find(:all, :order => 'sort_order'), 
+			:id, 
+			:name, 
+			:parent_id,
+			{:selected=>@address.country_id} %>
+		<br />
+		<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+	
+	<br />
+	<br />
+	
+	<h2>Find By State</h2>
+	<% form_tag addresses_path, :method => 'get' do %>	
+		<%= related_collection_select :address, 
+			:admin_area_id, 
+			[:address, :country_id], 
+			Geographies::AdminArea.find(:all, :order => 'sort_order'), 
+			:id, 
+			:name, 
+			:parent_id,
+			{:selected=>@address.admin_area_id} %>
+		<br />
+		<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+	
+	<br />
+	<br />
+	
+	<h2>Find By City</h2>
+	<% form_tag addresses_path, :method => 'get' do %>
+		<%= text_field_with_auto_complete :address,
+	        :locality,
+	         { :size => 20 }, :skip_style => true -%>
+		&nbsp;<%= submit_tag 'Search', :name => nil %>
+	<% end -%>		
+<% end %>
+
+<table class="admin">
+<thead>
+	<tr>
+		<th colspan='3'>&nbsp;</th>
+		<th><strong>User or Organization</strong></th>
+		<th><strong>Type</strong></th>
+		<th><strong>City</strong></th>
+	</tr>
+</thead>
+ 
+<% for address in @addresses %>
+	<tr>
+		<td><%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), address_path(address) %></td>
+	    <td><%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_address_path(address) %></td>
+	    <td><%= link_to image_tag('table_delete.png', :alt=>'Delete', :title=>'Delete Item'), address_path(address), :confirm => 'Are you sure?', :method => :delete %></td>
+		<td style="white-space: nowrap;">
+		<% if address.addressable.nil? -%>
+			<b>ORPHANED, PLEASE DELETE</b>
+		<% else -%>
+			<% if address.addressable_type == 'User' -%>
+				<%= link_to address.addressable.name, user_path(address.addressable) %>
+			<% end -%>
+			<% if address.addressable_type == 'Organization' -%>
+					<%= link_to truncate(address.addressable.name, 30, "..."), organization_path(address.addressable) %>	
+			<% end -%>
+			<% if address.addressable_type == 'Prospect' -%>
+				<%= link_to address.addressable.name, prospect_path(address.addressable) %>
+			<% end -%>
+		<% end -%></td>
+		<td><%= address.tag_for_address %></td>
+		<td style="white-space: nowrap;"><%= address.city_state %></td>
+	</tr>
+<% end %>
+</table>
+<% content_for(:footer) do %>
+	<%= will_paginate @addresses %>
+<% end %>

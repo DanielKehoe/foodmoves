@@ -1,0 +1,39 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), contacts_path %>&nbsp;All Contacts</h1>
+
+<% content_for(:secondary) do %>
+	<h4><%= link_to('New Prospect', new_prospect_path, :class=>"rnew new-link") %></h4>
+	<h2>Search By Last Name</h2>
+	<% form_tag contacts_path, :method => 'get' do %>
+		<%= text_field_with_auto_complete :contact,
+	        :last_name,
+	         { :size => 20 }, :skip_style => true -%>
+		&nbsp;<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+<% end %>
+
+<table class="admin">
+<thead>
+	<tr>
+		<th colspan='5'>&nbsp;</th>
+		<th><b>Name</b></th>
+		<th><b>Role</b></th>
+		<th><b>Works for</b></th>
+	</tr>
+</thead>
+ 
+<% for contact in @contacts %>
+	<tr>
+		<td><%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'), contact_path(contact) %></td>
+	    <td><%= link_to image_tag('user_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_contact_path(contact) %></td>
+	    <td><%= link_to image_tag('user_delete.png', :alt=>'Delete', :title=>'Delete Item'), contact_path(contact), :confirm => 'Are you sure?', :method => :delete %></td>
+	    <td><% unless contact.organization.nil? -%><% unless contact.organization.phones.first.nil? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => contact.organization.phones.first.number), "skype:#{contact.organization.phones.first.skype}" -%><% end -%><% end -%></td>
+		<td><% unless contact.email.blank? -%><%= mail_to contact.email, image_tag('email.png', :alt => 'send email', :title => contact.email), :subject => "Message from Foodmoves.com" -%><% end -%></td>
+		<td><%= contact.name_with_title %></td>
+		<td><%= contact.industry_role %></td>
+		<td><span style="float:left;"><% unless contact.organization.nil? -%><%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), organization_path(contact.organization) %></span>&nbsp;<%= contact.organization.name %><% end -%></td>
+	</tr>
+<% end %>
+</table>
+<% content_for(:footer) do %>
+	<%= will_paginate @contacts %>
+<% end %>

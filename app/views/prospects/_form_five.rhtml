@@ -1,0 +1,63 @@
+<!--[form:contact]-->
+<% fields_for :contact do |form| %>
+
+	<br />
+	<br />
+
+	<h2>Contact Person</h2>
+
+	<br />
+	<br />
+
+	<label>Mr/Ms/Dr/Ing/Lic</label>
+	<span><%= form.text_field :title %></span><br />
+
+    <label>First name</label>
+    <span><%= form.text_field :first_name %></span><br />
+
+    <label>Last name</label>
+    <span><%= form.text_field :last_name %></span><br />
+
+    <label>Email</label>
+    <span><%= form.text_field :email %></span><br />
+
+	<label>Industry role</label>
+	<span><%= form.collection_select :industry_role,
+						IndustryRole.find(:all), 
+						:answer, 
+						:answer,
+						{:selected=>@contact.industry_role} %></span><br />
+	</span><br />
+
+    <label>Buyer, Seller, or Other?</label>
+    <span><%= form.select :starts_as, %w{buyer seller other} %></span><br />
+
+	<fieldset>
+		<label>Region</label>
+		<span><%= form.collection_select :region_id, 
+			Geographies::Region.find(:all, :order => 'sort_order'), 
+			:id, 
+			:name %></span><br />
+			
+		<label>Country</label>
+		<span><%= related_collection_select :contact, 
+			:country_id, 
+			[:contact, :region_id], 
+			Geographies::Country.find(:all, :order => 'sort_order'), 
+			:id, 
+			:name, 
+			:parent_id,
+			{:selected=>@contact.country_id} %></span><br />
+
+		<label>Time zone</label>
+		<span><%= related_collection_select :contact, 
+			:time_zone, 
+			[:contact, :country_id], 
+			Geographies::CountryTimeZone.find(:all, :order => 'sort_order'),  
+			:name, 
+			:name, 
+			:parent_id %></span><br />																					
+	</fieldset>
+<% end %>
+<!--[eoform:contact]-->
+

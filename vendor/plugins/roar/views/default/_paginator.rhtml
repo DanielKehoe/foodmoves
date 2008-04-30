@@ -1,0 +1,26 @@
+<% if roar.table.pager.number_of_pages > 1 %>
+<div class="pager">
+    <span class="current_page">
+        Page <%= params[:page].blank? ? 1 : params[:page].to_s %> of <%= roar.table.pager.number_of_pages %> 
+    </span>
+    <span class="page_links">
+    <% if roar.table.page.prev? -%>
+    <%= link_to '<', params.merge({:page=>roar.table.page.prev.number}) -%>
+    <% end -%>
+    
+    <% admin_paginator_links(roar.table.pager, roar.table.page) do |p| -%>
+       <% if p.nil? then -%>
+         <span>...</span>
+       <% elsif p.number.to_s == params[:page] || (p.number == 1 && params[:page].blank?) -%>
+         <span class="active"><%= p.number %></span> 
+       <% else -%>
+         <%= link_to p.number, params.merge({:page=>p.number}) -%>
+       <% end -%>
+    <% end %>
+    <% if roar.table.page.next -%>
+    <%= link_to '>', params.merge({:page=>roar.table.page.next.number}) -%>
+    <% end -%>
+    </span>
+</div>
+<div style="clear: both;"></div>
+<% end %>

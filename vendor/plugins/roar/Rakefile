@@ -1,0 +1,84 @@
+require 'rake'
+require 'rake/rdoctask'
+require 'spec/rake/spectask'
+require 'spec/rake/verify_rcov'
+require 'fileutils'
+
+desc 'Updates application with the necessary javascripts for unobtrusive_javascript.'
+task :update_scripts do
+  FileUtils.cp Dir['assets/*.js'], '../../../public/javascripts'
+  FileUtils.cp Dir['assets/*.css'], '../../../public/stylesheets'
+end
+
+desc 'Removes the javascripts for the plugin.'
+task :remove_scripts do
+end
+
+task :web => [:rdoc, :doc, :'spec:report']
+
+desc 'Generate documentation for the roar plugin.'
+Rake::RDocTask.new(:rdoc) do |rdoc|
+  rdoc.rdoc_dir = '../web/rdoc'
+  rdoc.title    = 'Roar'
+  rdoc.template = "../web/jamis.rb"
+  rdoc.options << '--line-numbers' << '--inline-source'
+  rdoc.rdoc_files.include('README', 'CHANGELOG')
+  #rdoc.rdoc_files.include('spec/SPECS.rdoc')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+task :doc do
+  FileList["../web/*.md"].each do |file|
+    `maruku #{file}`
+  end
+end
+
+desc "Run all specs"
+Spec::Rake::SpecTask.new(:spec) do |t|
+  t.spec_files = FileList['spec/**/*.rb']
+end
+
+namespace :spec do
+  desc "Generate HTML report specs"
+  Spec::Rake::SpecTask.new(:html) do |t|
+    t.spec_files = FileList['spec/**/*.rb']
+    t.spec_opts = ["--format", "html", "--diff"]
+    t.out = '../web/specs/index.html'
+    t.fail_on_error = false
+  end
+
+  desc "Generate specdocs for inclusion in RDoc"
+  Spec::Rake::SpecTask.new(:doc) do |t|
+    t.spec_files = FileList['spec/**/*.rb']
+    t.spec_opts = ["--format", "rdoc"]
+    t.out = 'spec/SPECS.rdoc'
+  end
+
+  Spec::Rake::SpecTask.new(:rcov) do |t|
+    t.spec_files = FileList['spec/**/*.rb']
+    t.rcov = true
+    t.rcov_dir = '../web/coverage'
+    t.rcov_opts = ['--exclude', 'spec,../criteriaquery']
+  end
+  
+  Spec::Rake::SpecTask.new(:report => [:rcov,:doc,:html]) do |t|
+  end
+
+  RCov::VerifyTask.new(:verify_rcov => :rcov) do |t|
+    t.threshold = 95.0 # Make sure you have rcov 0.7 or higher!
+  end
+
+end
+
+STATS_DIRECTORIES = [
+  %w(Libraries          lib),
+  %w(Specs              spec),
+].collect { |name, dir| [ name, "#{File.dirname(__FILE__)}/#{dir}" ] }.select { |name, dir| File.directory?(dir) }
+
+desc "Report code statistics (KLOCs, etc) from the application"
+task :stats do
+  require 'code_statistics'
+  ::CodeStatistics::TEST_TYPES << "Specs"
+  CodeStatistics.new(*STATS_DIRECTORIES).to_s
+end
+

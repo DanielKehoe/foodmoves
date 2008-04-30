@@ -1,0 +1,120 @@
+<h1><%= link_to image_tag('clock.png', :alt=>'List', :title=>'Show List'), auctions_path %>&nbsp;All Auctions</h1>
+
+<% content_for(:secondary) do %>
+	<h4><%= link_to('New Auction', new_auction_path, :class=>"rnew new-link") %></h4>
+	<h2>Search By Product</h2>
+	<% form_tag auctions_path, :method => 'get' do %>
+		<%= text_field_tag :search,
+	        				params[:search],
+	         				{ :size => 20 } -%>
+		&nbsp;<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+	<br />
+	<h4><%= link_to 'Download CSV File', formatted_auctions_path(:csv), :class=>"cvs-link" %></h4>
+<% end %>
+
+<% if @failures.size > 0 %>
+	<h2 style="color:red;" >THE AUCTION ROBOT FAILED TO CLOSE THESE!</h2>
+	<table class="admin">
+	<thead>
+		<tr>
+			<th colspan='3'>&nbsp;</th>
+					<th><b>Product</b></th>
+					<th><b>Listed by</b></th>
+					<th><b>Bids</b></th>
+					<th><b>Ended</b></th>
+					<th><b>Created</b></th>
+				</tr>
+	</thead>
+	<% for auction in @failures %>
+		<tr>
+			<td>
+				<%= link_to auction.id, auction_path(auction) -%>
+			</td>
+		    <td><%= link_to image_tag('clock_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_auction_path(auction) %></td>
+		    <td><% restrict_to 'support' do -%><%= link_to image_tag('clock_delete.png', :alt=>'Delete', :title=>'Delete Item'), auction_path(auction), :confirm => 'Are you sure?', :method => :delete %><% end -%></td>
+			<td><%= auction.description %>, <%= auction.shipping_from %><% if auction.test_only %><span class="red">&nbsp;TEST ONLY</span><% end -%><% if auction.consignment %><span class="red">&nbsp;CONSIGNMENT</span><% end -%></td>
+			<td><% unless auction.user.nil? %>
+					<%= auction.user.name %>
+				<% else -%>
+					<b>user missing; please delete</b>
+				<% end -%>
+			</td>
+			<td><%= auction.how_many_bids %></td>
+			<td><%= local_time auction.date_to_end -%></td>
+			<td><%= local_time auction.created_at -%></td>
+		</tr>
+	<% end %>
+	</table>
+	<%= will_paginate @failures %>
+<% end %>
+
+<h2>Current Auctions</h2>
+<table class="admin">
+<thead>
+	<tr>
+		<th colspan='3'>&nbsp;</th>
+				<th><b>Product</b></th>
+				<th><b>Listed by</b></th>
+				<th><b>Bids</b></th>
+				<th><b>Ending</b></th>
+				<th><b>Created</b></th>
+			</tr>
+</thead>
+ 
+<% for auction in @auctions %>
+	<tr>
+		<td>
+			<%= link_to auction.id, auction_path(auction) -%>
+		</td>
+	    <td><%= link_to image_tag('clock_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_auction_path(auction) %></td>
+	    <td><% restrict_to 'admin' do -%><%= link_to image_tag('clock_delete.png', :alt=>'Delete', :title=>'Delete Item'), auction_path(auction), :confirm => 'Are you sure?', :method => :delete %><% end -%></td>
+		<td><%= auction.description %>, <%= auction.shipping_from %><% if auction.test_only %><span class="red">&nbsp;TEST ONLY</span><% end -%><% if auction.consignment %><span class="red">&nbsp;CONSIGNMENT</span><% end -%></td>
+		<td><% unless auction.user.nil? %>
+				<%= auction.user.name %>
+			<% else -%>
+				<b>user missing; please delete</b>
+			<% end -%>
+		</td>
+		<td><%= auction.how_many_bids %></td>
+		<td><%= distance_of_time_in_words(Time.now, auction.date_to_end) -%> from now</td>
+		<td><%= distance_of_time_in_words(Time.now, auction.created_at) -%> ago</td>
+	</tr>
+<% end %>
+</table>
+<%= will_paginate @auctions %>
+
+<h2>Expired Auctions</h2>
+<table class="admin">
+<thead>
+	<tr>
+		<th colspan='3'>&nbsp;</th>
+				<th><b>Product</b></th>
+				<th><b>Listed by</b></th>
+				<th><b>Bids</b></th>
+				<th><b>Ended</b></th>
+				<th><b>Created</b></th>
+			</tr>
+</thead>
+ 
+<% for auction in @expired %>
+	<tr>
+		<td>
+			<%= link_to auction.id, auction_path(auction) -%>
+		</td>
+	    <td><%= link_to image_tag('clock_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_auction_path(auction) %></td>
+	    <td><% restrict_to 'admin' do -%><%= link_to image_tag('clock_delete.png', :alt=>'Delete', :title=>'Delete Item'), auction_path(auction), :confirm => 'Are you sure?', :method => :delete %><% end -%></td>
+		<td><%= auction.description %>, <%= auction.shipping_from %><% if auction.test_only %><span class="red">&nbsp;TEST ONLY</span><% end -%><% if auction.consignment %><span class="red">&nbsp;CONSIGNMENT</span><% end -%></td>
+		<td><% unless auction.user.nil? %>
+				<%= auction.user.name %>
+			<% else -%>
+				<b>user missing; please delete</b>
+			<% end -%>
+		</td>
+		<td><%= auction.how_many_bids %></td>
+		<td><%= distance_of_time_in_words(Time.now, auction.date_to_end) -%> ago</td>
+		<td><%= distance_of_time_in_words(Time.now, auction.created_at) -%> ago</td>
+	</tr>
+<% end %>
+</table>
+<%= will_paginate @expired %>

@@ -1,0 +1,6 @@
+<% url = column.options.has_key?(:from) ? record.send(column.options[:from]) : column.data(record, self) 
+	html_options = {}
+	html_options[:class] = column.options[:class] if column.options[:class]
+	html_options[:id] = column.options[:id] if column.options[:id]
+%>
+<%= link_to(h(column.attribute(record)), url, html_options) %>

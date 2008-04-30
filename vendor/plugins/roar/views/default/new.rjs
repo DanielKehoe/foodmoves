@@ -1,0 +1,1 @@
+page.replace_html rdom_class(model_class, "edit"), :roar_partial => "new"

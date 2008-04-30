@@ -1,0 +1,35 @@
+/* buy_page.css */
+
+/* YUI Grids page layout tweaks */
+
+#bd{
+background: url(/images/bck_edit.png) 0 0 repeat;
+margin:0;
+width:950px;
+height: 100%;
+}
+
+#main{
+padding:10px 0 0 7px;
+}
+
+/* pop ups */
+
+.popup_for_new_bid{
+position:relative;
+top:0px;
+margin-left:50px;
+background:url(/images/popup1.jpg) 0 0 no-repeat;
+width:194px;
+height:153px;
+line-height: 90%
+}
+
+.popup_for_up_bid{
+position:relative;
+margin-left:-150px;
+background:url(/images/popup1.jpg) 0 0 no-repeat;
+width:194px;
+height:153px;
+line-height: 90%
+}

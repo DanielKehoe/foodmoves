@@ -1,0 +1,109 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), bluebook_members_path %>&nbsp;All Blue Book Members</h1>
+<h1 style="color: red;">FOR FOODMOVES INTERNAL USE ONLY</h1>
+<h1 style="color: red;">PROPRIETARY DATA; USE UNDER TERMS OF LICENSE ONLY</h1>
+<% content_for(:secondary) do %>
+	
+	<br />
+	<br />
+	<br />
+	<br />
+		
+	<h2>Find By Country</h2>
+	<% form_tag bluebook_members_path, :method => 'get' do %>	
+		<%= collection_select :address, :region_id, 
+			Geographies::Region.find(:all, :order => 'sort_order'), 
+			:id, 
+			:name,
+			{:selected=>@address.region_id} %>
+		<br />
+		<%= related_collection_select :address, 
+			:country_id, 
+			[:address, :region_id], 
+			Geographies::Country.find(:all, :order => 'sort_order'), 
+			:id, 
+			:name, 
+			:parent_id,
+			{:selected=>@address.country_id} %>
+		<br />
+		<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+	
+	<br />
+	<br />
+	
+	<h2>Find By State</h2>
+	<% form_tag bluebook_members_path, :method => 'get' do %>	
+		<%= related_collection_select :address, 
+			:admin_area_id, 
+			[:address, :country_id], 
+			Geographies::AdminArea.find(:all, :order => 'sort_order'), 
+			:id, 
+			:name, 
+			:parent_id,
+			{:selected=>@address.admin_area_id} %>
+		<br />
+		<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+	
+	<br />
+	<br />
+	
+	<h2>Find By City</h2>
+	<% form_tag bluebook_members_path, :method => 'get' do %>
+		<%= text_field_tag :locality,
+							nil,
+							{ :size => 20 } -%>
+		&nbsp;<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+	
+	<br />
+	<br />
+		
+	<h2>Search By Name</h2>
+	<% form_tag bluebook_members_path, :method => 'get' do %>
+		<%= text_field_with_auto_complete :bluebook_member,
+	        :name,
+	         { :size => 20 }, :skip_style => true -%>
+		&nbsp;<%= submit_tag 'Search', :name => nil %>
+	<% end -%>
+<% end %>
+
+<table class="admin">
+<thead>
+	<tr>
+		<th>&nbsp;</th>
+		<th><b>Name</b></th>
+		<th><b>Lic. type</b></th>
+		<th><b>Vol.</b></th>
+		<th><b>Credit worth</b></th>
+		<th><b>Business</b></th>
+		<th><b>Location</b></th>
+		<th>&nbsp;</th>
+		<th>&nbsp;</th>
+		<th>&nbsp;</th>
+	</tr>
+</thead>
+ 
+<% for bluebook_member in @bluebook_members %>
+	<tr>
+		<td style="white-space: nowrap;"><span style="float:left;"><% unless bluebook_member.hqbbid == bluebook_member.bluebook_id -%><%= link_to image_tag('table_back.png', :alt => "Show parent company", :title => "Show parent company"), bluebook_member_path(bluebook_member.hqbbid) -%><% end -%></span><%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), bluebook_member_path(bluebook_member) -%></td>
+		<td><% unless bluebook_member.website.blank? -%>
+			<%= link_to bluebook_member.name, "http://#{bluebook_member.website}" -%>
+			<% else -%><%= bluebook_member.name -%><% end -%></td>
+		<td><%= bluebook_member.license_type %></td>
+		<td><%= bluebook_member.volume %></td>
+		<td><%= bluebook_member.credit_worth_rating %></td>
+		<td><% if bluebook_member.section == 'P' -%>Produce
+			<% elsif bluebook_member.section == 'T' -%>Transport
+			<% elsif bluebook_member.section == 'S' -%>Supplier
+			<% else -%>Unknown<% end -%></td>
+		<td style="white-space: nowrap;"><%= truncate bluebook_member.location, 30 %></td>
+		<td style="white-space: nowrap;"><% unless bluebook_member.skype.blank? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => 'call with Skype'), "skype:#{bluebook_member.skype}" -%><% end -%></td>
+		<td style="white-space: nowrap;"><% unless bluebook_member.email.blank? -%><%= mail_to bluebook_member.email, image_tag('email.png', :alt => 'send email', :title => bluebook_member.email), :subject => "Message from Foodmoves.com" -%><% end -%></td>
+		<td><%= link_to image_tag('add.png', :alt => 'add', :title => 'add as a new prospect'), :controller => 'prospects', :action => 'add_from_bluebook', :id => bluebook_member.id %></td>
+	</tr>
+<% end %>
+</table>
+<% content_for(:footer) do %>
+	<%= will_paginate @bluebook_members %>
+<% end %>

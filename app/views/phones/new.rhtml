@@ -1,0 +1,25 @@
+<h1><% restrict_to 'support' do -%><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), phones_path %>&nbsp;<% end -%>Phone Numbers</h1>
+
+<h2>New Phone Number</h2>
+
+<div class="show">
+	<label>For</label>
+		<span>
+			<%=h @name -%>
+		</span>
+	<br />
+</div>
+
+<% form_for :phone, :url => phones_path, :html => { :class => 'baseform' } do |form| -%>
+
+	<%= form.hidden_field :phonable_type -%>
+	
+	<%= form.hidden_field :phonable_id -%>
+
+	<%= render :partial => 'form', :object => form -%>
+
+	<p>
+		<%= submit_tag 'Create' -%>
+	</p>
+	
+<% end -%>

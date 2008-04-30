@@ -1,0 +1,11 @@
+
+<div id='<%=h rdom_class(model_class, "rnew") %>'></div>
+
+<div id='<%=h rdom_class(model_class, "rpage") %>' class="rpage">
+<%= render :roar_partial => "page" %>
+</div>
+
+<% content_for :secondary do %>
+  <h4><%= link_to("New #{model_name}", h(new_path), {:id=>rdom_class(model_class, "new_link"), :class=>"rnew new-link"}) %></h4>
+  <%= render(:roar_partial=>"filters") %>
+<% end %>

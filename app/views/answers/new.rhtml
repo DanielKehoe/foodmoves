@@ -1,0 +1,20 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), answers_path %>&nbsp;FAQs</h1>
+
+<h2>Submit a Question</h2>
+
+<% form_for :answer, :url => answers_path, :html => { :class => 'baseform' } do |form| -%>
+
+<label>Your Question</label>
+<br />
+<span><%= form.text_area :question, :size => "60x5" %></span><br />
+
+<label>Would You Like to Suggest an Answer?</label>
+<br />
+<span><%= form.text_area :answer, :size => "60x15" %></span><br />
+
+
+	<p>
+		<%= submit_tag 'Submit Question' -%>
+	</p>
+	
+<% end -%>

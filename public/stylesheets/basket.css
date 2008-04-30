@@ -1,0 +1,62 @@
+/* "Bid Basket" */
+
+div#ft{
+ position:absolute;
+ background:url(/images/bck_fotter_1.png) 0 0 no-repeat;
+ overflow: auto;
+ height:189px;
+ bottom: 0;
+ float:left;
+ color: #000;
+ z-index:10;
+ min-width: 950px;
+ width:950px;
+ margin-left:auto;
+ margin-right:auto;
+}
+
+#bidbasket{
+}
+
+#basket_content{
+ padding:55px 0 0 25px;
+ bottom: 0%;
+ z-index: 20;
+}
+
+.basket_cell{
+float:left;
+height:100px;
+width:50px;
+padding:0 30px 0 0;
+font-size:93%;
+}
+
+.basket_cell_last{
+float:right;
+height:100px;
+width:150px;
+font-size:93%;
+padding:0 20px 0 0;
+position: relative;
+z-index: 1;
+}
+
+.basket_last_line{
+height:20px;
+line-height:20px;
+padding:0 30px 0 30px;
+font-size:77%;
+text-align:center;
+color:#000000;
+}
+
+.basket_last_line a, .basket_last_line a:hover {
+color:#000000;
+}
+
+div.bskt_txt
+{color:#666666;
+ font-family:arial narrow;
+ font-size:85%;
+}

@@ -1,0 +1,92 @@
+
+<br />
+<% fields_for :organization do |form| %>
+	<% unless @exists.nil? %>
+		<div class="red"><b>Can't authorize. <%= @affiliation.user.name %> already is affiliated with <%= @affiliation.organization.name %>.</b></div>
+		<p><%= link_to image_tag('table_delete.png', :alt=>'Delete', :title=>'Delete Item'), affiliation_path(@affiliation), :confirm => 'Are you sure?', :method => :delete %>&nbsp;<%= link_to "Delete authorization request?", affiliation_path(@affiliation), :confirm => 'Are you sure?', :method => :delete %></p>
+	<% end %>
+	<% if flash.any? %>
+		<div class="errorExplanation">
+			<p>
+				<b><%= flash[:notice] %></b>
+				<div class="red"><b><%= flash[:error] %></b></div>
+			</p>
+		</div>
+	<% end %>
+	<% if @organization.of_type == 'Account' %>
+		<hr class="line" />
+		<p>
+			<%= @organization.name %> is already an
+                  established account. Traders are: 
+		</p>
+			<blockquote>				
+				<% for affiliation in @organization.affiliations %>
+					<%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), affiliation_path(affiliation) %>&nbsp;<%=h affiliation.user.name %>,
+					<% if affiliation.approved %>
+						<i>authorization approved <%= local_time affiliation.reviewed_at %> by <%=h affiliation.called_by %></i>
+					<% else -%>
+						<i>authorization pending since <%= distance_of_time_in_words(Time.now, affiliation.created_at) %> ago</i>
+					<% end -%>
+					<br />
+				<% end %>
+			</blockquote>
+			<br />
+	<% end %>
+	<% unless @organization.administrator.nil? %>					
+		<p>The Foodmoves assigned account specialist is <%= @organization.administrator.name %>.</p>
+	<% else %>
+		<ul class="details">
+			<li class="line">
+				<div class="text_font">
+					No Foodmoves specialist is assigned to this account. Assign someone?
+				</div>
+				<div id="li_font">
+					Account Specialist
+				</div>
+			    <%= form.collection_select :acct_exec_id, 
+					Administrator.find(:all, :order => 'last_name'), 
+					:id, 
+					:name, 
+					{:prompt => "– none –"} %>
+				<br />
+			</li>
+		</ul>
+	<% end %>
+	<ul class="details">
+		<li class="line">
+			<% unless @organization.paca_license.blank? %>
+				<div class="text_font">
+					A PACA license is required for almost all produce trading in the
+                       United States. The USDA PACA license number for 
+						<%= @organization.name %> is 
+                       <b><%= @organization.paca_license %></b>.
+				</div>
+			<% else %>
+				<div id="text_font"> We don't have a USDA PACA license number for <%=
+                   @organization.name %>. A PACA license is required for almost all produce
+                   trading in the United States. You'll need to look up the <a href="http://www.ams.usda.gov/pacasearch/Default.aspx", onclick="window.open(this.href,'PACA','width=650,height=1000');return false;">PACA license number</a>. If you can't find their PACA license, and they are a US company, you should call the company and ask for it.
+				</div>
+				<br />
+			    <div id="li_font">
+					PACA License
+				</div>
+			    <%= form.text_field :paca_license %>
+			<% end %>
+		</li>
+		<% if false %>
+			<li class="line">
+				<% unless @organization.bluebook_password.blank? %>
+				<div class="text_font">
+					<%= @organization.name %> uses the Blue Book credit reporting
+	                      service. The company's Blue Book ID Number is 
+					<b><%= @organization.bluebook_member_id %></b>.
+				</div>
+				<% else %>
+				<div id="text_font">
+					<%= @organization.name %> did not provide a Blue Book ID Number. At this time, we are not requiring it or asking for it.
+				</div>
+				<% end %>
+			</li>
+		<% end %>
+	</ul>
+<% end %>

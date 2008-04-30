@@ -1,0 +1,148 @@
+<!-- Auctions/Show -->
+<!-- using layout "forms_wide" -->
+<div class="yui-gb">
+	<div class="yui-u first" id="left_content">
+		<div id="headline"><%= @auction.description %></div>
+		<% if @auction.test_only %>
+			<div class="red"><b>FOR TESTING ONLY</b></div>
+			<div class="red">NO FEE TO SELLER</div>
+			<div class="red">NO PRODUCT TO BUYER</div>
+		<% end -%>
+		<% unless @auction.consignment %>
+			<% unless @current_user.id == @auction.seller_id %>	
+				<% if Bid.current_bidding_includes?(@current_user.id, @auction.id) %>
+					<div id="details_font">You've already bid on this item. Would you like to increase your bid?&nbsp;<a href="#" onclick="Element.toggle('bid_form_<%= @auction.id.to_s %>'); return false;"><%= image_tag('ico_10.gif', :alt=>'Increase Bid', :title=>"Increase Bid") -%></a></div><div id="bid_form_<%= @auction.id.to_s %>" class="popup_for_new_bid" style="display:none;">
+					<div class="popup_header">
+						increase bid <div class="bubble_close"><a href="#" onclick="Element.toggle('bid_form_<%= @auction.id.to_s %>'); return false;">close</a></div>
+					 </div><!-- class="popup_header" -->
+					 <div class="popup_content">		
+						To increase your bid for <%= link_to @auction.description, auction_path(@auction) -%>, you must offer <%= number_to_currency (@auction.bid_increment + @auction.current_bid) -%> or more.
+						<br />
+						<br />
+					 </div><!-- class="popup_content" -->
+					 <div class="popup_footer">
+						<% form_for :bid, 
+								:url => bid_path(@auction), 
+								:html => { :method => :put } do |form| -%>
+							<b>$</b>&nbsp;<%= form.text_field :amount, :size => 6 %>
+							<br />
+							<%= submit_tag 'Increase Bid' -%>
+						<% end -%>
+					</div><!-- class="popup_footer" -->
+					</div><!-- id="bid_form" -->
+					<br />
+				<% else -%>
+					<% unless logged_in? -%>
+						<% unless @auction.closed %>
+							<div id="details_font">If you log in to the site, you can bid on this item.</div>
+						<% end -%>
+					<% else -%>
+						<% restrict_to 'guest' do -%>
+							<div id="details_font">Your account is not affiliated with a company.
+			          		You can browse but you cannot bid or buy.
+			          		Would you like to <%= link_to('set up trading?', new_member_path) %></div>
+						<% end -%>
+						<% unless @auction.closed %>
+							<% restrict_to 'member' do -%>
+						
+								<% if @auction.current_bid == 0 and @auction.buy_now_price > 0 -%>
+									<a href="#" onclick="Element.toggle('buy_now_form_<%= @auction.id.to_s %>'); return false;"><%= image_tag('ico_3.gif', :alt=>"It's Yours", :title=>"It's Yours") -%></a>
+									<div id="buy_now_form_<%= @auction.id.to_s %>" class="popup_for_new_bid" style="display:none;">
+										<div class="popup_header">
+											It's Yours<sup>&trade;</sup> <div class="bubble_close"><a href="#" onclick="Element.toggle('buy_now_form_<%= @auction.id.to_s %>'); return false;">close</a></div>
+								 		</div><!-- class="popup_header" -->
+								 		<div class="popup_content">		
+							You are entering into a 
+							legally binding agreement 
+							for the purchase of 
+							<%= link_to @auction.description, auction_path(@auction) -%>.
+							at the It's Yours<sup>&trade;</sup> price of <b><%= number_to_currency @auction.buy_now_price -%></b>.
+									<br />
+									<br />
+								 		</div><!-- class="popup_content" -->
+								 		<div class="popup_footer">
+											<% form_for :bid, 
+										:url => {:controller => 'bids', :action => 'new', :id => @auction.id},
+										:html => { :method => :put } do |form| -%>
+												<%= form.hidden_field :amount, :value => @auction.buy_now_price.to_s %>
+												<%= submit_tag 'Buy Now' -%>
+											<% end -%>
+										</div><!-- class="popup_footer" -->
+									</div><!-- id="buy_now_form_" -->
+								<% end -%>
+								<a href="#" onclick="Element.toggle('bid_form_<%= @auction.id.to_s %>'); return false;"><%= image_tag('ico_10.gif', :alt=>'Enter Bid', :title=>"Enter Bid") -%>	</a><div id="bid_form_<%= @auction.id.to_s %>" class="popup_for_new_bid" style="display:none;">
+								<div class="popup_header">
+									enter bid <div class="bubble_close"><a href="#" onclick="Element.toggle('bid_form_<%= @auction.id.to_s %>'); return false;">close</a></div>
+								 </div><!-- class="popup_header" -->
+								 <div class="popup_content">		
+							You are entering into a 
+							legally binding agreement 
+							for the purchase of 
+							<%= link_to @auction.description, auction_path(@auction) -%>.
+							<% if @auction.current_bid == 0 -%>
+								The minimum bid is <%= number_to_currency @auction.minimum_bid -%>.
+							<% else -%>
+								You must bid more than <%= number_to_currency ( @auction.current_bid + @auction.bid_increment ) -%>.
+							<% end -%>
+								<br />
+							 </div><!-- class="popup_content" -->
+							 <div class="popup_footer">
+								<% form_for :bid, 
+										:url => {:controller => 'bids', :action => 'new', :id => @auction.id}, 
+										:html => { :method => :put } do |form| -%>
+									<b>$</b>&nbsp;<%= form.text_field :amount, :size => 6 %>
+									<br />
+									<%= submit_tag 'Enter Bid' -%>
+								<% end -%>
+							</div><!-- class="popup_footer" -->
+							</div><!-- id="bid_form" -->
+
+							<% end -%>
+						<% end -%>
+					<% end %>
+				<% end %>
+			<% end -%>
+		<% end -%>
+		<%= render :partial => 'seller_details' -%>
+		<%= render :partial => 'other_auctions' -%>
+	</div><!-- class="yui-u first" id="left_content" -->
+	<div class="yui-u" id="middle_content">
+		<% if logged_in? -%>			
+			<% if @current_user.id == @auction.seller_id %>
+				<div id="details_font">Create a New Auction Like This?</div>
+				<span class="sidebox_small_text">Make a &quot;Quick Copy&quot; to start a new auction (you'll have a chance to review and change the information before saving).</span> 
+				<br />
+				<%= button_to "Quick Copy", quickcopy_auction_path(), :method => :get %>
+				<br />
+				<% if @auction.date_last_bid.blank? %>
+					<div id="details_font">Edit Auction Details?</div>
+					<span class="sidebox_small_text">Auctions can be edited or changed ONLY until the first bid is received.</span> 
+					<br />
+					<%= button_to "Edit", edit_auction_path(), :method => :get %>
+					<br />
+				<% end -%>	
+			<% else -%>
+				<% restrict_to 'support' do -%>
+					<div id="details_font">Create a New Auction Like This?</div>
+					<span class="sidebox_small_text">Make a &quot;Quick Copy&quot; to start a new auction (you'll have a chance to review and change the information before saving).</span> 
+					<br />
+					<%= button_to "Quick Copy", quickcopy_auction_path(), :method => :get %>
+					<br />
+					<% if @auction.date_last_bid.blank? %>	
+						<div id="details_font">Edit Auction Details?</div>
+						<span class="sidebox_small_text">Auctions can be edited or changed ONLY until the first bid is received.</span> 
+						<br />
+						<%= button_to "Edit", edit_auction_path(), :method => :get %>
+						<br />
+					<% end -%>
+				<% end -%>
+			<% end -%>
+		<% end -%>	
+		<%= render :partial => 'auction_details' -%>
+		<br />
+		<br />
+	</div><!-- class="yui-u" id="middle_content" -->
+<div class="yui-u" id="side-content">
+	<%= render :partial => 'shipping_details' -%>
+</div><!-- class="yui-u" id="side-content" -->
+</div><!-- yui-gb -->

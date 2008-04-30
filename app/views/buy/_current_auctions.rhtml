@@ -1,0 +1,52 @@
+<!-- CURRENT AUCTIONS -->
+	<% unless @no_current_auctions %>  
+		<% for auction in @auctions %>
+			<div class="row_listing">
+				<div class="row_description"><% if auction.test_only -%><%= link_to image_tag('products/test.gif', :alt=>"\"#{auction.description}\"", :title=>"See details for \"#{auction.description}\"", :class => 'thumb'), auction_path(auction) -%><% else -%>
+					<% unless auction.assets.first.nil? -%>
+						<%= link_to image_tag(auction.assets.first.public_filename(:size44), :alt=>"\"#{auction.description}\"", :title=>"See details for \"#{auction.description}\"", :class => 'thumb'), auction_path(auction) -%>
+					<% else -%>
+					<%= link_to image_tag('products/generic.gif', :alt=>"\"#{auction.description}\"", :title=>"See details for \"#{auction.description}\"", :class => 'thumb'), auction_path(auction) -%>
+					<% end -%>
+					<% end -%>
+					<% if auction.allow_partial -%>
+						<%= link_to "#{auction.description}", auction_path(auction) -%> 
+						<span class="gray"><%= auction.shipping_from -%>,</span>
+						<span class="gray"><%= auction.min_quantity -%> to <%= auction.quantity -%> units</span>				
+					<% else -%>
+					<%= link_to "#{auction.description}", auction_path(auction) -%>, 
+					<span class="gray"><%= auction.shipping_from -%>,</span>
+					<span class="gray"><%= auction.quantity -%> units</span>
+					<% end -%>
+				</div><!-- id="row_description" -->
+				<div class="baker_cell_3">
+					&nbsp;
+				</div><!-- id="baker_cell_3" -->
+				<div class="baker_cell_4">
+					<% unless auction.how_many_bids -%>
+						<%= number_to_currency auction.current_bid -%> top bid
+					<% else -%>
+						<%= number_to_currency auction.minimum_bid -%> minimum bid
+					<% end -%>	
+					<br />
+					<% if logged_in? -%>
+						<%= render :partial => 'pop_up_boxes', :locals => { :auction => auction } -%>
+					<% end -%>
+				<% unless auction.current_bid == 0 -%>
+					vs. <%= auction.how_many_bids -%>
+				<% end -%>
+				</div><!-- id="baker_cell_4" -->
+				<div class="baker_cell_5"><%= distance_of_time_in_words(Time.now, auction.date_to_end) -%></div>
+			</div><!-- id="row_listing" -->
+			<div class="clear"></div>
+			<div class="line_style_1"></div>
+		<% end -%>
+	<% else -%>
+		<div class="row_listing">
+			<div class="row_description">
+				No current auctions for <b>&quot;<%= @search.query %>&quot;</b>.
+			</div><!-- id="row_description" -->
+		</div><!-- id="row_listing" -->
+		<div class="line_style_1"></div>
+	<% end -%>
+<!-- CURRENT AUCTIONS (END) -->

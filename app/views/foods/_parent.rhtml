@@ -1,0 +1,15 @@
+			<div id="parent" class="baseform">
+			<p>
+				<b><%=h @food.ancestors.reverse.join(": ") %></b>
+			</p>
+			<%= hidden_field 'food', 'parent_id' %>
+			<label>Parent</label>
+			<span>
+				<% if @food.parent %>
+					<%= link_to image_tag('table_back.png', :alt=>'Show', :title=>'Show Parent'), food_path(@food.parent) -%>&nbsp;<%= link_to @food.parent.name, food_path(@food.parent) %>
+				<% else %>
+					<span style="color: red;">NO PARENT</span>
+				<% end %>
+			</span>
+			</div>
+			

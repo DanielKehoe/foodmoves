@@ -1,0 +1,41 @@
+<% if @on_step_six == false %>
+		<br />
+		<br />
+		<div class="errorExplanation">
+			<% if flash.any? %>
+				<p>
+					<b><%= flash[:notice] %></b>
+					<div class="red"><b><%= flash[:error] %></b></div>
+				</p>
+			<% else %>
+				<h2><b>We don't have enough information.</b></h2>
+		    	<p>It seems you did not click the &quot;Next&quot; button.</p>
+			<% end %>
+				<p>Please select the &quot;Step 5&quot; tab (above), enter the required information, and click the button at the bottom of the form.</p>
+	  </div>
+<% else %>
+	<h2>Create New Trader</h2>
+	<% fields_for :organization do |form| %>
+		<% if flash.any? %>
+			<div class="errorExplanation">
+				<p>
+					<b><%= flash[:notice] %></b>
+					<div class="red"><b><%= flash[:error] %></b></div>
+				</p>
+			</div>
+		<% end %>
+	
+		<label>Mark for Follow Up Review</label>
+		<span><%= form.check_box :needs_review %></span>
+		<br />
+	
+		<label>Assign To</label>
+		<span><%= form.collection_select :acct_exec_id, 
+			@administrators, 
+			:id, 
+			:name, 
+			{:prompt => "– unassigned –"} %></span><br />
+		
+		
+	<% end %>
+<% end %>

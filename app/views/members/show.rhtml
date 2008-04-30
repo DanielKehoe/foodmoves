@@ -1,0 +1,217 @@
+<!-- Members/Show -->
+<!-- using layout "sell" -->
+<% content_for(:secondary) do -%>
+	<!-- ORGANIZATION -->
+	<div class="sidebox_top">
+		<div class="sidebox_header">organization</div>
+	</div>
+	<div class="sidebox_middle">
+		<div class="sidebox_content">
+			<% unless @member.affiliations.first.nil? %>		
+				<% unless @pending_affiliations.size == 0 %>	
+					<ul class="sidebox_list">				
+						<% for affiliation in @pending_affiliations %>
+						  <li class="sidebox_list"><%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), organization_path(affiliation.organization) -%>&nbsp;<b><%=h affiliation.organization.name_plus_location %></b><br /><%= link_to 'pending authorization', affiliation_path(affiliation) -%></li>
+						<% end %>				
+					</ul>
+				<% end -%>
+				<% unless @approved_affiliations.size == 0 %>	
+					<ul class="sidebox_list">				
+						<% for affiliation in @approved_affiliations %>
+						  <li class="sidebox_list"><%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), organization_path(affiliation.organization) -%>&nbsp;<b><%=h affiliation.organization.name_plus_location %></b></li>
+						<% end %>				
+					</ul>
+				<% end -%>
+			<% else -%>
+			<ul class="sidebox_list">	
+				<li class="sidebox_list">Your account is not affiliated with a company. You can browse but you cannot buy or sell. Would you like to <b><%= link_to 'set up trading?', new_member_path() -%></b></li>
+			<% end -%>
+		</div><!-- class="sidebox_content" -->
+	</div><!-- class="sidebox_middle" -->
+	<div class="sidebox_bottom"></div>
+	<!-- ACCOUNT DETAILS -->
+	<div class="sidebox_top">
+		<div class="sidebox_header"><%= link_to 'edit details', edit_user_path(@member) -%>&nbsp;<%= link_to image_tag('user_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_user_path(@member) -%></div>
+	</div>
+	<div class="sidebox_middle">
+		<div class="sidebox_content">
+			<dl class="side_list">
+				<% unless @member.parent_id.nil? %>
+					<dt>Invited by</dt>
+					<dd><%=h @member.referred_by %></dd>
+				<% end -%>
+			<dt>Name</dt>
+				<dd>
+					<%= @member.name %>
+				</dd>
+			<dt>Email</dt>
+				<dd>
+					<% restrict_to 'support' do -%><% if @member.email_confirmed -%><%= mail_to @member.email, image_tag('email.png', :alt=>"Confirmed email address"), :subject => "Message from Foodmoves.com" -%><% else -%><%= mail_to @member.email, image_tag('email_error.png', :alt=>"Unconfirmed email address"), :subject => "Message from Foodmoves.com" -%><% end -%>&nbsp;<% end -%><%= truncate(@member.email,19,'..') %>
+				</dd>
+			<dt>Serves as</dt>
+				<dd>
+					<%=h @member.industry_role %>
+				</dd>
+			<dt>Country</dt>
+				<dd>
+					<%= @member.country_name %>
+				</dd>
+			<dt>Time zone</dt>
+				<dd>
+					<%= @member.time_zone %>
+					<br />
+					<%= local_time Time.now %>
+				</dd>
+			</dl>
+		</div><!-- class="sidebox_content" -->
+	</div><!-- class="sidebox_middle" -->
+	<div class="sidebox_bottom"></div>
+	<!-- PHONE NUMBERS -->
+	<div class="sidebox_top">
+		<div class="sidebox_header"><%= link_to 'add phone', new_user_phone_path(@member) -%>&nbsp;<%= link_to image_tag('phone.png', :alt=>'Edit', :title=>'Edit Item'), new_user_phone_path(@member) -%></div>
+	</div>
+	<div class="sidebox_middle">
+		<div class="sidebox_content">	
+		<% unless @member.phones.empty? %>	
+			<ul class="sidebox_list">
+				<li class="sidebox_list">
+					<% for phone in @member.phones %>
+					  <%= link_to image_tag('phone.png', :alt=>'Show', :title=>'Show Item'), edit_phone_path(phone) %><% restrict_to 'support' do -%><% unless phone.skype.blank? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => 'call with Skype'), "skype:#{phone.skype}" -%><% end -%><% end -%>&nbsp;<%=h phone.localized(@current_user) %> (<%=h phone.tag_for_phone %>)<br />
+					<% end %>
+				</li>
+			</ul>
+		<% end %>
+		</div><!-- class="sidebox_content" -->
+	</div><!-- class="sidebox_middle" -->
+	<div class="sidebox_bottom"></div>
+	<!-- ADDRESSES -->
+	<div class="sidebox_top">
+		<div class="sidebox_header"><%= link_to 'add address', new_user_address_path(@member) -%>&nbsp;<%= link_to image_tag('table.png', :alt=>'Edit', :title=>'Add Item'), new_user_address_path(@member) -%></div>
+	</div>
+	<div class="sidebox_middle">
+		<div class="sidebox_content">	
+		<% unless @member.addresses.empty? %>	
+			<ul class="sidebox_list">
+				<li class="sidebox_list">
+					<% for address in @member.addresses %>
+					  <%= link_to image_tag('table_edit.png', :alt=>'Show', :title=>'Show Item'), edit_address_path(address) %>&nbsp;<%=h address.tag_for_address %>:<br /><%= address.address_block %><br /><br />
+					<% end %>
+				</li>
+			</ul>
+		<% end -%>
+		</div><!-- class="sidebox_content" -->
+	</div><!-- class="sidebox_middle" -->
+	<div class="sidebox_bottom"></div>
+	<!-- MUGSHOTS -->
+	<div class="sidebox_top">
+		<div class="sidebox_header"><%= link_to 'add mugshot', new_user_mugshot_path(@member) -%>&nbsp;<%= link_to image_tag('table.png', :alt=>'Edit', :title=>'Add Item'), new_user_mugshot_path(@member) -%></div>
+	</div>
+	<div class="sidebox_middle">
+		<div class="sidebox_content">	
+		<% unless @member.assets.empty? %>	
+			<ul class="sidebox_list">
+				<li class="sidebox_list">
+					<% for asset in @member.assets %>
+					<%= link_to(image_tag(asset.public_filename(:size120)), user_mugshot_path(@member,asset)) %>
+					<br />
+					<% end %>
+				</li>
+			</ul>
+		<% end -%>
+		</div><!-- class="sidebox_content" -->
+	</div><!-- class="sidebox_middle" -->
+	<div class="sidebox_bottom"></div>		
+		
+<% end %>
+
+<% restrict_to 'support' do -%>
+	<!-- INVITATION CODES -->
+	<div class="rows_heading">
+		<div class="hd_cell_1 bold">INVITATION CODES</div>
+		<div class="baker_hd_cell_3">Sent To Date</div>
+	    <div class="baker_hd_cell_4">Responses To Date</div>
+	</div><!-- rows_heading -->
+	<div class="clear"></div>
+	<div class="rows_container">
+	<% for invitation_code in @invitation_codes %>
+	  	<div class="row_listing">
+			<div class="row_description"><%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), invitation_code_path(invitation_code) %>&nbsp;<%=h invitation_code.code %></div>
+		<div class="baker_cell_3"><%=h invitation_code.sent_count %></div>
+	    <div class="baker_cell_4"><%=h invitation_code.response_count %></div>
+		<div class="baker_cell_5">
+			<% if @current_user.id == invitation_code.user_id %>
+				<%= button_to "Send Invitation (#{invitation_code.code})", :controller => 'guests', :action => 'new', :id => invitation_code %>
+			<% end %>
+		</div>
+		</div><!-- id="row_listing" -->
+		<div class="line_style_1"></div>
+	<% end %>
+	</div><!-- rows_container -->
+	<!-- INVITATION CODES (END) -->
+<% end %>
+
+<!-- INVITATIONS -->
+<div class="rows_heading">
+	<div class="hd_cell_1 bold">
+		<% unless @member.children.size == 0 %>
+			<b><%= link_to 'Invite another friend?', new_guest_path -%></b> You've invited&hellip;
+		<% else %>
+			INVITATIONS
+		<% end %>	
+		</div>
+	<div class="baker_hd_cell_3">invited on</div>
+	<div class="baker_hd_cell_4">last visited</div>
+	<div class="baker_hd_cell_5">status</div>
+</div><!-- rows_heading -->
+<div class="clear"></div>
+<div class="rows_container">
+	<%= will_paginate @invitees %>
+	<div class="clear"></div>
+	<% unless @invitees.size == 0 %> 
+		<% for referral in @invitees %>
+			<div class="row_listing">
+				<div class="row_description">
+					<% restrict_to 'support' do -%><%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'), user_path(referral) %>&nbsp;<% end -%><%= referral.name %>
+				</div><!-- id="row_description" -->
+				<div class="baker_cell_3"><%=h referral.created_at.to_date.to_s(:long) %></div>
+				<div class="baker_cell_4"><% unless referral.last_login_at.nil? %><%=h referral.last_login_at.to_date.to_s(:long) %><% else %>never visited<% end %></div>
+				<div class="row_description">&nbsp;&nbsp;
+					<% if referral.of_type == 'Administrator'  %>
+						on at <%= local_time referral.last_login_at %>
+					<% elsif referral.of_type == 'Member' and referral.last_login_at.nil? -%>set up for trading but never visited!
+					<% elsif referral.of_type == 'Member' and !referral.last_login_at.nil? -%>
+						<% if referral.starts_as.nil? %>member<% else -%><%= referral.starts_as %><% end -%> on <%= distance_of_time_in_words(Time.now, referral.last_login_at) -%> ago
+					<% elsif referral.of_type == 'Guest' and !referral.last_login_at.nil? -%>
+						guest (potential <% if referral.starts_as.nil? %>?<% else -%><%= referral.starts_as %><% end -%>) on <%= distance_of_time_in_words(Time.now, referral.last_login_at) -%> ago
+					<% elsif referral.last_login_at.nil? and referral.invited_again_at.nil? -%>
+						invited <%= distance_of_time_in_words(Time.now, referral.created_at) -%> ago
+					<% elsif referral.last_login_at.nil? and !referral.invited_again_at.nil? -%>
+							RE-INVITED <%= distance_of_time_in_words(Time.now, referral.created_at) -%> ago
+					<% end -%>
+				</div>
+				<div class="baker_cell_5">
+					<% if referral.last_login_at.nil? %>
+						<%= button_to "Invite Again", :controller => 'guests', :action => 'invite_again', :id => referral %>
+					<% end %>
+				</div>
+			</div><!-- id="row_listing" -->
+			<div class="line_style_1"></div>
+		<% end -%>
+	<% else -%>
+		<div class="row_listing">
+			<div class="row_description">
+				You have not invited anyone to trade at Foodmoves.com. Please <b><%= link_to 'invite your friends and colleagues', new_guest_path -%>.</b> More users mean more products and better prices!
+			</div><!-- id="row_description" -->
+		</div><!-- id="row_listing" -->
+		<div class="line_style_1"></div>
+	<% end -%>
+	<%= will_paginate @invitees %>
+</div><!-- rows_container -->
+<!-- INVITATIONS (END) -->
+
+<%= render :partial => 'pending_pickups' -%>
+
+<%= render :partial => 'purchases' -%>
+
+<%= render :partial => 'sales' -%>
+

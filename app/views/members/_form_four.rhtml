@@ -1,0 +1,89 @@
+<!--[form:member]-->
+<% if @on_step_four == false %>
+		<br />
+		<br />
+		<div class="errorExplanation">
+			<% if flash.any? %>
+				<p>
+					<b><%= flash[:notice] %></b>
+					<div class="red"><b><%= flash[:error] %></b></div>
+				</p>
+			<% else %>
+				<h2><b>We don't have enough information.</b></h2>
+		    	<p>It seems you did not click the &quot;Go To Step 4&quot; button.</p>
+			<% end %>
+				<p>Please select the &quot;Step 3&quot; tab (above), enter the required information, and click the button at the bottom of the form. You always can ask for help from the support team in <a href="http://foodmoves.campfirenow.com/e08e3" onclick="window.open(this.href,'Chat','width=650,height=1000');return false;">online chat</a>.</p>
+	  </div>
+<% else %>
+	<br />
+	<% fields_for :organization do |form| %>
+		<% if flash.any? %>
+			<div class="errorExplanation">
+				<p>
+					<b><%= flash[:notice] %></b>
+					<div class="red"><b><%= flash[:error] %></b></div>
+				</p>
+			</div>
+		<% end -%>
+		<% if @organization.of_type == 'Account' %>
+		<ul class="details">
+			<li class="line">
+				<div id="text_font">
+					<%= @organization.name %> has reported the following financial condition
+                    and trading reputation, which have been verified with the D&amp;B credit
+                    reporting service. If you believe these ratings are not correct, please
+                    ask for help from the support team in <a href="http://foodmoves.campfirenow.com/e08e3" onclick="window.open(this.href,'Chat','width=650,height=1000');return false;">online chat</a>.
+				</div>
+				<br />
+				<table border="0" cellspacing="15" cellpadding="15">
+				<tr><td>Foodmoves Rating</td><td><% unless @organization.feedback.nil? %><%= @organization.feedback.description %><% end -%></td></tr>   
+				<tr><td>Credit Worth</td><td><% unless @organization.creditworth.nil? %><%= @organization.creditworth.description %><% end -%></td></tr>   
+				<tr><td>Timeliness</td><td><% unless @organization.timeliness.nil? %><%= @organization.timeliness.description %><% end -%></td></tr>  
+				<tr><td>Risk Factor</td><td><% unless @organization.integrity.nil? %><%= @organization.integrity.description %><% end -%></td></tr>
+				</table>
+			</li>
+			<div id="text_font">
+				You are ready to set up trading. Click the &quot;Submit to Authorize&quot; button to get approved.
+			</div>
+		</ul>		
+		<% else %>
+			<ul class="details">
+				<li class="line">
+					<div class="text_font">
+						To set up trading, you must report the financial condition and
+                        trading reputation for <%= @organization.name %>. Your self-reported
+                        ratings are verified with the D&amp;B and Redbook credit reporting
+                        services before you are authorized to trade. ACCURACY IS REQUIRED.
+                        ANY INACCURACY WILL RESULT IN A DELAY in setting up trading while we
+                        contact you for clarification. If you want to know more about these
+                        ratings, see our FAQ or ask for help from the support team in <a href="http://foodmoves.campfirenow.com/e08e3" onclick="window.open(this.href,'Chat','width=650,height=1000');return false;">online chat</a>.
+					</div>
+					<div id="text_font_1">
+						Financial Condition and Trading Reputation
+					</div>
+					<div id="li_font">Credit Worth</div>
+					<%= form.collection_select :creditworth_id, 
+						@creditworth, 
+						:id, 
+						:description %>
+					<br />
+					<div id="li_font">Timeliness of Payment</div>
+					<%= form.collection_select :timeliness_id, 
+						@timeliness, 
+						:id, 
+						:description %>
+					<br />
+					<div id="li_font">Risk Factor</div>
+					<%= form.collection_select :integrity_id, 
+						@integrity, 
+						:id, 
+						:description %>
+				</li>
+				<div id="text_font">
+					You are ready to set up trading. Click the &quot;Submit to Authorize&quot; button to get approved.
+				</div>
+			</ul>
+		<% end %>
+	<% end %>
+<% end %>
+<!--[eoform:member]-->

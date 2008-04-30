@@ -1,0 +1,68 @@
+<!--[form:prospect]-->
+<% fields_for :prospect do |form| %>
+	<br />
+	<br />
+	<br />
+	<label>Call Result</label>
+	<span><%= form.collection_select :call_result, 
+		CallResult.find(:all, :order => 'sort_order'), 
+		:name, 
+		:name %></span><br />
+
+	<label>Assign To</label>
+	<span><%= form.collection_select :acct_exec_id, 
+		@administrators, 
+		:id, 
+		:name, 
+		{:prompt => "– unassigned –"} %></span><br />
+
+    <label>Company Name</label>
+    <span><%= form.text_field :name %></span><br />
+
+	<label>Industry role</label>
+	<span><%= form.collection_select :industry_role,
+						IndustryRole.find(:all), 
+						:answer, 
+						:answer %>
+	</span><br />
+
+    <label>Source</label>
+    <span><%= form.select :source, %w{PMA bluebook referral research other} %></span><br />
+
+    <label>Email</label>
+    <span><%= form.text_field :email %></span><br />
+
+    <label>Website</label>
+    <span><%= form.text_field :website %></span><br />
+
+	<label>Region</label>
+	<span><%= form.collection_select :region_id, 
+		Geographies::Region.find(:all, :order => 'sort_order'), 
+		:id, 
+		:name %></span><br />
+
+	<label>Country</label>
+	<span><%= related_collection_select :prospect, 
+		:country_id, 
+		[:prospect, :region_id], 
+		Geographies::Country.find(:all, :order => 'sort_order'), 
+		:id, 
+		:name, 
+		:parent_id,
+		{:selected=>@prospect.country_id} %></span><br />
+
+	<label>State</label>
+	<span><%= related_collection_select :prospect, 
+		:admin_area_id, 
+		[:prospect, :country_id], 
+		Geographies::AdminArea.find(:all, :order => 'sort_order'),  
+		:id, 
+		:name, 
+		:parent_id,
+		{:selected=>@prospect.admin_area_id} %></span><br />																		
+
+    <label>City</label>
+    <span><%= form.text_field :locality -%></span><br />
+<% end %>
+<!--[eoform:prospect]-->
+

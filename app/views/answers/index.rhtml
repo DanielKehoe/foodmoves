@@ -1,0 +1,63 @@
+<% content_for(:secondary) do %>
+	<%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), answers_path %>&nbsp;See all FAQs
+	<br />
+	<%= link_to('Ask New Question', new_answer_path, :class=>"rnew new-link") %>
+	<br />
+	<% unless @answers.nil? -%>
+		<%= will_paginate @answers %>
+	<% end %>	
+		<div class="header_titles">Search Answers</div>
+		<% form_tag answers_path, :method => 'get' do %>
+			<%= text_field_tag :search,
+					params[:search],
+					:size => 20 -%>
+			&nbsp;<%= submit_tag 'Search', :name => nil %>
+		<% end -%>
+	<% end %>
+<div class="yui-g" id="page_title" >
+	<div class="container_header">FAQ</div>
+		<% if logged_in? -%>
+			<% restrict_to 'support' do -%>
+				<label>Questions to Review and Approve <i>(for staff only)</i></label>
+				<ul>
+					<% unless @pendings.empty? %>
+					<li>
+						<% for pending in @pendings %>
+						  <%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), edit_answer_path(pending) -%>&nbsp;<b><%=h pending.question %>,</b> asked by <%=h pending.created_by %>, <i><%= distance_of_time_in_words(Time.now, pending.created_at) %> since the submission</i><br /><br />
+						<% end %>
+					</li>
+					<% else -%>
+						<li><i>No pending questions</i></li>
+					<% end -%>
+				</ul>
+			<% end -%>
+		<% end -%>
+	<br />
+</div><!-- class="yui-g" id="page_title" -->
+<div class="yui-g">
+	<div class="yui-u first">
+		<% unless @answers.nil? -%>
+			<% for answer in @answers %>
+				<div class="container">
+				<img src="images/apple_header.jpg" alt="" />
+				<div class="apple_text"><%= answer.topic %></div>
+				<ul class="container">
+					<li><div class="header_titles"><%= answer.question %></div>
+						<div class="bio_width">
+							<%= answer.answer %>
+							<span class="right">&mdash;<i>asked by <%= answer.created_by %></i><% if logged_in? -%><% unless answer.created_at.nil? -%>, <%= local_time answer.created_at %><% end %><% unless answer.updated_at.nil? -%>, updated <%= local_time answer.updated_at %><% end %><% restrict_to 'support' do -%>&nbsp;<%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_answer_path(answer) -%><% end %><% end %></span>
+						</div>
+						<!-- graphic could go here -->
+					</li>
+				</ul>
+				</div><!-- class="container" -->
+			<% end %>
+		<% end %>
+	</div><!-- class="yui-u" -->
+</div><!-- class="yui-g" -->
+<div class="yui-g">
+	<div class="yui-u first">
+	</div><!-- class="yui-u" -->
+	<div class="yui-u">
+	</div><!-- class="yui-u" -->
+</div><!-- class="yui-g" -->

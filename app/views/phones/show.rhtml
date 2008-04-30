@@ -1,0 +1,75 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), phones_path %>&nbsp;Phone Numbers</h1>
+
+<h2><%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_phone_path(@phone) -%>&nbsp;<%=h @phone.localized(@current_user) %></h2>
+
+<% content_for(:secondary) do %>
+	<div class="show-secondary">
+		
+		<label>Created at</label>
+			<span>
+				<%= local_time @phone.created_at %>
+			</span>
+		<br />
+
+		<label>Updated at</label>
+			<span>
+				<%= local_time @phone.updated_at %>
+			</span>
+		<br />
+		
+	</div>
+<% end %>
+
+<div class="show">
+
+	<% if @phone.phonable_type == 'User' -%>	
+		<label><%=h @phone.tag_for_phone.capitalize %> phone for</label>
+		<span>
+			<%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show User'), user_path(@phone.phonable) -%> <%= link_to @phone.phonable.name, user_path(@phone.phonable) -%><br />
+		</span>
+	<% end -%>
+	<br />
+	<% if @phone.phonable_type == 'Organization' -%>	
+		<label><%=h @phone.tag_for_phone.capitalize %> phone for</label>
+		<span>
+			<%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Organization'), organization_path(@phone.phonable) -%> <%= link_to @phone.phonable.name, organization_path(@phone.phonable) -%><br />
+		</span>
+	<% end -%>
+	<br />
+
+	<label>Call with Skype</label>
+		<span>
+			<% unless @phone.skype.blank? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => 'call with Skype'), "skype:#{@phone.skype}" -%><% end -%>
+		</span>
+	<br />
+	
+	<label>Country code</label>
+		<span>
+			<%= @phone.country_code %>
+		</span>
+	<br />
+
+	<label>Area (or City) code</label>
+		<span>
+			<%= @phone.locality_code %>
+		</span>
+	<br />
+
+	<label>Local number</label>
+		<span>
+			<%= @phone.local_number %>
+		</span>
+	<br />
+
+	<label>International format</label>
+		<span>
+			<%=h @phone.number %>
+		</span>
+	<br />
+		
+	<label>Localized for <%=h @current_user.country.upcase %></label>
+		<span>
+			<%=h @phone.localized(@current_user) %>
+		</span>
+	<br />
+</div>

@@ -1,0 +1,9 @@
+<% classes = if column.options[:type] == :modalbox then
+	"modalbox"
+	elsif column.options[:type] == :single then
+		"redit single"
+	else
+		"redit"
+	end
+%>
+<%= link_to(h(column.data(record, self)), h(edit_path(record)), {:class=>classes, :id=>rdom_id(record, 'edit_link')}) %>

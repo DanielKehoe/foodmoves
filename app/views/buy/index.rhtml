@@ -1,0 +1,136 @@
+<!-- Buy/Index -->
+<!-- using layout "buy" -->
+<% content_for(:secondary) do %>	
+<div class="sidebox_top">
+	<div class="sidebox_header"><%= 'email alerts'.t %></div>
+</div>
+<div class="sidebox_middle">
+	<div class="sidebox_content">
+		<h2><%= 'Product Name'.t %></h2>
+		<% form_for :buy, :url => { :action => 'add_to_watchlist' }, :html => { :id => 'search_form' } do |form| %>
+			<%= form.text_field :query, :size => 20 -%>
+			<img id='query_indicator' src='/images/live_tree_loading_spinner.gif' style='display:none;' alt="loading" />
+			<div class="auto_complete" id="buy_query_auto_complete"></div>
+			<%= auto_complete_field :buy_query,
+								:frequency => 0.1,
+								:min_chars => 3,
+								:indicator => 'query_indicator',
+								:url => { :action => 'autocomplete_query' } -%>
+			<br />
+			<br />
+			<div class="right"><%= submit_tag "Get Email Alerts".t %></div>		
+			<br />
+		<% end %>
+	</div><!-- class="sidebox_content" -->
+</div><!-- class="sidebox_middle" -->
+<div class="sidebox_bottom"></div>
+<div class="empty_10"></div>
+<div class="sidebox_top">
+	<div class="sidebox_header"><%= 'product search'.t %></div>
+</div>
+<div class="sidebox_middle">
+	<div class="sidebox_content">
+		<h2><%= 'Product Name'.t %></h2>
+		<% form_for :buy, :url => { :action => 'search_for_product' }, :html => { :id => 'search_form' } do |form| %>
+			<%= form.text_field :query, :size => 20 -%>
+			<img id='query_indicator' src='/images/live_tree_loading_spinner.gif' style='display:none;' alt="loading" />
+			<div class="auto_complete" id="buy_query_auto_complete"></div>
+			<%= auto_complete_field :buy_query,
+								:frequency => 0.1,
+								:min_chars => 3,
+								:indicator => 'query_indicator',
+								:url => { :action => 'autocomplete_query' } -%>
+			<br />
+			<br />
+			<div class="right"><%= submit_tag "Product Search".t %></div>		
+			<br />
+		<% end %>
+	</div><!-- class="sidebox_content" -->
+</div><!-- class="sidebox_middle" -->
+<div class="sidebox_bottom"></div>
+<div class="empty_10"></div>	
+<div class="sidebox_top">
+	<div class="sidebox_header"><%= 'location search'.t %></div>
+</div>
+<div class="sidebox_middle">
+	<div class="sidebox_content">
+		<% unless @watched_locations.size == 0 %>
+			<h2><%= 'Within 400 miles of:'.t %></h2>
+
+			<% for location in @watched_locations %>
+				<ul class="sidebox_list">
+					<li><%= link_to image_tag('ico_6.gif', :alt=>'Delete', :title=>"Delete \"#{location.locality}\" from watched locations".t), watched_location_path(location), :confirm => "Really delete \"#{location.locality}\" from watched locations?".t, :method => :delete %>
+					<%= link_to location.locality, :action => "search_by_location".t, :id => location %>
+					</li>
+				</ul>
+			<% end %>
+			<% else %>
+				<p><%= 'no locations found&hellip;'.t %></p>
+			<% end %>
+		<span class="sidebox_small_text" ><b><%= link_to image_tag('ico_7.gif', :alt=>'Add new city'.t, :title=>'Add new city'.t), new_watched_location_path %>&nbsp;<%= link_to 'Add New City'.t, new_watched_location_path, :class=>"rnew new-link" %></b></span>						
+	</div><!-- class="sidebox_content" -->
+</div><!-- class="sidebox_middle" -->
+<div class="sidebox_bottom"></div>	
+<div class="empty_10"></div>
+<div class="sidebox_top">
+	<div class="sidebox_header">price reports</div>
+</div>
+<div class="sidebox_middle">
+	<div class="sidebox_content">
+		<ul class="sidebox_list">
+			<li class="sidebox_list">
+				<b><%= link_to "USDA Retail Report", 'http://www.ams.usda.gov/fv/mncs/retail.pdf', :popup => ['new_window', 'height=900, width=800'] %></b><br />
+			</li>
+		</ul>		
+	</div><!-- class="sidebox_content" -->
+</div><!-- class="sidebox_middle" -->
+<div class="sidebox_bottom"></div>
+<% end %>
+<!-- WATCHED PRODUCTS -->
+<div class="rows_heading">
+	<div class="hd_cell_1 red bold">EMAIL ALERTS</div>
+</div><!-- class="rows_heading" -->
+<div class="clear"></div>	
+<div class="rows_container">	
+	<% unless @watched_products.size == 0 %>
+		<% for product in @watched_products %>
+			<div class="row_listing">
+				<div class="row_description"><%= link_to image_tag('products/generic.gif', :alt=>'Auctions', :title=>"See all auctions for \"#{product.description}\"", :size => '44x44', :class => 'thumb'), "/buy/search_for_product?buy[query]=#{product.description}" -%>&nbsp;<%= product.description -%><br />
+					<%= link_to image_tag('ico_2.gif', :alt=>'Auctions', :title=>"See all auctions for \"#{product.description}\""), "/buy/search_for_product?buy[query]=#{product.description}" -%>&nbsp;<%= link_to image_tag('ico_1.gif', :alt=>'Delete', :title=>"Delete \"#{product.description}\" from email alerts"), {:action => 'delete_from_watchlist', :id => product.id}, :confirm => "Really delete \"#{product.description}\" from email alerts?", :method => :delete %>
+				</div><!-- id="row_description" -->
+			</div><!-- id="row_listing" -->
+			<div class="line_style_1"></div>
+			<div class="clear"></div>
+		<% end %>
+	<% else %>
+		<div class="row_listing">
+			<div class="row_description">
+				No products in your email alerts list.
+			</div>
+		</div><!-- id="row_listing" -->
+		<div class="line_style_1"></div>
+	<% end %>
+</div><!-- class="rows_container" -->
+<div class="empty_10"></div><!-- empty_10 -->
+<!-- WATCHED PRODUCTS (END) -->
+	<%= render :partial => 'current_bids' -%>
+	
+<div class="rows_heading">
+	<div class="hd_cell_1 red bold"><%= 'ALL AUCTIONS'.t %></div>
+	<div class="delta_hd_cell_3"><%= 'BUY or BID'.t %></div>
+	<div class="delta_hd_cell_4"><%= 'TIME LEFT'.t %></div>
+</div><!-- rows_heading -->
+<div class="clear"></div>
+<div class="rows_container">
+	<% unless @auctions.size == 0 %> 
+		<%= render :partial => 'current_auctions' -%>
+	<% else %>
+		<div class="row_listing">
+			<div class="row_description">
+				<%= 'No products currently listed for auction'.t %>.
+			</div>
+		</div><!-- id="row_listing" -->
+		<div class="line_style_1"></div>
+		<div class="clear"></div>
+	<% end %>
+</div><!-- class="rows_container" -->

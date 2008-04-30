@@ -1,0 +1,42 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), watched_locations_path %>&nbsp;All Watched Locations</h1>
+
+<% content_for(:secondary) do %>
+	<% restrict_to 'support' do -%>
+		<h2>Search By City</h2>
+		<% form_tag watched_locations_path, :method => 'get' do %>
+			<%= text_field_tag :search,
+		        				params[:search],
+		         				{ :size => 20 } -%>
+			&nbsp;<%= submit_tag 'Search', :name => nil %>
+		<% end -%>
+	<% end -%>
+<% end %>
+
+<table class="admin">
+<thead>
+	<tr>
+		<th colspan='3'>&nbsp;</th>
+				<th><b>User</b></th>
+				<th><b>Place</b></th>
+			</tr>
+</thead>
+ 
+<% for watched_location in @watched_locations %>
+	<tr>
+		<td><%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), watched_location_path(watched_location) %></td>
+	    <td><%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_watched_location_path(watched_location) %></td>
+	    <td><%= link_to image_tag('table_delete.png', :alt=>'Delete', :title=>'Delete Item'), watched_location_path(watched_location), :confirm => 'Are you sure?', :method => :delete %></td>
+				<td>
+					<% unless watched_location.user.nil? %>
+						<%= watched_location.user.name %>
+					<% else -%>
+						<b>NONE: DELETE LOCATION!</b>
+					<% end -%>
+				</td>
+				<td><%= watched_location.name %></td>
+			</tr>
+<% end %>
+</table>
+<% content_for(:footer) do %>
+	<%= will_paginate @watched_locations %>
+<% end %>

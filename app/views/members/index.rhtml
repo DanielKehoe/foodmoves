@@ -1,0 +1,20 @@
+<!-- Members/New -->
+<!-- using layout "yui_t7_custom" -->
+<div class="yui-g">
+	<div class="middle_content">
+		<div class="bubble_minipage">
+			<div class="bubble_content">
+				<b><%= flash[:notice] %></b>
+				<b><%= flash[:error] %></b>
+				<p>
+					You can take a look at your 
+					<br />
+					<%= link_to 'account details', member_path(@current_user) -%>.
+				</p>
+			</div><!-- bubble_content -->
+		</div><!-- bubble -->
+		<% if flash[:error] %>
+			<div class="big_red">ERROR</div>
+		<% end %>
+	</div><!-- middle_content -->
+</div><!-- yui-g -->

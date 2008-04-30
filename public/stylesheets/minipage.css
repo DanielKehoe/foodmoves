@@ -1,0 +1,171 @@
+/* minipage.css */
+
+/* common.css OVERRIDE */
+
+.menu a { padding: 0 0 0 9px;}
+
+div.bubble_minipage
+{background-image:url(/images/mini_forms_bubble.jpg);
+ background-repeat:no-repeat;
+ width:295px; 
+ height:198px;
+ float:left;
+ margin-left:0px;
+ margin-top:0px;
+ margin-bottom:10px;
+ *margin-left:0px;
+ *margin-left:10px;
+ *padding-bottom:10px;
+ padding:0px;
+ line-height:150%;
+}
+
+/* common.css OVERRIDE END */
+
+/* used on various small pages */
+/* Session_New */
+/* Guests_New */
+
+.side
+{float:right;
+ padding-left:10px;
+ position:relative;
+ *position:absolute;
+ padding-top:10px;
+ width:130px;
+}
+
+.tomato_image
+{background:url(/images/tomatoes.jpg);
+ background-repeat:no-repeat;
+ width:200px;
+ height:200px;
+ 
+ float:left;
+}
+
+div#details_font
+{font-size:150%;
+ color:#A1A1A1;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div#red_font
+{font-size:100%;
+ color:red;
+ display:inline;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div#basket_font
+{font-size:100%;
+ color:red;
+ float:right;
+ padding:5px;
+ padding-top:15px;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div#submit_font
+{font-size:100%;
+ color:red;
+ float:right;
+ padding:5px;
+ padding-top:17px;
+ font-family:arial;
+ font-weight:bold;
+}
+
+
+div.middle_content
+{width:300px; 
+ height:100%;
+ float:left;
+ padding-left:20px;
+ margin-top:10px;
+ margin-bottom:10px;
+ *padding-bottom:10px;
+ line-height:150%;
+}
+
+div#li_font,div#li_font_1
+{font-size:100%;
+ color:#FE7A22;
+ width:200px;
+ float:left;
+ margin:0px;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div#li_font_2
+{font-size:100%;
+ color:#FE7A22;
+ width:200px;
+ float:left;
+ margin:0px;
+ font-family:arial narrow;
+ font-weight:bold;
+}
+
+div.submit_button
+{float:right;
+ padding-top:10px;
+}
+
+#number
+{width:45px;
+ font-size:90%;
+ height:18px;
+ color:#999999;
+}
+
+.right_side
+{padding-left:10px;
+ padding-right:2px;
+ float:left;
+}
+
+.right_side2
+{float:right;
+}
+
+.text_font
+{color:#999999;
+ font-size:90%;
+ padding-bottom:14px;
+}
+
+.text_font2
+{color:#999999;
+ font-size:90%;
+ padding-top:14px;
+}
+
+#field,#field_1
+{width:250px;
+}
+
+#industry
+{width:250px;
+ font-size:90%;
+ height:18px;
+ color:#999999;
+}
+
+div.container
+{border:1px solid;
+ width:200px;
+ padding:2px;
+ font-size:90%;
+}
+
+div.footer_last_line
+{width:300px;
+ font-size:70%;
+ color:#999999;
+ margin-left:-10px;
+}

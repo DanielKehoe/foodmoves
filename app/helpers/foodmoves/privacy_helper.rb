@@ -1,0 +1,2 @@
+module Foodmoves::PrivacyHelper
+end

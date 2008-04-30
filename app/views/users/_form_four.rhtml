@@ -1,0 +1,104 @@
+<% if @on_step_four == false %>
+		<br />
+		<br />
+		<div class="errorExplanation">
+			<% if flash.any? %>
+				<p>
+					<b><%= flash[:notice] %></b>
+					<div class="red"><b><%= flash[:error] %></b></div>
+				</p>
+			<% else %>
+				<h2><b>We don't have enough information.</b></h2>
+		    	<p>It seems you did not click the &quot;Next&quot; button.</p>
+			<% end %>
+				<p>Please select the &quot;Step 3&quot; tab (above), enter the required information, and click the button at the bottom of the form.</p>
+	  </div>
+<% else %>
+	<!--[form:phone]-->
+	<% fields_for :phone do |form| %>
+
+		<br />
+		<br />
+
+		<h2>Phone Number</h2>
+
+		<br />
+		<br />
+
+		<label>Region</label>
+		<span><%= form.collection_select :region_id, 
+			Geographies::Region.find(:all, :order => 'sort_order'), 
+			:id, 
+			:name %></span><br />
+
+		<label>Country</label>
+		<span><%= related_collection_select :phone, 
+			:country_id, 
+			[:phone, :region_id], 
+			Geographies::Country.find(:all, :order => 'sort_order'), 
+			:id, 
+			:name, 
+			:parent_id,
+			{:selected=>@phone.country_id} %></span><br />
+
+	    <label>Area (or City) code</label>
+	    <span><%= form.text_field :locality_code %></span><br />
+
+	    <label>Local number</label>
+	    <span><%= form.text_field :local_number %></span><br />
+
+		<% unless @phone_tags.nil? %>
+			<label>Location</label><span><%= form.collection_select :tag_for_phone,
+								@phone_tags, 
+								:name, 
+								:name,
+								{},
+								{:onchange => "changed(this, 'other', 'You chose \"other\". Please enter a name for this location:')"} %></span><br />
+		<% end %>
+	<% end %>
+	<!--[eoform:phone]-->
+
+	<!--[form:address]-->
+	<% fields_for :physical_address do |form| %>
+		<br />
+		<br />
+		<h2>Physical Address</h2>
+		<br />
+		<br />
+		<label>Region</label>
+		<span><%= form.collection_select :region_id, 
+			Geographies::Region.find(:all, :order => 'sort_order'), 
+			:id, 
+			:name %></span><br />
+	
+		<label>Country</label>
+		<span><%= related_collection_select :physical_address, 
+			:country_id, 
+			[:physical_address, :region_id], 
+			Geographies::Country.find(:all, :order => 'sort_order'), 
+			:id, 
+			:name, 
+			:parent_id,
+			{:selected=>@physical_address.country_id} %></span><br />
+
+		<label>State</label>
+		<span><%= related_collection_select :physical_address, 
+			:admin_area_id, 
+			[:physical_address, :country_id], 
+			Geographies::AdminArea.find(:all, :order => 'sort_order'),  
+			:id, 
+			:name, 
+			:parent_id,
+			{:selected=>@physical_address.admin_area_id} %></span><br />																		
+
+	    <label>City</label>
+	    <span><%= form.text_field :locality -%></span><br />
+
+	    <label>Address</label>
+	    <span><%= form.text_field :thoroughfare -%></span><br />
+
+	    <label>Postal Code</label>
+	    <span><%= form.text_field :postal_code -%></span><br />
+	<% end %>
+	<!--[eoform:address]-->
+<% end %>

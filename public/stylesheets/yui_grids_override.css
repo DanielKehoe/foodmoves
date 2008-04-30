@@ -1,0 +1,47 @@
+/* yui_grids_override.css */
+
+/* YUI Grids page layout tweaks */
+
+html {height:100%}
+
+div#hd{
+	background-image:url(/images/header5.jpg);
+  background-repeat:no-repeat;
+  height:62px;
+  margin:auto;text-align:left; /* leave unchanged */
+  width:73.07em;/* non-IE */
+  *width:71.31em;/* IE */
+  min-width:950px;/* optional but recommended */
+  *width:950px;
+  font-family:verdana;
+}
+
+div#bd{
+ background-color:#ffffff;
+ background-repeat:repeat-y;
+ margin:auto;text-align:left; /* leave unchanged */
+ width:73.07em;/* non-IE */
+ *width:71.31em;/* IE */
+ min-width:950px;/* optional but recommended */
+ *width:950px;
+ position:relative;
+ font-family:arial;
+ margin:0px;
+ padding:0px;
+ height: 100%;
+}
+
+div#ft{
+	background-image:url(/images/footer5.gif);
+  background-repeat:no-repeat;
+  margin:auto;text-align:left; /* leave unchanged */
+  width:73.07em;/* non-IE */
+  *width:71.31em;/* IE */
+  min-width:950px;/* optional but recommended */
+  *width:950px;
+  height:53px;
+  margin:0px;
+  padding:0px;
+}
+
+/* yui_grids_override.css END */

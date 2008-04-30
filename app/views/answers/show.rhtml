@@ -1,0 +1,66 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), answers_path %>&nbsp;FAQs</h1>
+
+<h2><%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_answer_path(@answer) -%>&nbsp;Edit
+
+<h2><%= link_to image_tag('table_delete.png', :alt=>'Delete', :title=>'Delete Item'), answer_path(@answer), :confirm => 'Are you sure?', :method => :delete %>&nbsp;Delete?</h2>
+
+<% content_for(:secondary) do -%>
+	<div class="show-secondary">
+
+		<label>Created by</label>
+			<span>
+				<%= @answer.created_by %>
+			</span>
+		<br />
+	
+		<label>Created at</label>
+			<span>
+				<%= local_time @answer.created_at -%>
+			</span>
+		<br />
+
+		<label>Updated at</label>
+			<span>
+				<%= local_time @answer.updated_at -%>
+			</span>
+		<br />
+
+		<label>Sort order</label>
+			<span>
+				<%= @answer.sort_order %>
+			</span>
+		<br />
+		
+		<label>Approved?</label>
+			<span>
+				<% if @answer.approved -%>
+					Yes
+				<% else -%>
+					Pending
+				<% end -%>
+			</span>
+		<br />
+		
+	</div>	
+<% end -%>
+
+<div class="show">
+
+	<label>Topic</label>
+		<span>
+			<%= @answer.topic %>
+		</span>
+	<br />
+
+	<label>Question</label>
+		<span>
+			<%= @answer.question %>
+		</span>
+	<br />
+
+	<label>Answer</label>
+		<span>
+			<%= @answer.answer %>
+		</span>
+	<br />
+</div>

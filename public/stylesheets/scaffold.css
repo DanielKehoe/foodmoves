@@ -1,0 +1,213 @@
+body { background-color: #fff; color: #333; }
+
+body, p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size:   13px;
+  line-height: 18px;
+}
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+a { color: #000; }
+a:visited { color: #666; }
+a:hover { color: #fff; background-color:#000; }
+
+.fieldWithErrors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+
+div.uploadStatus {
+  margin: 5px;
+}
+
+div.progressBar {
+  margin: 5px;
+}
+
+div.progressBar div.border {
+  background-color: #fff;
+  border: 1px solid grey;
+  width: 100%;
+}
+
+div.progressBar div.background {
+  background-color: #333;
+  height: 18px;
+  width: 0%;
+}
+
+
+/*
+	CSS style for "view/show" pages
+*/
+
+.show {
+	margin: 0 0 1em;
+}
+
+.show label {
+	/* 
+		A label must precede the form element in the HTML
+		You must keep the top padding for some browsers to keep the label and the form element looking on the same line
+	*/
+	width: 220px; /* label width *//* label margin = (input left margin) - (label width) */
+	margin-right: 10px; /* label margin */
+	padding-right: 10px;
+	text-align: right;
+	display: table-cell;
+	padding-top: 0.2em;
+	font-weight: bold;
+	font-size: 1em;
+	color: #666666;
+}
+
+.show span {
+	display: table-cell;
+	padding-top: 0.2em;
+	font-weight: bold;
+	font-size: 1em;
+	color: black;
+}
+
+.show ul {
+	display: table-cell;
+}
+
+.show li {
+	/*
+		These items must immediately follow the LABEL item associated with it and followed by a BR (see below).
+		The following width must be 10pixels wider than the width of the LABEL.
+	*/
+	margin-left: 0px; /* (label width) + (label margin) */
+	width: 100%; /* subjective, only applies to non-checkbox or radio inputs */
+	padding-top: 0.2em;
+	font-weight: bold;
+	font-size: 1em;
+	color: black;
+}
+
+/*
+	CSS style for sidebar of "view/show" pages
+*/
+
+.show-secondary {
+	margin: 0 0 1em;
+}
+
+.show-secondary label {
+	/* 
+		A label must precede the form element in the HTML
+		You must keep the top padding for some browsers to keep the label and the form element looking on the same line
+	*/
+	margin-right: 10px; /* label margin */
+	display: block;
+	padding-top: 0.2em;
+	font-weight: bold;
+	font-size: 1em;
+	color: #666666;
+}
+
+.show-secondary span {
+	margin-left: 20px;
+	padding-top: 0.2em;
+	font-weight: bold;
+	font-size: 1em;
+	color: black;
+}
+
+
+.show-secondary ul {
+	margin-left: 20px;
+}
+
+.show-secondary li {
+	/*
+		These items must immediately follow the LABEL item associated with it and followed by a BR (see below).
+		The following width must be 10pixels wider than the width of the LABEL.
+	*/
+	margin-left: 0px; /* (label width) + (label margin) */
+	padding-top: 0.2em;
+	font-weight: bold;
+	font-size: 1em;
+	color: black;
+}
+
+
+/* Tabs */
+#tabbed ul.subsection_tabs {
+	list-style:none;
+	margin:0;
+	padding:0;
+	clear:both;
+	border-bottom:1px solid #ccc;
+	height:20px;
+	clear:both;
+}
+
+#tabbed ul.subsection_tabs li {
+	float:left;
+	margin-right:7px;
+	text-align:center;
+}
+
+#tabbed ul.subsection_tabs li a {
+	display:block;
+	height:20px;
+	padding:0 6px 0 6px;
+	background-color:#fff;
+	color:#666;
+	width:80px;
+}
+
+#tabbed ul.subsection_tabs li a:hover {
+	color:#666;
+}
+
+#tabbed ul.subsection_tabs li a.active {
+	background-color:#ddd;
+}
+
+#tabbed ul.register_tabs {
+	border-bottom:none;
+}
+
+#tabbed ul.register_tabs li a.active {
+	background-color:#6d7a81;
+	color:#fff;
+}

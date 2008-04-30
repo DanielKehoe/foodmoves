@@ -1,0 +1,135 @@
+.popup1{
+background:url(/images/popup1.jpg);
+width:194px;
+height:153px;
+margin-left:-6px;
+}
+
+.popup2{
+background:url(/images/popup2.jpg);
+width:256px;
+height:206px;
+}
+
+.popup3{
+background:url(/images/popup3.jpg);
+width:270px;
+height:322px;
+}
+
+.popup4{
+background:url(/images/popup4.jpg);
+width:146px;
+height:205px;
+}
+
+.header
+{font-size:85%;
+ margin:0;
+ padding:2px 0 8px 44px;
+ font-family:Verdana, Arial, Helvetica, sans-serif;
+ font-weight:bold;
+ color:#FFFFFF;
+}
+
+.header2
+{font-size:85%;
+ margin:0;
+ padding:16px 0 8px 44px;
+ font-family:Verdana, Arial, Helvetica, sans-serif;
+ font-weight:bold;
+ color:#FFFFFF;
+}
+
+.header3
+{font-size:85%;
+ margin:0;
+ padding:10px 0 8px 54px;
+ font-family:Verdana, Arial, Helvetica, sans-serif;
+ font-weight:bold;
+ color:#FFFFFF;
+}
+
+.header4
+{font-size:75%;
+ margin:0;
+ padding:4px 0 8px 34px;
+ font-family:Verdana, Arial, Helvetica, sans-serif;
+ font-weight:bold;
+ color:#FFFFFF;
+}
+
+.content
+{font-size:75%;
+ margin:0;
+ width:170px;
+ padding:2px 0 8px 15px;
+ font-family:Arial, Helvetica, sans-serif;
+ color:#000000;
+}
+
+.content2
+{font-size:75%;
+ margin:0;
+ width:230px;
+ padding:2px 0 8px 15px;
+ font-family:Arial, Helvetica, sans-serif;
+ color:#000000;
+}
+
+.content3
+{font-size:75%;
+ margin:0;
+ width:230px;
+ padding:2px 0 8px 20px;
+ font-family:Arial, Helvetica, sans-serif;
+ color:#000000;
+}
+
+.content4
+{font-size:75%;
+ margin:0;
+ width:130px;
+ padding:2px 0 8px 10px;
+ font-family:Arial narrow;
+ color:#000000;
+}
+
+.footer
+{font-size:75%;
+ margin-top:-10px;
+ width:160px;
+ padding:2px 0 8px 20px;
+ font-family:Arial, Helvetica, sans-serif;
+ color:#000000;
+}
+
+.footer2
+{font-size:75%;
+ margin-top:-10px;
+ width:230px;
+ padding:5px 0 8px 14px;
+ font-family:Arial, Helvetica, sans-serif;
+ color:#000000;
+}
+
+#field
+{background-color:#cccccc;
+ border:1px solid #999999;
+}
+
+.button
+{margin-top:3px;
+}
+
+.button2
+{margin-top:3px;
+ padding-left:5px;
+ float:left;
+}
+
+.button3
+{margin-top:3px;
+ padding-right:35px;
+ float:right;
+}

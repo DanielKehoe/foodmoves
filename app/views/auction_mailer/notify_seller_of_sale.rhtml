@@ -1,0 +1,33 @@
+
+You've sold products.
+<% if @auction.test_only? -%>
+
+Well, not really. Your auction was only with TEST DATA.
+
+Too bad. You could be trading real products at Foodmoves.com!
+
+<% end -%>
+THE SALE
+============================================================
+<%=h @auction.description %>
+shipping from <%=h @auction.shipping_from %>
+Buyer's Offer: <%= number_to_currency @bid.amount %>
+============================================================
+
+BUYER CONTACT INFORMATION
+============================================================
+Email: <%=h @bid.user.email %>
+Buyer: <%=h @bid.user.name %>
+<% unless @bid.user.organizations.first.nil? %>Company: <%=h @bid.user.organizations.first.name -%><% end -%>
+<% unless @bid.user.phones.empty? %><% for phone in @bid.user.phones %>
+Phone: <%=h phone.number %> (<%=h phone.tag_for_phone %>)<% end -%><% end %>
+============================================================
+
+AUCTION DETAILS
+============================================================
+<%= @auction.description %>
+============================================================
+
+Thanks for using our service!
+
+-- Foodmoves.com

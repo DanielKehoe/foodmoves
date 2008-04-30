@@ -1,0 +1,7 @@
+<% cssclass = record.errors.on(field.method) ? "error" : "" %>
+<div><% if !field.options.has_key?(:no_label) -%><label for='<%= field.name %>' class='<%= cssclass %>'><%= field.name %></label><br /><% end %>
+<%= body %>
+<% if field.options.has_key?(:note) %>
+  <p class="note"><%= field.options[:note] %></p>
+<% end %>
+</div>

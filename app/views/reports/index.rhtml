@@ -1,0 +1,52 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), reports_path %>&nbsp;Users Report</h1>
+
+<div class="left">
+	<h2>Show Only</h2>
+	<% form_tag reports_path, :method => 'get' do %>
+		<%= select_tag 'type', options_for_select([['buyers', 'buyers'], ['sellers', 'sellers'], ['others', 'others'], ['all members', 'members'], ['guests', 'guests'], ['nixies', 'nixies'], ['VIPs', 'VIPs'], ['red flagged', 'redflagged'], ['yellow flagged', 'yellowflagged'], ['unflagged', 'unflagged'], ['staff', 'staff'], ['do not contact', 'do_not_contact']], [params[:type]]) %>
+		&nbsp;<%= submit_tag 'Search', :name => nil %>&nbsp;&nbsp;&nbsp;
+	<% end -%>
+</div>
+
+	<h2>Download CSV File</h2>
+	<% form_tag formatted_reports_path(:csv), :method => 'get' do %>
+		<%= select_tag 'type', options_for_select([['buyers', 'buyers'], ['sellers', 'sellers'], ['others', 'others'], ['all members', 'members'], ['guests', 'guests'], ['nixies', 'nixies'], ['VIPs', 'VIPs'], ['red flagged', 'redflagged'], ['yellow flagged', 'yellowflagged'], ['unflagged', 'unflagged'], ['staff', 'staff'], ['do not contact', 'do_not_contact']], [params[:type]]) %>
+		&nbsp;<%= submit_tag 'Download', :name => nil %>
+	<% end -%>
+
+<table class="report">
+
+<% for user in @users %>
+  <tr>
+	<td><% unless user.flag_for_user.nil? -%><%= image_tag("flag_#{user.flag_for_user.color}.png", :alt=>'Flag', :title=>"#{user.flag_for_user.name} user") -%><% else -%><%= image_tag("flag_blue.png", :alt=>'Flag', :title=>"no flag set") -%><% end -%></td>
+	<td><%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'), user_path(user) %></td>
+	<td><% if user.flag_for_user.nil? -%><span><% else -%><span class="<%= user.flag_for_user.color -%>"><% end -%><%=h user.name -%></span>
+	</td>
+	<td>
+		<% unless user.organizations.first.nil? %>
+			<%= user.organizations.first.name %><% unless user.organizations.first.location.blank? %>; <%= user.organizations.first.location %><% end -%>
+		<% end -%>
+	</td>
+	<td>
+		<% unless user.phones.first.nil?  %>
+			<%= user.phones.first.number %> (<%= user.phones.first.tag_for_phone %>)
+		<% end -%>
+	</td>
+	<td>
+		<% unless user.industry_role.nil?  %>
+			<%= user.industry_role %>
+		<% end -%>
+	</td>
+	<td>
+		<% unless user.organizations.first.nil?  %>
+			<% unless user.organizations.first.administrator.nil?  %>
+				<%= user.organizations.first.administrator.name %>
+			<% end -%>
+		<% end -%>
+	</td>
+  </tr>
+<% end %>
+</table>
+<% content_for(:footer) do %>
+	<%= will_paginate @users %>
+<% end %>

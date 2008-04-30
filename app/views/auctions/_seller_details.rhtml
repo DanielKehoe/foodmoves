@@ -1,0 +1,106 @@
+	<% if @auction.consignment %>
+		<div id="details_font">Open Consignment.</div>
+	<% end %>
+	<% unless @auction.buyer_id.nil?  %>
+		<% if @current_user.id == @auction.buyer_id %>
+			<div id="details_font">This item was sold to you!</div>
+		<% else %>
+			<div id="details_font">This item was sold.</div>
+		<% end %>
+		<div class="sidebox_small_text"><b>Sold at <%= number_to_currency @auction.current_bid -%></b>
+		<br />
+		<% if @auction.how_many_bids > 1  %>
+			<b>with <%= @auction.how_many_bids -%> bids</b>
+		<% else %>
+			<b>with <%= @auction.how_many_bids -%> bid</b>
+		<% end %>
+		</div>
+	<% else %>
+		<div class="sidebox_small_text"><b>Active Auction</b>
+			<% if @auction.date_last_bid.nil? %>
+				<% if @current_user.id == @auction.seller_id -%>
+						<%= link_to image_tag('ico_6.gif', :alt=>'Delete', :title=>"Delete auction"), auction_path(@auction), :confirm => "Really delete this auction?", :method => :delete %>&nbsp;<sup><%= link_to 'Delete This Auction?', auction_path(@auction), :confirm => "Really delete this auction?", :method => :delete %></sup>
+				<% else %>
+					<% if logged_in? -%>
+						<% restrict_to 'support' do -%>
+								<%= link_to image_tag('ico_6.gif', :alt=>'Delete', :title=>"Delete auction"), auction_path(@auction), :confirm => "Really delete this auction?", :method => :delete %>&nbsp;<sup><%= link_to 'Delete This Auction?', auction_path(@auction), :confirm => "Really delete this auction?", :method => :delete %></sup>
+						<% end -%>	
+					<% end %>
+				<% end %>
+			<% end -%>
+			</div>
+	<% end %>
+	<br />
+	<% unless @auction.user.organizations.first.assets.empty? %>
+		<div class="tomato_image">	
+			<% for asset in @auction.user.organizations.first.assets %>
+				<%= image_tag(asset.public_filename(:size200)) %>
+				<br />
+			<% end %>
+		</div>
+	<% else -%>
+		<% if @auction.buyer_id.nil? %>
+			<% if @current_user.id == @auction.seller_id %>
+				<div id="details_font">Add a Company Logo?</div>
+				<% form_for(:asset, :url => organization_logos_path(@auction.user.organizations.first.id), :html => { :multipart => true }) do |f| %>
+						<span class="sidebox_small_text">Select a file from your computer:</span> 
+						<br />
+						<%= f.file_field :uploaded_data, {:size => 17} %>
+						<br />
+						<br />
+						<%= submit_tag "Upload Logo" %>
+				<% end %>
+				<br />
+			<% else -%>
+				<% if logged_in? -%>
+					<% restrict_to 'support' do -%>
+						<div id="details_font">Add a Company Logo?</div>
+						<% form_for(:asset, :url => organization_logos_path(@auction.user.organizations.first.id), :html => { :multipart => true }) do |f| %>
+								<span class="sidebox_small_text">Select a file from your computer:</span>  
+								<br />
+								<%= f.file_field :uploaded_data, {:size => 17} %>
+								<br />
+								<br />
+								<%= submit_tag "Upload Logo" %>
+						<% end %>
+						<br />			
+					<% end -%>
+				<% end -%>
+			<% end -%>
+		<% end -%>
+	<% end -%>
+	<% unless @auction.buyer_id.nil?  %>
+		<% if @current_user.id == @auction.seller_id %>
+			<dl class="sidebox_list">
+				<dt><b>Sold to</b></dt><dd><%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show User'), member_path(@auction.buyer_id) -%>&nbsp;<%= @buyer.name %>
+				<br />
+				<%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Company'), organization_path(@buyer.organizations.first.id) -%>&nbsp;<%= @buyer.organizations.first.name %>
+			</dd>
+			</dl>
+			<br />
+		<% else %>
+			<% if logged_in? -%>
+				<% restrict_to 'support' do -%>
+					<dl class="sidebox_list">
+						<dt><b>Sold to</b></dt><dd><%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show User'), member_path(@auction.buyer_id) -%>&nbsp;<%= @buyer.name %>
+							<br />
+							<%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Company'), organization_path(@buyer.organizations.first.id) -%>&nbsp;<%= @buyer.organizations.first.name %>
+						</dd>
+						<br />
+					</dl>
+				<% end -%>	
+			<% end %>
+		<% end %>
+	<% end -%>
+	<dl class="sidebox_list">
+		<dt><b>Seller</b></dt><dd><% if logged_in? -%><% restrict_to 'support' do -%><%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show User'), member_path(@auction.user.id) -%>&nbsp;<% end -%><% end -%><%= @auction.user.name %>
+		<br />
+		<% if logged_in? -%><% restrict_to 'support' do -%><%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Company'), organization_path(@auction.user.organizations.first.id) -%>&nbsp;<% end -%><% end -%><%= @auction.user.organizations.first.name %>
+		</dd>
+		<br />
+		<% unless @auction.closed  %>
+			<dt><b>Seller's Credit Profile</b></dt><dd><%= @auction.user.organizations.first.creditworth.description -%></dd>
+			<dt><b>Payment Timeliness</b></dt><dd><%= @auction.user.organizations.first.timeliness.description -%></dd>
+			<dt><b>Risk Level</b></dt><dd><%= @auction.user.organizations.first.integrity.description -%></dd>
+		<% end %>
+	</dl>

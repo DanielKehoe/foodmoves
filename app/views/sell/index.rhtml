@@ -1,0 +1,41 @@
+<!-- Sell/Index -->
+<!-- using layout "sell" -->
+<% content_for(:secondary) do %>
+<div class="ca_image"><%= link_to image_tag('sell_createauction.jpg', :alt=>"create a new auction", :title=>"create a new auction"), new_auction_path -%></div>
+
+<div class="sidebox_top">
+	<div class="sidebox_header">price reports</div>
+</div>
+<div class="sidebox_middle">
+	<div class="sidebox_content">
+		<ul class="sidebox_list">
+			<li class="sidebox_list">
+				<b><%= link_to "USDA Market News", 'http://marketnews.usda.gov/portal/fv', :popup => ['new_window', 'height=900, width=800'] %></b><br />
+			</li>
+		</ul>		
+	</div><!-- class="sidebox_content" -->
+</div><!-- class="sidebox_middle" -->
+<div class="sidebox_bottom"></div>
+
+<div class="sidebox_top">
+	<div class="sidebox_header">top prices</div>
+</div>
+<div class="sidebox_middle">
+	<div class="sidebox_content">
+		<ul class="sidebox_list">
+			<% for auction in @top_prices %>
+				<li class="sidebox_list">
+					<b><%= auction.description -%>;</b><br />
+					<%= auction.shipping_from -%>, <%= distance_of_time_in_words(Time.now, auction.date_to_end) -%> ago, $<%= auction.current_bid -%>/case
+				</li>
+			<% end -%>
+		</ul>		
+	</div><!-- class="sidebox_content" -->
+</div><!-- class="sidebox_middle" -->
+<div class="sidebox_bottom"></div>	
+<% end %>
+
+<div class="content_txt">
+	<%= render :partial => 'current_auctions' -%>
+	<%= render :partial => 'completed_auctions' -%>	
+</div><!-- class="content_txt" -->

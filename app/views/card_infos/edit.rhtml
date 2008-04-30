@@ -1,0 +1,53 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), organizations_path %>&nbsp;Organizations</h1>
+
+<h2><%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), organization_path(@organization) -%>&nbsp;<%=h @organization.name -%></h2>
+
+<%= error_messages_for :card_info -%>
+
+<% form_for :card_info, :url => card_info_path(@card_info), :html => { :method => :put, :class => 'baseform' } do |form| -%>
+
+	<% unless @organization.card_info.nil? %>
+		<label>Credit Card</label>
+		<ul>
+			<li>
+				<table border="0" cellspacing="15" cellpadding="15">  
+				<tr><td>Type:</td><td><%= @organization.card_info.tag %></td></tr>   
+				<tr><td>Number:</td><td><%= @organization.card_info.display_number %></td></tr>  
+				<tr><td>Expiration:</td><td><%= @organization.card_info.month %>/<%= @organization.card_info.year %></td></tr>
+				<tr><td>Name on Card:</td><td><%= @organization.card_info.first_name %>&nbsp;<%= @organization.card_info.last_name %></td></tr>
+				</table>
+			</li>
+		</ul>
+	<% end %>
+
+		<label>Credit Card Type</label>
+		<%= form.select :tag, 
+			CardInfo.all_tags %>
+		<br />
+
+		<label>Card Number</label>
+		<span><%= form.text_field :number %></span>
+		<br />
+
+		<label>Expiration Month</label>
+		<%= form.select :month, 
+			CardInfo.all_months %>
+		<br />
+
+		<label>Expiration Year</label>
+		<%= form.select :year, 
+			CardInfo.all_years %>
+		<br />
+
+		<label>First Name on Card</label>
+		<span><%= form.text_field :first_name %></span>
+		<br />
+
+		<label>Last Name on Card</label>
+		<span><%= form.text_field :last_name %></span>
+		<br />
+
+		<label>&nbsp;</label>
+		<span><%= submit_tag "Update" -%></span>
+	
+<% end -%>

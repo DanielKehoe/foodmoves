@@ -1,0 +1,113 @@
+<h1><%= link_to image_tag('group.png', :alt=>'List', :title=>'Show List'), prospects_path %>&nbsp;Foodmoves Prospects</h1>
+
+<h2><%=h @prospect.name -%></h2>
+<h2><%=h @prospect.locality -%>, <%=h @prospect.admin_area_abbr -%> <% if @prospect.country_name != 'United States' -%><%=h @prospect.country_name -%><% end -%></h2>
+<h2><% unless @prospect.phone.blank? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => @prospect.phone), "skype:#{@prospect.phone}" -%>&nbsp;<% end -%><%=h @prospect.phone -%> (unverified)</h2>
+<h2>Contact: <% unless @prospect.person.blank? -%><%=h @prospect.person -%>  (unverified)<% else -%>unknown<% end -%></h2>
+<h2>Email: <% unless @prospect.email.blank? -%><%=h @prospect.email -%>  (unverified)<% else -%>unknown<% end -%></h2>
+
+<%= error_messages_for :prospect -%>
+
+<% form_for :prospect, :url => prospect_path(@prospect), :html => { :method => :put, :class => 'baseform' } do |form| -%>
+
+<div id="tabbed">
+	
+	<div id="indicator" style="display:none; background-color:yellow; text-align:center;">
+		<p>
+			<%= image_tag('live_tree_loading_spinner.gif', :alt=>'Loading', :title=>'Loading') %>
+		</p>
+	</div>
+	
+	<ul id="tab_group_one" class="subsection_tabs">
+	    <li><a href="#one">General</a></li>
+	    <li><a href="#two">Phone</a></li>
+		<li><a href="#three">Mailing Address</a></li>
+		<li><a href="#four">Physical Address</a></li>
+		<li><a href="#five">Contact Person</a></li>
+		<li><a href="#six">Update</a></li>
+	</ul>
+	
+	<div id="one">
+		
+  	<%= render :partial => 'form_one_for_edit' -%>
+
+			<br />
+			<br />
+
+
+	</div><!-- id="one" -->
+	
+	<div id="two">
+		
+		<div id="dynamic_form_two">
+			<%= render :partial => 'form_two' -%>
+		</div>	
+
+		<br />
+		<br />
+
+		
+	</div><!-- id="two" -->
+
+	<div id="three">
+
+		<div id="dynamic_form_three">
+			<%= render :partial => 'form_three' -%>
+		</div>
+
+		<br />
+		<br />
+
+
+	</div><!-- id="three" -->
+
+	<div id="four">
+
+		<div id="dynamic_form_four">
+			<%= render :partial => 'form_four' -%>
+		</div>
+
+		<br />
+		<br />				
+
+
+	</div><!-- id="four" -->
+
+	<div id="five">
+
+		<div id="dynamic_form_five">
+			<%= render :partial => 'form_five' -%>
+		</div>
+
+		<br />
+		<br />				
+
+
+	</div><!-- id="five" -->
+
+	<div id="six">
+
+		<div id="dynamic_form_six">
+			<br />
+			<br />
+
+			<h2>Update Prospect</h2>
+
+			<br />
+			<br />
+
+			<p>
+				Click &quot;Update&quot; to save this prospect to the database.
+			</p
+		</div>
+
+		<br />
+		<br />				
+		<p>
+			<%= submit_tag 'Update' %>
+		</p>
+
+	</div><!-- id="six" -->			
+	<script> var tabs = new Control.Tabs('tab_group_one'); </script>
+</div><!-- id="tabbed" -->
+<% end %>

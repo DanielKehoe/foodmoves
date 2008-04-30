@@ -1,0 +1,4 @@
+<% form_field(field, record) do %>
+  <% field.options[:class] = (field.options[:class] || "").match(/text_field/) ? field.options[:class] : "#{field.options[:class]} text_field" %>
+  <%= form.text_field(field.method, field.options) %>
+<% end %>

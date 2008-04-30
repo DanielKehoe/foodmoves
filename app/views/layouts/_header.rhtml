@@ -1,0 +1,20 @@
+<div id="hd">
+	<%= link_to '', home_path, {:class => 'logo', :title => 'HOME'} -%>
+	<div class="menu">
+		<%= highlight_current_link_to 'home'.t, home_path, {:title => 'FOODMOVES HOME'} -%>
+		<%= highlight_current_link_to 'sell'.t, sell_path, {:title => 'FOR SELLERS'} %>
+		<%= highlight_current_link_to 'buy'.t, buy_path, {:title => 'FOR BUYERS'} %>
+		<%= link_to 'chat'.t, 'http://foodmoves.campfirenow.com/e08e3', {:popup => ['Chat', 'width=650,height=1000'], :title => 'CHAT FOR ONLINE HELP'} %>
+		<%= highlight_current_link_to 'faq'.t, answers_path, {:title => 'FREQUENTLY ASKED QUESTIONS'} -%>
+		<% if logged_in? -%><%= highlight_current_link_to 'account'.t, member_path(@current_user), {:title => 'MANAGE YOUR ACCOUNT'.t} -%><% end -%>
+		<% if logged_in? -%><%= link_to 'logout'.t, session_path, {:method => :delete, :title => 'QUIT SESSION'} -%><% else -%><%= link_to 'login'.t, new_session_path, {:title => 'ACCESS TO THE SITE'} -%><% end -%><% if logged_in? -%><% restrict_to 'support' do -%><%= highlight_current_link_to 'admin', admin_path, {:title => 'GOT ADMIN?'} %><% end -%><% restrict_to 'sales' do -%><%= highlight_current_link_to 'prospects', prospects_path, {:title => 'SALES TEAM ONLY'} %><% end -%><% end -%>
+	</div><!-- class="menu" -->
+	<div class="buy_sell_buttons">
+		<div class="<%= 'sell_padding'.t %>">
+			<%= highlight_current_link_to 'SELL'.t, sell_path, { :class => 'buy_sell_link'.t} %>
+		</div>
+		<div class="<%= 'buy_padding'.t %>">
+			<%= highlight_current_link_to 'BUY'.t, buy_path, { :class => 'buy_sell_link'.t} %>
+		</div>
+	</div><!-- class="buy_sell_buttons" -->
+</div><!-- id="hd" -->

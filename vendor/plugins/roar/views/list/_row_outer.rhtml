@@ -1,0 +1,3 @@
+<li id='row_<%= @record.id %>'><span id='<%= rdom_id(@record, "row") %>' class="rrow">
+	<%= roar.table.columns.collect { |c| roar_column(c, @record) }.join(' ') %>
+</li>

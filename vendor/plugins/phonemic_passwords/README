@@ -1,0 +1,34 @@
+PhonemicPasswords Plugin for Ruby on Rails - Version 0.2
+Copyright (c) 2007 Obie Fernandez
+
+    PhonemicPassword.generate(length=8)
+
+    Used to create random passwords that are somewhat memorable for people. Uses
+    random phonemes along with some knowledge of vowels, consonants, dipthongs and whether
+    they should not come first or last in an English word. Not perfect by any means, but
+    I consider it an improvement over the library that inspired it (Ruby/Password)
+
+    Obie Fernandez (August 2007)
+    obie@obiefernandez.com
+
+    irb (main)> 20.times { puts PhonemicPassword.generate }
+    laomawff
+    mewseagg
+    ealtauba
+    steapiar
+    kayffeoy
+    laifleld
+    owauthai
+    flefayck
+    lewclilt
+    tawfaoyu
+    fleicaym
+    nowfliat
+    heobloyi
+    rialeime
+    glayschi
+    itsaypri
+    theitrob
+    heeffaub
+    meopaint
+    preegeum

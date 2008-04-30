@@ -1,0 +1,224 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), foods_path %>&nbsp;Foods</h1>
+<h2><%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_food_path(@food) -%>&nbsp;<%=h @food.name %></h2>
+
+<% content_for(:secondary) do -%>
+	<div class="show-secondary">
+		<label>Created at</label>
+			<span>
+				<% unless @food.created_at.nil? %>
+					<%= local_time @food.created_at -%>
+				<% end %>
+			</span>
+		<br />
+		<label>Updated at</label>
+			<span>
+				<% unless @food.updated_at.nil? %>
+					<%= local_time @food.updated_at -%>
+				<% end %>
+			</span>
+		<br />
+		<label>Updated by</label>
+			<span>
+				<%= @food.updated_by -%>
+			</span>
+		<br />	
+	</div>
+	
+	<% unless @food.colors.size == 0 %>	
+		<label>Color Options</label>
+		<ul>
+			<li>
+				<% for color in @food.colors %>
+				  <%=h color.name %><br />
+				<% end %>
+			</li>
+		</ul>
+	<% end %>
+
+	<% unless @food.growns.size == 0 %>	
+		<label>Grown Options</label>
+		<ul>
+			<li>
+				<% for grown in @food.growns %>
+				  <%=h grown.name %><br />
+				<% end %>
+			</li>
+		</ul>
+	<% end %>
+
+	<% unless @food.packs.size == 0 %>	
+		<label>Pack Options</label>
+		<ul>
+			<li>
+				<% for pack in @food.packs %>
+				  <%=h pack.name %><br />
+				<% end %>
+			</li>
+		</ul>
+	<% end %>
+
+	<% unless @food.per_cases.size == 0 %>	
+		<label>Per Case Options</label>
+		<ul>
+			<li>
+				<% for per_case in @food.per_cases %>
+				  <%=h per_case.name %><br />
+				<% end %>
+			</li>
+		</ul>
+	<% end %>
+
+	<% unless @food.sizes.size == 0 %>	
+		<label>Size Options</label>
+		<ul>
+			<li>
+				<% for size in @food.sizes %>
+				  <%=h size.name %><br />
+				<% end %>
+			</li>
+		</ul>
+	<% end %>
+
+	<% unless @food.weights.size == 0 %>	
+		<label>Weight Options</label>
+		<ul>
+			<li>
+				<% for weight in @food.weights %>
+				  <%=h weight.name %><br />
+				<% end %>
+			</li>
+		</ul>
+	<% end %>
+	
+<% end -%>
+
+<p>
+	<b><%=h @food.ancestors.reverse.join(": ") %></b>
+</p>
+
+<% form_for(:food, :url => food_path(@food), :html => { :method => :put, :class => 'baseform' }) do |f| %>
+
+<label>En Espa&ntilde;ol</label><span><strong><%=h @food.en_espanol %></strong>
+</span><br />
+<br />
+<br />
+<label>Parent</label> 
+	<% if @food.parent %>
+		<span><%= link_to image_tag('table_back.png', :alt=>'Show', :title=>'Show Parent'), food_path(@food.parent) -%>&nbsp;<%= link_to @food.parent.name, food_path(@food.parent) %></span>
+	<% else %>
+		<span style="color: red;">NO PARENT</span>
+	<% end %>
+<br />
+<label>PLU</label>
+	<span> 
+		<% unless @food.plu == 0 %>
+			<%=h @food.plu %>
+		<% else %>
+			no plu
+		<% end %>
+	</span>
+	<br />
+<label>Sort Order</label>
+	<span> 
+		<% unless @food.sort_order == 0 %>
+			<%=h @food.sort_order %>
+		<% else %>
+			none
+		<% end %>
+	</span>
+<br />
+<fieldset>
+<% unless @food.colors.size == 0 %>
+	<label>Color</label><span><%= f.collection_select :colors,
+						@food.colors, 
+						:id, 
+						:name %>
+	</span><br />
+<% else %>
+	<% unless @food.parent.nil? or @food.parent.colors.size == 0 %>
+		<label>Color</label><span><%= f.collection_select :colors,
+							@food.parent.colors, 
+							:id, 
+							:name %>
+		</span><br />
+	<% end %>							
+<% end %>
+<% unless @food.growns.size == 0 %>
+	<label>Grown</label><span><%= f.collection_select :growns,
+						@food.growns, 
+						:id, 
+						:name %>
+	</span><br />
+<% else %>
+	<% unless @food.parent.nil? or @food.parent.growns.size == 0 %>
+		<label>Grown</label><span><%= f.collection_select :growns,
+							@food.parent.growns, 
+							:id, 
+							:name %>
+		</span><br />
+	<% end %>
+<% end %>
+<% unless @food.packs.size == 0 %>
+	<label>Packed</label><span><%= f.collection_select :packs,
+						@food.packs, 
+						:id, 
+						:name %>
+	</span><br />
+<% else %>
+	<% unless @food.parent.nil? or @food.parent.packs.size == 0 %>
+		<label>Packed</label><span><%= f.collection_select :packs,
+							@food.parent.packs, 
+							:id, 
+							:name %>
+		</span><br />
+	<% end %>							
+<% end %>
+<% unless @food.per_cases.size == 0 %>
+	<label>Per Case Counts</label><span><%= f.collection_select :per_cases,
+						@food.per_cases, 
+						:id, 
+						:name %>
+	</span><br />
+<% else %>
+	<% unless @food.parent.nil? or @food.parent.per_cases.size == 0 %>
+		<label>Per Case Counts</label><span><%= f.collection_select :per_cases,
+							@food.parent.per_cases, 
+							:id, 
+							:name %>
+		</span><br />
+	<% end %>							
+<% end %>
+<% unless @food.sizes.size == 0 %>
+	<label>Size</label><span><%= f.collection_select :sizes,
+						@food.sizes, 
+						:id, 
+						:name %>
+	</span><br />
+<% else %>
+	<% unless @food.parent.nil? or @food.parent.sizes.size == 0 %>
+		<label>Size</label><span><%= f.collection_select :sizes,
+							@food.parent.sizes, 
+							:id, 
+							:name %>
+		</span><br />
+	<% end %>							
+<% end %>
+<% unless @food.weights.size == 0 %>
+	<label>Weight</label><span><%= f.collection_select :weights,
+						@food.weights, 
+						:id, 
+						:name %>
+	</span><br />
+<% else %>
+	<% unless @food.parent.nil? or @food.parent.weights.size == 0 %>
+		<label>Weight</label><span><%= f.collection_select :weights,
+							@food.parent.weights, 
+							:id, 
+							:name %>
+		</span><br />
+	<% end %>
+<% end %>
+</fieldset>
+<% end %>
+
+

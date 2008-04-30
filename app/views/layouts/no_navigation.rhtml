@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Foodmoves: <%=
+		if @title then
+			h @title
+		else
+			h controller.controller_name.titlecase
+		end
+	-%></title>
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.0/build/reset-fonts-grids/reset-fonts-grids.css"> 
+	<%= stylesheet_link_tag 'roar/screen', 'form', 'scaffold' %>
+	<%= javascript_include_tag :defaults %>
+</head>
+<body>
+	<div id="doc3" class="yui-t5">
+		<div id="hd">
+			<div class="top clearfix">
+			</div>
+		    <div class="yui-gd infobar"> 
+		      <div class="yui-u first">
+		        <div id="flashes">
+		          <div id="flash-notice" class="notice" style="display: <%= flash[:notice] ? 'block' : 'none' %>;"><%= flash[:notice] %></div>
+		          <div id="flash-errors" class="errors" style="display: <%= flash[:error] ? 'block' : 'none' %>;"><%= flash[:error] %></div>
+		        </div>
+		      </div> 
+		    </div>
+		</div><!-- id="hd" -->
+		<div id="bd">
+		    <div id="yui-main"> 
+		       <div class="yui-b">
+		 	       <div class="main">					
+		           <%= yield %>  
+		          </div>
+		        </div> 
+		    </div> 
+		    <div class="yui-b">
+				  <div class="sidebar">
+				    <%= yield :secondary %>
+				  </div>
+		    </div>    
+		</div><!-- id="bd" -->
+		<div id="ft">
+			<span style="float: left; padding: 3px 10px;"><%= yield :footer %></span>	
+		  <p id="copyright">&copy; <%= Time.now.year %> Foodmoves</p>
+		</div><!-- id="ft" -->
+	</div><!-- doc3 -->
+</body>
+</html>

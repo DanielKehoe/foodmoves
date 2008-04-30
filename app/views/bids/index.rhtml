@@ -1,0 +1,62 @@
+<h1><%= link_to image_tag('table_multiple.png', :alt=>'List', :title=>'Show List'), bids_path %>&nbsp;All Open Bids</h1>
+
+<table class="admin">
+<thead>
+	<tr>
+		<th colspan='3'>&nbsp;</th>
+				<th><b>Product</b></th>
+				<th><b>Seller</b></th>
+				<th><b>Time Left</b></th>
+				<th><b>Bidder</b></th>
+				<th><b>Amount</b></th>
+				<th><b>When</b></th>
+			</tr>
+</thead>
+ 
+<% for bid in @bids %>
+	<tr>
+		<td><%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), bid_path(bid) %></td>
+	    <td><%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_bid_path(bid) %></td>
+	    <td><%= link_to image_tag('table_delete.png', :alt=>'Delete', :title=>'Delete Item'), bid_path(bid), :confirm => 'Are you sure?', :method => :delete %></td>
+				<td><%= link_to bid.auction.description, auction_path(bid.auction) -%></td>
+				<td><%= link_to bid.auction.user.name, user_path(bid.auction.user) -%></td>
+				<td><%= distance_of_time_in_words(Time.now, bid.auction.date_to_end) -%></td>
+				<td><%= link_to bid.user.name, user_path(bid.user) -%></td>
+				<td><%= number_to_currency bid.amount %></td>
+				<td><%= distance_of_time_in_words(Time.now, bid.updated_at) -%> ago</td>
+			</tr>
+<% end %>
+</table>
+<%= will_paginate @bids %>
+
+<h1>In Baskets</h1>
+
+<table class="admin">
+<thead>
+	<tr>
+		<th colspan='3'>&nbsp;</th>
+				<th><b>Product</b></th>
+				<th><b>Seller</b></th>
+				<th><b>Time Left</b></th>
+				<th><b>Shopper</b></th>
+				<th><b>When</b></th>
+			</tr>
+</thead>
+ 
+<% for bid in @basket %>
+	<tr>
+		<td><%= link_to image_tag('table.png', :alt=>'Show', :title=>'Show Item'), bid_path(bid) %></td>
+	    <td><%= link_to image_tag('table_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_bid_path(bid) %></td>
+	    <td><%= link_to image_tag('table_delete.png', :alt=>'Delete', :title=>'Delete Item'), bid_path(bid), :confirm => 'Are you sure?', :method => :delete %></td>
+				<td><%= link_to bid.auction.description, auction_path(bid.auction) -%></td>
+				<td><%= link_to bid.auction.user.name, user_path(bid.auction.user) -%></td>
+				<td><%= distance_of_time_in_words(Time.now, bid.auction.date_to_end) -%></td>
+				<td><% unless bid.user.nil? -%>
+					<%= link_to bid.user.name, user_path(bid.user) -%>
+					<% else -%><span style="color:red;">USER MISSING!</span><% end -%>
+				</td>
+				<td><%= distance_of_time_in_words(Time.now, bid.updated_at) -%> ago</td>
+			</tr>
+<% end %>
+</table>
+<%= will_paginate @basket %>

@@ -1,0 +1,10 @@
+<%
+	source = field.options.delete(:source) || field.method.to_s.match(/^(.*?)(_id)*$/)[1];
+ 	destination_path = collection_path_for(source, :format => "json")
+ 	active_id = "#{model_symbol}_#{field.method}"
+%>
+
+<% form_field(field, record) do %>
+  <%= form.select(field.method, field.options.delete(:choices), field.options) %>
+	<a href='<%= collection_path(source) %>' onclick='Roar.embedded_modalbox(this, "<%= source.to_s %>", function() {RoarSelectBox.build("<%= destination_path %>", "<%= active_id %>", "id", "name")}); return false;'><%= image_tag("roar/12-em-plus.png") %></a>
+<% end %>

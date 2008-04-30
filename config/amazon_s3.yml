@@ -1,0 +1,19 @@
+development:
+    bucket_name: foodmoves
+    access_key_id: 0RYXTF2RQHWBT13H4002
+    secret_access_key: srNlaIpRcsgoRq2DtBR0zxCS4WCsxsJMeSbtMnVz
+
+test:
+    bucket_name: foodmoves
+    access_key_id: 0RYXTF2RQHWBT13H4002
+    secret_access_key: srNlaIpRcsgoRq2DtBR0zxCS4WCsxsJMeSbtMnVz
+
+production:
+    bucket_name: foodmoves
+    access_key_id: 0RYXTF2RQHWBT13H4002
+    secret_access_key: srNlaIpRcsgoRq2DtBR0zxCS4WCsxsJMeSbtMnVz
+
+staging:
+    bucket_name: foodmoves
+    access_key_id: 0RYXTF2RQHWBT13H4002
+    secret_access_key: srNlaIpRcsgoRq2DtBR0zxCS4WCsxsJMeSbtMnVz

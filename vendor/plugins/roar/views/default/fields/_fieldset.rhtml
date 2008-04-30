@@ -1,0 +1,6 @@
+<fieldset>
+<legend><%= field.name %></legend>
+<% field.fields.each do |field| %>
+  <%= roar_field(field, form, record) %>
+<% end %>
+</fieldset>

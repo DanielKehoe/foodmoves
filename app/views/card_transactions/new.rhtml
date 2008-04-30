@@ -1,0 +1,152 @@
+<h1>Credit Card Transaction</h1>
+
+<% content_for(:secondary) do %>
+	<div class="show-secondary">
+		
+		<label><%= link_to "Auction #{@invoice.id}", auction_path(@invoice) %></label>
+		<br />
+
+		<label>Description</label>
+			<span><%= @invoice.description %></span>
+		<br />
+		<span><%= @invoice.shipping_from %></span>	
+		<br />
+		<% unless @invoice.size.nil? %>
+			<span><%= @invoice.size.name.downcase %> size</span>
+		<% end -%>
+		<br />
+		<span><%= @invoice.quantity -%> 
+		<% unless @invoice.pack.nil? %>
+			<%= @invoice.pack.name.downcase %></span>
+		<% else -%>
+			units</span>
+		<% end -%>
+		<br />
+		<span>at <%= number_to_currency @invoice.current_bid -%> each</span>
+		<br />
+		<span>total <%= number_to_currency (@invoice.quantity * @invoice.current_bid) -%></span>	
+		
+		<label>Sold on <%= local_date @invoice.date_to_end %> to</label>
+			<span><%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show User'), member_path(@invoice.buyer_id) -%>&nbsp;<%= @buyer.name %></span>
+			<br />
+			<span><%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Company'), organization_path(@buyer.organizations.first.id) -%>&nbsp;<%= @buyer.organizations.first.name %></span>
+		<br />	
+		<br />
+		<br />
+		<div class="tomato_image">
+			<% unless @invoice.assets.empty? %>	
+				<% for asset in @invoice.assets %>
+					<%= link_to(image_tag(asset.public_filename(:size200)), auction_asset_path(@invoice, asset)) %>
+					<br />
+				<% end %>
+			<% else -%>
+				<%= image_tag('gray.jpg', :alt=>"no product photo", :size => '200x200') %>
+			<% end -%>
+		</div>
+				
+	</div>
+	
+<% end %>
+
+<div class="show">
+
+	<label>Invoice #</label>
+	<ul>
+		<li>
+			<%= @invoice.id %>
+		</li>
+	</ul>
+	<br />
+	
+	<label>Due Foodmoves</label>
+	<ul>
+		<li>
+			<%= number_to_currency @invoice.due_foodmoves %>
+		</li>
+	</ul>
+	<br />
+
+	<label>Company</label>
+	<ul>
+		<li>
+			<%= link_to image_tag('group.png', :alt=>'Show', :title=>'Show Item'), organization_path(@organization) -%>&nbsp;<%=h @organization.name %>
+		</li>
+	</ul>
+	<br />
+
+	<label>Assigned to</label>
+		<span>
+			<% if @organization.acct_exec_id.class.to_s == 'Fixnum' -%>
+				<%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'),
+	user_path(@organization.acct_exec_id) -%>&nbsp;<%= @organization.administrator.name %>
+			<% else -%>
+				unassigned
+			<% end -%>
+		</span>
+	<br />
+			
+	<label>Trader</label>
+	<ul>
+		<li>
+			<%= link_to image_tag('user.png', :alt=>'Show', :title=>'Show Item'),
+user_path(@invoice.seller_id) -%>&nbsp;<%=h @invoice.user.name %>
+		</li>
+	</ul>
+	<br />
+	
+	<% unless @organization.phones.empty? %>	
+		<label>Phone Numbers</label>
+		<ul>
+			<li>
+				<% for phone in @organization.phones %>
+				  <%= link_to image_tag('phone.png', :alt=>'Show', :title=>'Show Item'), phone_path(phone) %><%=h phone.localized(@current_user) %>&nbsp;<% unless phone.skype.blank? -%><%= link_to image_tag('skype.jpg', :alt => 'call', :title => 'call with Skype'), "skype:#{phone.skype}" -%><% end -%>&nbsp;(<%=h phone.tag_for_phone %>)<br />
+				<% end %>
+			</li>
+		</ul>
+	<% end -%>
+	
+	<br />
+
+	<label>Financial Profile</label>
+	<ul>
+		<li>
+			<table border="0" cellspacing="15" cellpadding="15"> 
+			<tr><td>PACA License:</td><td><%= @organization.paca_license %></td></tr>  
+			<tr><td>Credit Worth:</td><td><% unless @organization.creditworth.nil? %><%= @organization.creditworth.description %><% end -%></td></tr>   
+			<tr><td>Timeliness:</td><td><% unless @organization.timeliness.nil? %><%= @organization.timeliness.description %><% end -%></td></tr>  
+			<tr><td>Risk Factor:</td><td><% unless @organization.integrity.nil? %><%= @organization.integrity.description %><% end -%></td></tr>
+			</table>
+		</li>
+	</ul>
+	
+	<br />
+	<br />
+	
+	<label>Credit Card</label>
+	<ul>
+		<li><% if @organization.card_info.nil? %>
+				No credit card on file.
+				<br />
+				<%= link_to image_tag('group_edit.png', :alt=>'Edit', :title=>'Edit Item'), edit_organization_path(@organization) -%>&nbsp;<%= link_to 'Add Credit Card Information', edit_organization_path(@organization) -%>
+			<% else -%>
+				<table border="0" cellspacing="15" cellpadding="15">  
+				<tr><td>Type:</td><td><%= @organization.card_info.tag %></td></tr>   
+				<tr><td>Number:</td><td><%= @organization.card_info.display_number %></td></tr>  
+				<tr><td>Expiration:</td><td><%= @organization.card_info.month %>/<%= @organization.card_info.year %></td></tr>
+				<tr><td>Name on Card:</td><td><%= @organization.card_info.first_name %>&nbsp;<%= @organization.card_info.last_name %></td></tr>
+				</table>
+			<% end %>
+		</li>
+	</ul>
+				
+	<% form_for :card_transaction, :url => card_transactions_path do |form| -%>
+		<label>Unlocking Phrase</label>
+		<span><%= form.password_field :pass_phrase %></span><br />
+		<div align="center">
+			<%= form.hidden_field :id, :value => @invoice.id %>
+			<%= submit_tag 'Charge This Credit Card' -%>
+		</div>	
+	<% end -%>
+	
+		
+</div>
